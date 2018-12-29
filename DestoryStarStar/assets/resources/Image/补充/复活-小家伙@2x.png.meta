@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "4889a473-80c0-4192-b4d5-6134647cfdde",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "复活-小家伙@2x": {
+      "ver": "1.0.3",
+      "uuid": "f9e58500-5687-4259-96e7-d976ad630da1",
+      "rawTextureUuid": "4889a473-80c0-4192-b4d5-6134647cfdde",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -1,
+      "offsetY": 0.5,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 136,
+      "height": 145,
+      "rawWidth": 138,
+      "rawHeight": 146,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

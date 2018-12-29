@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "46f10360-241b-42e2-bc49-9de58ed9ba6e",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "免费礼物-魔棒@2x": {
+      "ver": "1.0.3",
+      "uuid": "fa217b6b-48be-41b1-bc8f-8e9c7b63c3a9",
+      "rawTextureUuid": "46f10360-241b-42e2-bc49-9de58ed9ba6e",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -0.5,
+      "offsetY": -0.5,
+      "trimX": 0,
+      "trimY": 1,
+      "width": 103,
+      "height": 110,
+      "rawWidth": 104,
+      "rawHeight": 111,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
