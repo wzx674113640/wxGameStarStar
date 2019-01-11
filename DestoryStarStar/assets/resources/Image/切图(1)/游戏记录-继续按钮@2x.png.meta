@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "b2ce0059-efbc-48ba-9cdf-6ea4a3e223f5",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "游戏记录-继续按钮@2x": {
       "ver": "1.0.3",

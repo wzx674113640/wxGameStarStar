@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "dc2622c3-5ed7-4070-a8b4-74061c0b48af",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "排行榜-弹窗@2x": {
       "ver": "1.0.3",

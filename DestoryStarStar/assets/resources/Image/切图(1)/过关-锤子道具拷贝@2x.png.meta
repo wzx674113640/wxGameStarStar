@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "58d4c579-9d49-49a9-b42c-f2fd9322e6d7",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "过关-锤子道具拷贝@2x": {
       "ver": "1.0.3",

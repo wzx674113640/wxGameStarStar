@@ -13,12 +13,11 @@ cc.Class({
 
     },
 
-    init: function (rank, data,IsBg = true) {
+    init: function (rank, data) {
         let avatarUrl = data.avatarUrl;
-        let nick = data.nickname.length <= 8 ? data.nickname : data.nickname.substr(0, 8) + "...";
+        let nick = data.nickname.length <= 4 ? data.nickname : data.nickname.substr(0, 4) + "...";
         //let nick = data.nickname;
         let grade = data.KVDataList.length != 0 ? data.KVDataList[0].value : 0;
-
 
         var txtRanking = rank+1;
 
@@ -37,7 +36,7 @@ cc.Class({
         }
         
         this.createImage(avatarUrl,this.avatarImgSprite);
-        
+        this.createImage("src/bg.png",this.MySprite.getComponent(cc.Sprite));
         //this.loadImg(this.avatarImgSprite,avatarUrl);
         this.nickLabel.string = nick;
         this.topScoreLabel.string = grade.toString();

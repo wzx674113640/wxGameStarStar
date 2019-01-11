@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "af5c7361-2e48-4b72-bcae-c8df2de0bfbd",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "首页-最高纪录@2x": {
       "ver": "1.0.3",

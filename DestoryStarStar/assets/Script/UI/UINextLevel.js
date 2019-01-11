@@ -15,6 +15,15 @@ cc.Class({
     {
         this._super();
         //返回首页 TODO
+        this.CloseAction = ()=>
+        {
+            this.isStart = false;
+        }
+    },
+
+    start()
+    {
+        this.isStart = false;
     },
 
     Show()
@@ -27,6 +36,11 @@ cc.Class({
 
     BtnNextLevel()
     {
+        if(this.isStart)
+        {
+            return;
+        }
+        this.isStart = true;
         this.Close();
         FactoryItem.Instance.UIMianCom.NextLevel();
     },

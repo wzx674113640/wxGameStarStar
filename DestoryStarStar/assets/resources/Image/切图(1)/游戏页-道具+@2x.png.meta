@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "233e6e01-8ca9-41cd-a57e-67c228a0d210",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "游戏页-道具+@2x": {
       "ver": "1.0.3",

@@ -37,7 +37,7 @@ cc.Class({
         NodeUI.setScale(5);
         NodeUI.active = true;
         var s = cc.scaleTo(0.2,1);
-        var m = cc.blink(1,3);
+        var m = cc.blink(0.8,4);
         var c = cc.callFunc(function()
         {
             NodeUI.active = false;
@@ -72,6 +72,7 @@ cc.Class({
 
     PassFnotAni(_node,i)
     {
+        _node.active = true;
         _node.opacity = 255;
         _node.setPosition(this._PassPos[i]);
         _node.setScale(cc.v2(1,0.1));
@@ -96,6 +97,7 @@ cc.Class({
 
     PassFnotAni1(_node,i)
     {
+        _node.active = true;
         _node.opacity = 255;
         _node.setPosition(this._PassPos[i]);
         _node.setScale(cc.v2(1,0.1));
@@ -122,7 +124,7 @@ cc.Class({
         this.HideUI();
         for(var i = 0;i<this.PassList.length;i++)
         {
-            this.PassList[i].opacity = 0;
+            this.PassList[i].active = false;
         }
     }
     

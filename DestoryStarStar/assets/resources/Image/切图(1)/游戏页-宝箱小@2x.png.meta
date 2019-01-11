@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "4c17c6d2-8443-47d8-8b4f-7ec00b94eb23",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "游戏页-宝箱小@2x": {
       "ver": "1.0.3",

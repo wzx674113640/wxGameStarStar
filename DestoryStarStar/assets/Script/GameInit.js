@@ -18,6 +18,8 @@ cc.Class({
     start () {
         //游戏开始入口
         UIManage.Instance.ShowGameStart();
+        //cc.director.getPhysicsManager().enabled = true;
+        //cc.director.getPhysicsManager().gravity = cc.v2();
     },
 
     //获取玩家道具数据
@@ -40,6 +42,8 @@ cc.Class({
            this.PopsList.Reset = 1;
        }
     },
+    
+   
     
     realGamestart()
     {
@@ -80,8 +84,10 @@ cc.Class({
 
     Init()
     {
-        FactoryItem.Instance.unscheduleAllCallbacks();
-        FactoryItem.Instance.UIMianCom.unscheduleAllCallbacks();
+        //FactoryItem.Instance.unscheduleAllCallbacks();
+        //FactoryItem.Instance.UIMianCom.unscheduleAllCallbacks();
+        FactoryItem.Instance.IsGameStart = false;
+        FactoryItem.Instance.UIMianCom.BarScore.progress = 0;
         FactoryItem.Instance.UIMianCom.StartAnimation(()=>
         {
             var ItemlayoutChildren = this.ItemLayout.children;
@@ -98,8 +104,9 @@ cc.Class({
                 ItemCom._isAlreadyDetection = false;
                 ItemCom.IsGameStart = false;
                 ItemCom._PromptCoolTime = FactoryItem.Instance.constCoolTime;
+                 
             }
-            FactoryItem.Instance.UIMianCom.BarScore.progress = 0;
+            
             FactoryItem.Instance.GetDis();
         });
         
@@ -107,8 +114,10 @@ cc.Class({
     
     CacheInit(cache)
     {
-        FactoryItem.Instance.unscheduleAllCallbacks();
-        FactoryItem.Instance.UIMianCom.unscheduleAllCallbacks();
+        //FactoryItem.Instance.unscheduleAllCallbacks();
+        //FactoryItem.Instance.UIMianCom.unscheduleAllCallbacks();
+        //FactoryItem.Instance.UIMianCom.BarScore.progress = 0;
+        FactoryItem.Instance.IsGameStart = false;
         FactoryItem.Instance.UIMianCom.StartAnimation(()=>
         {
             for(var i = 0;i<cache.length;i++)

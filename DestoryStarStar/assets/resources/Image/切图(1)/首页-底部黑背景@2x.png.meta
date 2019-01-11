@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "3e9ef93f-792d-475c-88cd-3299e54ef576",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "首页-底部黑背景@2x": {
       "ver": "1.0.3",

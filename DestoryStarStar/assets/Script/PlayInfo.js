@@ -11,6 +11,7 @@ var PlayInfo = cc.Class({
         _IsShowPass:false,
         _IsResurtTimes:0,
         _IsShowSkill:false,
+        _is_status:false,
     },
 
     ctor:function () {
@@ -39,7 +40,7 @@ var PlayInfo = cc.Class({
     {
         this._IsShowPass = false;
         this._IsShowSkill = false;
-
+        
         this._LastScore = this._Score;
         this._LastNeedScore = this._NeedScore; 
         this._Level++;
@@ -70,7 +71,7 @@ var PlayInfo = cc.Class({
 
     ConsoleInfo()
     {
-        cc.log("score"+ this._Score);
+       
     }
 
 });

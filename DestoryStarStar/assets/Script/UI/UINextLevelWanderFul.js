@@ -13,6 +13,12 @@ cc.Class({
         }
     },
 
+    onLoad()
+    {
+        this._super();
+        this.childrenRankCom = cc.find("wx").getComponent("ChildrenRank");
+    },
+
     Show()
     {
         this._super();
@@ -30,14 +36,21 @@ cc.Class({
 
     BtnGetProps()
     {
-        ShareAndVideo.Instance.AddShareEvent(()=>
+        if(this.childrenRankCom.playInfo._is_status == 1)
+        {
+            ShareAndVideo.Instance.ShareAndVideo(()=>
+            {
+                FlyUI.Instance.PropsUIFly(this.PropsValue);
+                this.BtnNextLevel();
+            });
+        }
+        else
         {
             FlyUI.Instance.PropsUIFly(this.PropsValue);
             this.BtnNextLevel();
-        });
+        }
         
         //看广告...
-       
         /*
         switch(this.PropsValue)
         {

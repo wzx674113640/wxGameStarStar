@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "905f2ff6-2c77-4be1-9341-6f89d9e51154",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "免费礼盒-神圣权杖@2x": {
       "ver": "1.0.3",

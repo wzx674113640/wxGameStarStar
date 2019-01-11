@@ -1,7 +1,7 @@
+var UIManage = require("UIManage");
 
 cc.Class({
     extends: cc.Component,
-
     properties: {
         Content:cc.Node,//滑动试图的Content
         ContentNode:cc.Node ,//Item的父对象
@@ -34,8 +34,14 @@ cc.Class({
 
     Close()
     {
-        //Todo隐藏子域好友排行榜
-        this.ChildrenRankCom.HideChild();
+        if(UIManage.Instance.SceneState == "Start")
+        {
+            this.ChildrenRankCom.HideChild();
+        }
+        else
+        {
+            UIManage.Instance.ShowGameoverUI();
+        }
         //清理世界排行榜的Item
         var childrens = this.ContentNode.children;
         for(var i = 0;i<childrens.length;i++)

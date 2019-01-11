@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "bcb9169c-941f-4f6a-b7e5-0cda0bb572d2",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "复活-看视频-按钮@2x": {
       "ver": "1.0.3",

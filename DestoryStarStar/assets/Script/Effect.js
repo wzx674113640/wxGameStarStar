@@ -5,12 +5,17 @@ var Effect =  cc.Class({
 
     properties: {
         StarEffectPrefabs : cc.Prefab,
-        _StarEffectList :[],
+        _StarEffectList : [],
+
+        ShotBoomPrefabs: cc.Prefab,
+        _ShotBoomEffectList : [],
+
 
         EffectStar:{
             type: cc.SpriteFrame,
             default:[],
         }
+        
     },
 
     statics:
@@ -42,10 +47,12 @@ var Effect =  cc.Class({
 
         var starEffectCom =  starEffectNode.getComponent(cc.ParticleSystem);
     
-        var path = "resources/Image/Star/";
+        //var path = "resources/Image/Star/";
         
-        starEffectCom.texture = cc.url.raw(path+this.ColorStr[colorType]);
+        //starEffectCom.texture = cc.url.raw(path+this.ColorStr[colorType]);
         
+        starEffectCom.spriteFrame = this.EffectStar[colorType];
+
         starEffectCom.resetSystem();
 
         var time = starEffectCom.life;
@@ -55,7 +62,35 @@ var Effect =  cc.Class({
             this._StarEffectList.push(starEffectNode);
             starEffectNode.active = false;
         }, time);
-    }   
+        
+    },
 
+    playShootStarEffect(pos)
+    {
+        var starEffectNode = this._ShotBoomEffectList.length == 0? cc.instantiate(this.ShotBoomPrefabs):this._ShotBoomEffectList.pop();
 
+        //var starEffectNode = cc.instantiate(this.StarEffectPrefabs);
+
+        starEffectNode.setPosition(pos);
+
+        starEffectNode.parent = this.node;
+
+        starEffectNode.active = true;
+
+        var starEffectCom =  starEffectNode.getComponent(cc.ParticleSystem);
+    
+        //var path = "resources/Image/Star/";
+        
+        //starEffectCom.texture = cc.url.raw(path+this.ColorStr[colorType]);
+
+        starEffectCom.resetSystem();
+
+        var time = starEffectCom.life;
+
+        this.scheduleOnce(function()
+        {
+            this._ShotBoomEffectList.push(starEffectNode);
+            starEffectNode.active = false;
+        }, time);
+    }
 });

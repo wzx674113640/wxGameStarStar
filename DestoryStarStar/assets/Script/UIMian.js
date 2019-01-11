@@ -5,6 +5,8 @@ var FileServe = require("FileServe");
 var UIManage = require("UIManage");
 var FlyUI = require("FlyUI");
 
+var ShareAndVideo = require("ShareAndVideo");
+
 cc.Class({
     extends: cc.Component,
 
@@ -45,8 +47,63 @@ cc.Class({
         GetScoreUI:cc.Label,
 
         _PlayInfo:null,
+        
+        ChangeAniNode:cc.Node,
+
+        HammerAniNode:cc.Node,
+
+        MoneyLabel:cc.Label
         //_TouchState: "", //道具状态 ""：正常 "1"：锤子 "2":...
         
+    },
+
+    onLoad()
+    {
+        this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
+        this.ChildrenRankCom = cc.find("wx").getComponent("ChildrenRank");
+        this.UpLayout = this.node.getChildByName("UpLayout");
+        this.AdpativeUI();
+        this._PlayInfo = new PlayInfo();
+    },
+    
+   
+    setMoneyLabel()
+    {
+        console.log("isRecive"+this.ChildrenRankCom.playInfo.isRecive);
+        if(this.ChildrenRankCom.playInfo.isRecive)
+        {
+            this.MoneyLabel.string = this.ChildrenRankCom.playInfo.money;
+        }
+        else
+        {
+            this.MoneyLabel.string = "待领取";
+        }
+    },
+
+    AdpativeUI()
+    {
+        if(!CC_WECHATGAME)
+            return;
+        if(this.IsAdpative==undefined)
+        {
+            let sysInfo = window.wx.getSystemInfoSync();
+            let width = sysInfo.screenWidth;
+            let height = sysInfo.screenHeight;
+            if(height/width>2)
+            {
+                var mpos =  this.UpLayout.getPosition();
+                var pos = cc.v2(mpos.x,mpos.y + 80);
+                //需要适配
+                this.UpLayout.setPosition(pos);
+            }
+            this.IsAdpative = true;
+        }
+        
+    },
+  
+    BtnOpenMoney()
+    {
+        UIManage.Instance.ShowOpenMoney();
     },
 
     StartAnimation(action)
@@ -57,7 +114,7 @@ cc.Class({
         var startPosLevel = cc.v2(500,posLevel.y);
         var startPosScore = cc.v2(500,posScore.y);
 
-        var anitime = 0.5;
+        var anitime = 0.2;
 
         this.AniLabellevel.active = true;
         this.AniLabelTargetScore.active = true;
@@ -99,20 +156,24 @@ cc.Class({
 
     closeGaming()
     {
-        FactoryItem.Instance.unscheduleAllCallbacks();
         if(FactoryItem.Instance.IsGameStart&&FactoryItem.Instance._IsTouch)
         {
             this.cache();
             FactoryItem.Instance.Clear();
+            //this.UIPromptStar.getComponent("UIPromptStar").Close();
             UIManage.Instance.ShowGameStart();
             this.UIProposChangePanel.active = false;
             this.PropsAniPanel.active = false;
         }
-        
     },
 
     cache()
     {
+        if(FactoryItem.Instance.isReset)
+        {
+            FileServe.Instance.SetPlayInfoCache();
+            return;
+        }
         if(FactoryItem.Instance.IsGameStart&&FactoryItem.Instance._IsTouch)
         {
             FileServe.Instance.StartItemCache();//储存关卡数和Item的位置
@@ -123,13 +184,20 @@ cc.Class({
         }
     },  
 
-    onLoad()
+  
+
+    onEnable()
     {
-        this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
-        this._PlayInfo = new PlayInfo();
         this.ResurtAndInit();
+        this.InitUI();
+        ShareAndVideo.Instance.ShowOrHideAdervert(true);
     },
 
+    onDisable()
+    {
+        ShareAndVideo.Instance.ShowOrHideAdervert(false);
+    },
+    
     ResurtAndInit()
     {
         var cache = FileServe.Instance.GetPlayInfo();
@@ -167,18 +235,28 @@ cc.Class({
             this.LableNeedScoreUI.string = "目标:"+ this._PlayInfo._NeedScore;
             this.LevelLabel.string = this._PlayInfo._Level;
         }
+        
+        this.UpdateFreindRank();
+    },
+
+    UpdateFreindRank()
+    {
+        this.ChildrenRankCom.ShowChildrenGameOver(this._PlayInfo._Score);
+        this.ChildrenRankCom.ShowOne();
     },
 
     //返回首页
     CloseUI()
     {
         FactoryItem.Instance.Clear();
-        this.UIPromptStar.getComponent("UIPromptStar").Close();
         UIManage.Instance.ShowGameStart();
     },
 
     InitUI()
     {
+        //红包金额
+        this.setMoneyLabel();
+
         this.DiamondCountLabel.string = this.GameInitCom.PopsList.Diamond;
         var Hammer = this.GameInitCom.PopsList.Hammer;
         var hammerCom = this.PropsHammer.getComponent("PopsUIBtn");
@@ -212,19 +290,39 @@ cc.Class({
         }
     },
 
+    ShowHammerAni()
+    {
+        this.HammerAniNode.active = true;
+        this.ChangeAniNode.active = false;
+        this.HammerAniNode.getComponent(cc.Animation).play("Hammer");
+    },
+    ShowChangeAni()
+    {
+        this.HammerAniNode.active = false;
+        this.ChangeAniNode.active = true;
+        this.ChangeAniNode.getComponent(cc.Animation).play("ChangeAni");
+    },
+
     //注册道具事件
     OnPropsEvent()
     {  
         var self = this;
         this.PropsHammer.on(cc.Node.EventType.TOUCH_START, function(event)
         {
+            if(FactoryItem.Instance._TouchState !="")
+            {
+                self.CancelProps();
+                return;
+            }
             var value = self.GameInitCom.PopsList.Hammer;
             if(value>0)
             {   
-                if(FactoryItem.Instance._TouchState ==""&&FactoryItem.Instance._IsTouch&&FactoryItem.Instance.IsGameStart)
+                if(FactoryItem.Instance._TouchState == ""&&FactoryItem.Instance._IsTouch&&FactoryItem.Instance.IsGameStart)
                 {
+                    ShareAndVideo.Instance.AdervertActive(false);
                     FactoryItem.Instance._TouchState = "1"; //锤子
                     self.PropsAniPanel.active = true;
+                    self.ShowHammerAni();
                 }
             }
             else
@@ -232,8 +330,10 @@ cc.Class({
                 //道具不够 扣除钻石
                 if(self.GameInitCom.PopsList.Diamond>=50)
                 {
+                    ShareAndVideo.Instance.AdervertActive(false);
                     FactoryItem.Instance._TouchState = "1"; //锤子
                     self.PropsAniPanel.active = true;
+                    self.ShowHammerAni();
                 }
                 else
                 {
@@ -245,13 +345,20 @@ cc.Class({
 
         this.PropsChange.on(cc.Node.EventType.TOUCH_START, function(event)
         {
+            if(FactoryItem.Instance._TouchState !="")
+            {
+                self.CancelProps();
+                return;
+            }
             var value = self.GameInitCom.PopsList.Change;
             if(value>0)
             {   
                 if(FactoryItem.Instance._TouchState ==""&&FactoryItem.Instance._IsTouch&&FactoryItem.Instance.IsGameStart)
                 {
+                    ShareAndVideo.Instance.AdervertActive(false);
                     FactoryItem.Instance._TouchState = "2"; //改变颜色
                     self.PropsAniPanel.active = true;
+                    self.ShowChangeAni();
                 }
             }
             else
@@ -259,9 +366,11 @@ cc.Class({
                 //道具不够 扣除钻石
                 if(self.GameInitCom.PopsList.Diamond>=50)
                 {
-                    FactoryItem.Instance._TouchState = "2"; //锤子
+                    ShareAndVideo.Instance.AdervertActive(false);
+                    FactoryItem.Instance._TouchState = "2"; //改变颜色
                     self.PropsAniPanel.active = self;
                     //更新UI
+                    self.ShowChangeAni();
                 }
                 else
                 {
@@ -274,6 +383,11 @@ cc.Class({
 
         this.PropsRest.on(cc.Node.EventType.TOUCH_START, function(event)
         {
+            if(FactoryItem.Instance._TouchState !="")
+            {
+                self.CancelProps();
+                return;
+            }
             var value = self.GameInitCom.PopsList.Reset;
             if(value>0)
             {  
@@ -310,7 +424,7 @@ cc.Class({
                 }
             }
         });
-
+        /*
         this.PropsDes.on(cc.Node.EventType.TOUCH_START, function(event)
         {
             if(FactoryItem.Instance._TouchState ==""&&FactoryItem.Instance._IsTouch&&FactoryItem.Instance.IsGameStart)
@@ -319,7 +433,7 @@ cc.Class({
                 FactoryItem.Instance._IsTouch = false;
             }
         });
-
+        */
     },
 
     ShowDiamonUI()
@@ -345,7 +459,7 @@ cc.Class({
     UserDiamond(value = -50)
     {
         var self = this;
-        self.GameInitCom.PopsList.Diamond +=value;
+        self.GameInitCom.PopsList.Diamond += value;
         self.DiamondCountLabel.string = self.GameInitCom.PopsList.Diamond;
     },
 
@@ -381,18 +495,25 @@ cc.Class({
 
     CancelProps(IsState = true)
     {   
+        if(FactoryItem.Instance._TouchState == "1"||FactoryItem.Instance._TouchState == "2")
+        {
+            ShareAndVideo.Instance.AdervertActive(true);
+        }
         if(IsState)
         {
             FactoryItem.Instance._TouchState = "";
         }
-
+        if(FactoryItem.Instance.ItemLastCom!=undefined)
+        {
+            FactoryItem.Instance.ItemLastCom.HideLight();
+            FactoryItem.Instance.ItemLastCom = undefined;
+        }
         this.PropsAniPanel.active = false;
+        this.UIProposChangePanel.active = false;
     },
 
     start () {
         this.OnPropsEvent();
-        this.InitUI();
-        this.ChildrenRankCom = cc.find("wx").getComponent("ChildrenRank");
     },  
 
     setLableUI(score)
@@ -502,13 +623,19 @@ cc.Class({
     {
         //提交分数
         this.ChildrenRankCom.SubmitScore(this._PlayInfo._Score);
+        
         if(this._PlayInfo._Score>=this._PlayInfo._NeedScore)
         {
             this.ShowSuccess();
         }
         else
         {
+            this.ChildrenRankCom.ShowChildrenGameOver(this._PlayInfo._Score);
             this.ShowFail();
+        }
+        if(CC_WECHATGAME)
+        {
+            wx.triggerGC();
         }
     },
 

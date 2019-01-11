@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "3d30842a-f1cf-4ca5-864e-c8ca554aa0c5",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "复活-按钮1@2x": {
       "ver": "1.0.3",
@@ -17,9 +18,9 @@
       "trimX": 0,
       "trimY": 0,
       "width": 340,
-      "height": 150,
+      "height": 143,
       "rawWidth": 340,
-      "rawHeight": 150,
+      "rawHeight": 143,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,

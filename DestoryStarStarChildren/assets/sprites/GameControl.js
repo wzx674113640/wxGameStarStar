@@ -15,14 +15,14 @@ cc.Class({
         Content: cc.Node,
         LayoutNode: cc.Node,
         
-        RankingScrollView:cc.ScrollView
+        RankingScrollView:cc.ScrollView,
+
+        _MaxScore:-1,
     },
+  
 
     start () {
-       
         window.wx.onMessage(data => {
-           
-           
             if (data.messageType == 0) {//移除排行榜
                 this.removeChild();
             } else if (data.messageType == 1) {//获取好友排行榜
@@ -31,8 +31,9 @@ cc.Class({
                 this.saveUserInfo(data.MAIN_MENU_NUM, data.score);
             } else if (data.messageType == 4) {//获取好友排行榜横向排列展示模式
                 this.ShowUITwo();
-            } else if (data.messageType == 5) {//获取群排行榜
-                this.fetchGroupFriendData(data.MAIN_MENU_NUM, data.shareTicket);
+            } else if (data.messageType == 5) {//显示即将超越的好友
+                this.ShowUIOne();
+                //this.fetchGroupFriendData(data.MAIN_MENU_NUM, data.shareTicket);//获取群排行榜
             }
             else if(data.messageType == 6)//好友排行置顶
             {
@@ -46,18 +47,27 @@ cc.Class({
             {
                 this.gameOverRank(data.MAIN_MENU_NUM,data.score);
             }
+            else if(data.messageType == 9)
+            {
+                this._MaxScore = -1;
+            }
+            else if(data.messageType == 10)
+            {
+                this.CloseAll();
+            }
         });
-       
     },
 
     gameOverRank(MAIN_MENU_NUM,score)
     {
+        if(score<this._MaxScore)
+            return;
         //清空信息  
+        
         this.UIEndOne.getComponent("UIEndOne").Clear();
         this.UIEndTwo.getComponent("UIEndTwo").Clear();
-
-        if (CC_WECHATGAME) {
-            wx.getUserInfo({
+        if(window.wx) {
+            window.wx.getUserInfo({
                 openIdList: ['selfOpenId'],
                 success: (userRes) => {
                     let userData = userRes.data[0];
@@ -148,17 +158,35 @@ cc.Class({
                                     }
                                 }
                             }
+                            
                             if(data.length <= 1||isfirst == true)
                             {
                                 this.UIEndOne.getComponent("UIEndOne").Win();
+                                console.log("自己最大");
+                                this._MaxScore = 99999999;
                             }
                             //空的 则此人为最后一名
                             else 
                             {
+                                
                                 if(smalldata== null)
-                                    this.UIEndOne.getComponent("UIEndOne").init(data[data.length-1]);
+                                {
+                                    var _date = data[data.length-1];
+                                    if(_date.avatarUrl == userData.avatarUrl)
+                                    {
+                                        _date = data[data.length-2];
+                                    }
+                                    this.UIEndOne.getComponent("UIEndOne").init(_date);
+                                    let score  = _date.KVDataList.length != 0 ? _date.KVDataList[0].value : 0;
+                                    this._MaxScore = score;
+                                }
                                 else
+                                {
                                     this.UIEndOne.getComponent("UIEndOne").init(smalldata);
+                                    let score  = smalldata.KVDataList.length != 0 ? smalldata.KVDataList[0].value : 0;
+                                    this._MaxScore = score;
+                                }
+                                    
                             }
                            
                         },
@@ -174,16 +202,29 @@ cc.Class({
             });
 
         }
+       
+    },
+
+    ShowUIOne()
+    {
         //显示第一页
         this.UIEndOne.active = true;
         this.UIEndTwo.active = false;
         this.FriendRank.active = false;
     },
+
     //显示第二页
     ShowUITwo()
     {
         this.UIEndOne.active = false;
         this.UIEndTwo.active = true;
+        this.FriendRank.active = false;
+    },
+
+    CloseAll()
+    {
+        this.UIEndOne.active = false;
+        this.UIEndTwo.active = false;
         this.FriendRank.active = false;
     },
 
@@ -245,7 +286,6 @@ cc.Class({
     },
     
     fetchFriendData(MAIN_MENU_NUM) {
-        console.log("显示好友排行");
         //this.removeFriendChild();
         this.UIEndOne.active = false;
         this.UIEndTwo.active = false;

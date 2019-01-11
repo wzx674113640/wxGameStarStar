@@ -11,7 +11,7 @@ var UIManage = cc.Class({
     onLoad()
     {
         UIManage.Instance = this;
-        
+        this.ChildrenRankCom = cc.find("wx").getComponent("ChildrenRank");
     },
 
     properties: {
@@ -31,12 +31,14 @@ var UIManage = cc.Class({
         UIRanking:cc.Prefab,
         UICache:cc.Prefab,
         UIResurt:cc.Prefab,
-        
+        UIRedMoney:cc.Prefab,
+
+        SceneState:"",
     },
 
     loderPrefabs(prefab,uiparent)
     {
-        if(this.UIList[prefab.name] == undefined||this.UIList[prefab.nam] == null)
+        if(this.UIList[prefab.name] == undefined||this.UIList[prefab.name] == null)
         {
             var UINode = cc.instantiate(prefab);
             uiparent.addChild(UINode);
@@ -54,6 +56,7 @@ var UIManage = cc.Class({
         this.Gameing = this.loderPrefabs(this.Gameing,this.UIMian);
         this.Gameing.active = true;
         this.Starting.active = false;
+        this.SceneState = "Gaming";
     },
 
     ShowGameStart()
@@ -61,6 +64,9 @@ var UIManage = cc.Class({
         this.Starting = this.loderPrefabs(this.Starting,this.UIMian);
         this.Starting.active  = true;
         this.Gameing.active = false;
+        this.SceneState = "Start";
+        this.ChildrenRankCom.HideChild();
+        this.ChildrenRankCom.ResetChildMaxScore();
     },
 
     ShowUIReadCache()
@@ -87,10 +93,12 @@ var UIManage = cc.Class({
         UINode.getComponent("BasePopUI").Show();
     },
     
-    ShowUIDiamon()
+    ShowUIDiamon(action = null)
     {
         var UINode = this.loderPrefabs(this.UIDiamon,this.UIPop);
-        UINode.getComponent("BasePopUI").Show();
+        UINode.getComponent("BasePopUI").Show(action);
+        UINode.setSiblingIndex(UINode.parent.children.length-1);
+        UINode.getComponent("BasePopUI").action = action;
     },
 
     ShowGetBoxUI()
@@ -100,8 +108,18 @@ var UIManage = cc.Class({
     },
     ShowGetMoney()
     {
-        
+        var UINode = this.loderPrefabs(this.UIRedMoney,this.UIPop);
+        UINode.setSiblingIndex(UINode.parent.children.length-1);
+        UINode.getComponent("UIRedBag").Show();
     },
+
+    ShowOpenMoney()
+    {
+        var UINode = this.loderPrefabs(this.UIRedMoney,this.UIPop);
+        UINode.setSiblingIndex(UINode.parent.children.length-1);
+        UINode.getComponent("UIRedBag").ShowLook();
+    },
+
     ShowGetSkill()
     {
         this.ShowNode(this.UIGetSkill);
@@ -130,5 +148,6 @@ var UIManage = cc.Class({
         var UINode = this.loderPrefabs(prefab,this.UIPop);
         UINode.getComponent("BasePopUI").Show();
     }
+    
 });
 

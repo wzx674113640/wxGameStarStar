@@ -8,7 +8,11 @@ var UserInfo =  cc.Class({
         id : null,
         nickName : null,
         avatar_url : null,
-        score :null,
+        score : null,
+        getMoney: null,//得到的钱
+        money : 0,//总金额
+        count: 0,//红包请求次数
+        isRecive : true
     },
 
   
@@ -18,4 +22,4 @@ var UserInfo =  cc.Class({
 
     
 });
-module.exports = UserInfo;
+module.exports = UserInfo; 

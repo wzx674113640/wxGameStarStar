@@ -48,12 +48,14 @@ cc.Class({
         {
             FactoryItem.Instance.UIMianCom.UserDiamond();
         }
+        FactoryItem.Instance.UIMianCom.CancelProps();
     },
 
     CloseBtn()
     {
-        this.node.active = false;
-        FactoryItem.Instance._TouchState = "";
+        //this.node.active = false;
+        //FactoryItem.Instance._TouchState = "";
+        FactoryItem.Instance.UIMianCom.CancelProps();
     },
 
     ShowUI(Item)

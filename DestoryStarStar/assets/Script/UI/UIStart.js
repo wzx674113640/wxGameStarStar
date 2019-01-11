@@ -13,40 +13,67 @@ cc.Class({
 
     onEnable()
     {
-        this.LabelDiamond.string = this.GameInitCom.PopsList.Diamond;
+        this.SetDiamond();
+        this.childrenRankCom = cc.find("wx").getComponent("ChildrenRank");
     },
 
+    SetDiamond()
+    {
+        this.LabelDiamond.string = this.GameInitCom.PopsList.Diamond;
+    },
+    
     onLoad()
     {
         this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
         this.GameInitCom.getPopsInfo();
+        this.isSet = false;
     },
     
     start()
     {
-        //this.SetScore();
+        this.SetScore();
     },
 
     SetScore()
     {
-        var value = cc.find("wx").getComponent("ChildrenRank").playInfo; 
-        if(value!=undefined)
+        var value = this.childrenRankCom.playInfo; 
+        if(value!=undefined&&value!=null)
         {
-            this.LabelScore.string = value.score;
+            if(value.score!=null)
+            {
+                this.LabelScore.string = "历史最高分：" + value.score;
+            }
+        }
+        else
+        {
+            this.LabelScore.string ="";
+        }
+    },
+
+    update()
+    {
+        if(this.childrenRankCom.playInfo != undefined&&this.childrenRankCom.playInfo.score != null&&this.isSet==false)
+        {
+            this.isSet = true;
+            this.SetScore();
         }
     },
 
     PlaySound()
     {
-        SoundManage.Instance.IsPlay = !SoundManage.Instance.IsPlay;
-        if(SoundManage.Instance.IsPlay)
+        if(SoundManage.Instance.IsPlay == false)
         {
+            cc.audioEngine.resumeMusic();
+            SoundManage.Instance.IsPlay = true;
             this.SoundPlay.getComponent(cc.Sprite).spriteFrame = this.SoundImgList[0]
         }
-        else
+        else 
         {
+            SoundManage.Instance.IsPlay = false;
+            cc.audioEngine.pauseMusic();
             this.SoundPlay.getComponent(cc.Sprite).spriteFrame = this.SoundImgList[1]
         }
+      
     },
 
   
@@ -61,6 +88,7 @@ cc.Class({
     BtnGameStart()
     {
         this.GameInitCom.realGamestart();
+        this.childrenRankCom.C2G_GameStart();
     },
 
     ShowDiamond()

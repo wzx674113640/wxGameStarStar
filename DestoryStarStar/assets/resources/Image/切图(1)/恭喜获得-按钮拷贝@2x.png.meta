@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "eb5f7abf-ccd4-4223-8fa2-8f727bdbbd1a",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "恭喜获得-按钮拷贝@2x": {
       "ver": "1.0.3",

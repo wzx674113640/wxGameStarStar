@@ -238,6 +238,7 @@ var FileServe =  cc.Class({
         return playerInfo;
     },
 
+    
     setPopsCache()
     {
         var popslist =  this.GameInitCom.PopsList;

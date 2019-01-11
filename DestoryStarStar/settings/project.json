@@ -14,33 +14,40 @@
   "design-resolution-height": 1334,
   "design-resolution-width": 750,
   "excluded-modules": [
-    "CCSpriteDistortion",
-    "LabelOutline",
+    "Canvas Renderer",
     "TiledMap",
     "Spine Skeleton",
+    "DragonBones",
+    "RichText",
+    "MotionStreak",
     "ScrollBar",
     "PageView",
     "PageViewIndicator",
     "Slider",
-    "EditorBox",
+    "EditBox",
     "VideoPlayer",
     "WebView",
-    "RichText",
-    "MotionStreak",
-    "Graphics",
-    "DragonBones",
+    "NodePool",
     "StudioComponent",
-    "RenderTexture",
-    "Chipmunk",
-    "Camera",
     "Intersection",
     "Native NetWork"
   ],
+  "facebook": {
+    "appID": "",
+    "audience": {
+      "enable": false
+    },
+    "enable": false,
+    "live": {
+      "enable": false
+    }
+  },
   "fit-height": true,
   "fit-width": false,
   "group-list": [
     "default"
   ],
+  "last-module-event-record-time": 1546913537765,
   "simulator-orientation": false,
   "simulator-resolution": {
     "height": 640,

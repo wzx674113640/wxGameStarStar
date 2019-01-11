@@ -38,26 +38,50 @@ var FactoryItem =  cc.Class({
 
     Clear()
     {
-        //cc.log("清理过！");
         this.StopPromptAnimation();
         this.isdeath = false;
-        this.IsGameStart = false;
         this.isPutCanDesing = false; //玩家输入且可以消除  
-        
+        this.allVerticalList = new Array();
         this._TouchState = "";
         this._CheckItem.length = 0;
+        this.isReset = false;
         this._IsTouch = true;
         for(var i = 0;i<this.ItemParent.children.length;i++)
         {
             this.ItemParent.children[i].getComponent("Item").Clear();
         }
+        
+    },
+
+    OpenAndClosePhysic(active)
+    {
+        cc.director.getPhysicsManager().enabled = active;
+    },
+
+    InitPhysic()
+    {
+        var pymanager = cc.director.getPhysicsManager();
+
+        // 开启物理步长的设置
+        pymanager.enabledAccumulator = true;
+        
+        // 物理步长，默认 FIXED_TIME_STEP 是 1/60
+        pymanager.FIXED_TIME_STEP = 1/30;
+        
+        // 每次更新物理系统处理速度的迭代次数，默认为 10
+        pymanager.VELOCITY_ITERATIONS = 8;
+        
+        // 每次更新物理系统处理位置的迭代次数，默认为 10
+        pymanager.POSITION_ITERATIONS = 8;
+        this.OpenAndClosePhysic(true);
     },
 
     onLoad()
     {
         FactoryItem.Instance = this;
-        cc.director.getPhysicsManager().enabled = true;
-        cc.director.getPhysicsManager().gravity = cc.v2();
+        this.InitPhysic(false);
+        //cc.director.getPhysicsManager().enabled = true;
+        //cc.director.getPhysicsManager().gravity = cc.v2();
         this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
         this.ItemParent = cc.find("ItemParent");
         this._StartMoveDis= 1000; 
@@ -66,6 +90,7 @@ var FactoryItem =  cc.Class({
         this.isdeath = false;
         this.IsGameStart = false;
         this.isGameOver = false;
+        this.isReset = false;
         //this.isResurtTimes = 3;
         this.constCoolTime = 3;
         this._PromptCoolTime = this.constCoolTime;
@@ -76,11 +101,12 @@ var FactoryItem =  cc.Class({
 
 
     start () {
-        
+        this.ChildrenRankCom = cc.find("wx").getComponent("ChildrenRank");
     },
 
     GetDis(isCashe = false)
     {
+        this.OpenAndClosePhysic(false);
         var  itemChildrens = this.ItemParent.children;
         //var disx =  itemChildrens[1].getPosition().x-itemChildrens[2].getPosition().x;
         //var disy =  itemChildrens[1].getPosition().y-itemChildrens[11].getPosition().y;
@@ -101,16 +127,24 @@ var FactoryItem =  cc.Class({
                 {
                     itemChildrens[i].getComponent("Item").ShowBox();
                 }
-                
             }
-            var move = cc.moveBy(0.01*(100-i)+0.1,cc.v2(0,-this._StartMoveDis));
+            var time  = 0.01*(100-i)+0.1;
+            var move = cc.moveBy(time,cc.v2(0,-this._StartMoveDis));
             itemChildrens[i].runAction(move);
+        }
+        //清理Gc
+        if(CC_WECHATGAME)
+        {
+            wx.triggerGC();
         }
         var self = this;
         this.scheduleOnce(function(){
-            self.IsGameStart = true;
+            self.IsGameStart = true;  
             self._IsTouch = true;
             self._PromptCoolTime = self.constCoolTime;
+            self._CheckItem.length = 0;
+            self.OpenAndClosePhysic(true);
+            self.ChildrenRankCom.ShowOne();
         },1.1);
         this.isGameOver = false;
     },
@@ -152,9 +186,32 @@ var FactoryItem =  cc.Class({
             ItemCom.ShowBox();
         }
         this.allocationVertical(num,item);
+      
         return item;
     }, 
     
+    //重置后分配数列
+    RestAllocationVertical()
+    {
+        var LoactionPosCache = FileServe.Instance.getLoactionPosCache();
+        if(LoactionPosCache==null) 
+            return;
+        this.allVerticalList = new Array();
+        for(var key in LoactionPosCache)
+        {
+            this.allVerticalList[key] = [];
+            for(var i = 0;i<LoactionPosCache.length;i++)
+            {
+                var num = LoactionPosCache[key][i]-1;
+                var valueItem = this.ItemParent.children[num];
+                if(valueItem.getComponent("Item")._isDestory == false)
+                {
+                    this.allVerticalList[key].push(valueItem);
+                }
+            }
+        }
+    },  
+
 //分配竖列 
     allocationVertical(num,myItem)
     {
@@ -184,6 +241,7 @@ var FactoryItem =  cc.Class({
 
         for(var key in this.allVerticalList)
         {
+            var  index = 0;
             for(var i = this.allVerticalList[key].length-1;i>=0;i--)
             {
                 if(this.allVerticalList[key][i].getComponent("Item")._isDestory)
@@ -269,6 +327,7 @@ var FactoryItem =  cc.Class({
             if(index<self._CheckItem.length)
             {
                 self._CheckItem[index].getComponent("Item").PlayDestoryAnimation();
+               
                 if(IsSetValue == -1)
                 {
                     var addScore = 5+10*index;
@@ -287,7 +346,7 @@ var FactoryItem =  cc.Class({
                 }
             }
            
-        },0.05,count,0);
+        },0.04,count,0);
        
     },
 
@@ -323,21 +382,22 @@ var FactoryItem =  cc.Class({
                 break;
             }
         }
-        /*
+        
         if(ColorEggState == ""&&this._CheckItem.length >=5)
         {
             var value1 = Math.floor(Math.random()*100);
-            if(value1<5)
+            if(value1<50)
             {
                 UIManage.Instance.ShowGetMoney(); //红包UI
                 ColorEggState = "Money";
             }
         }
-*/
+        
+
         if(ColorEggState == ""&& this.UIMianCom._PlayInfo._IsShowSkill == false)
         {
             var value = Math.floor(Math.random()*100);
-            if(value<5)
+            if(value<2)
             {
                 this.UIMianCom._PlayInfo._IsShowSkill = true;
                 UIManage.Instance.ShowGetSkill();//消灭同种颜色技能UI
@@ -352,34 +412,37 @@ var FactoryItem =  cc.Class({
     {
         for(var key in this.allVerticalList)
         {
-                var step = 0; 
-                if(this.allVerticalList[key] == null)
-                    continue;
-                for(var i = this.allVerticalList[key].length-1;i>=0;i--)
+            var step = 0; 
+            if(this.allVerticalList[key] == null)
+                continue;
+            for(var i = this.allVerticalList[key].length-1;i>=0;i--)
+            {
+                var _Item = this.allVerticalList[key][i].getComponent("Item");
+                if(_Item._isDestory)
                 {
-                    if(this.allVerticalList[key][i].getComponent("Item")._isDestory)
-                    {
-                        step++;
-                        this.allVerticalList[key].splice(i,1);
-                    }
-                    else if(step>0)
-                    {
-                        this.MoveDownItem(step,this.allVerticalList[key][i]);
-                    }
+                    step++;
+                    this.allVerticalList[key].splice(i,1);
                 }
+                else if(step>0)
+                {
+                    this.MoveDownItem(step,this.allVerticalList[key][i]);
+                }
+            }
+        
         }
         var self = this;
         this.scheduleOnce(function() {
             var isleftAni = self.LeftClear();
-            var timer = isleftAni==true?0.2:0
+            var timer = isleftAni==true?0.1:0
             
             self.scheduleOnce(function() {
                 self.IsPass();
                 self.IsDeath();
+                self.UIMianCom.UpdateFreindRank();
                 self._IsTouch = true;
             }, timer);
 
-        }, 0.36);
+        }, 0.31);
         
         this._CheckItem.length = 0;
        
@@ -420,25 +483,24 @@ var FactoryItem =  cc.Class({
     },
     MoveDownItem(step,item)
     {
-        var move =  cc.moveBy(0.2,cc.v2(0,-this.Disy*step));
+        var move =  cc.moveBy(0.15,cc.v2(0,-this.Disy*step));
         var move1 = cc.moveBy(0.1,cc.v2(0,20));
         var move2 = cc.moveBy(0.05,cc.v2(0,-20));
         item.runAction(cc.sequence(move,move1,move2));
     },
     MoveleftItem(step,item)
     {
-        var move =  cc.moveBy(0.2,cc.v2(-this.Disx*step,0));
+        var move =  cc.moveBy(0.1,cc.v2(-this.Disx*step,0));
        
         item.runAction(move);
     },
 
     IsDeath()
     {
-        if(this.isPutCanDesing)
+        if(this.isPutCanDesing&&this.IsGameStart == false)
         {
-            return
+            return;
         }
-        
         var isdeath = true;
         for(var i = 0;i < this.ItemParent.children.length;i++)
         {
@@ -454,7 +516,10 @@ var FactoryItem =  cc.Class({
         }
         if(isdeath != false)
         {
+            cc.log("22222");
+            this.OpenAndClosePhysic(false);
             this.IsGameStart = false;
+            this.isReset = false;
             var surplusList = [];
             var itemchildren = this.ItemParent.children
             for(var i = 0; i<itemchildren.length;i++)
@@ -518,7 +583,7 @@ var FactoryItem =  cc.Class({
                                 },1.2
                             );
                         }
-                    },0.05,count-1,1);
+                    },0.04,count-1,1);
                 },0.5);
             }
             else
@@ -560,7 +625,7 @@ var FactoryItem =  cc.Class({
             //提示星星动画
             this._ItemMaxList[j].getComponent("Item").PromptAnimation();
         }
-       
+        
     },
 
     StopPromptAnimation()
@@ -607,81 +672,93 @@ var FactoryItem =  cc.Class({
         this.UIMianCom.CancelProps();
     },
     
+    ShowItemLight(_ItemCom)
+    {
+        if(this.ItemLastCom!= undefined)
+        {
+            this.ItemLastCom.HideLight();
+        }
+        _ItemCom.ShowLight();
+        this.ItemLastCom = _ItemCom;
+    },
+
     //改变颜色道具
     ChangeProps(Item)
     {
         this.UIMianCom.UIProposChangePanel.getComponent("UIProposChangePanel").ShowUI(Item);
-        this.UIMianCom.CancelProps(false);
+        //this.UIMianCom.CancelProps(false);
+        this.ShowItemLight(Item.getComponent("Item"));
     },
 
      //重组道具
      PropsRest()
      {
-         this.StopPromptAnimation();
-         var IndexList = [];
-         var Vlist = [];
-         var VlistX = [];
-         var KeyList = [];
-         var _index = -1;
-         for(var key in this.allVerticalList)
-         {
-             if(this.allVerticalList[key] != null)
-             {
-                 _index++;
-                 Vlist.push(this.allVerticalList[key]);
-                 VlistX.push(this.allVerticalList[key][0].getPosition().x);
-                 IndexList.push(_index);
-                 KeyList.push(key);
-             }
-         }
-         var alllist= {}
-         for(var i = 0;i < Vlist.length;i++)
-         {
-             var value =  Math.floor(Math.random()*IndexList.length);
-             var real =  IndexList[value];
-             IndexList.splice(value,1);
- 
-             var posX = VlistX[i];
- 
-             alllist[i] =  Vlist[real];
-             var vv =  Vlist[real][Vlist[real].length-1].getComponent("Item")._ID-Vlist[i][Vlist[i].length-1].getComponent("Item")._ID;
-             for(var j = 0;j<Vlist[real].length;j++)
-             {
-                 var startPOS =  Vlist[real][j].getPosition();
-                 
-                 Vlist[real][j].setPosition(cc.v2(posX,startPOS.y));
-                 var vreal =  Vlist[real][j].getComponent("Item")._ID;
-                 var target =  vreal - vv;
-                 Vlist[real][j].getComponent("Item")._ID = target;
-             }
-         }
- 
-         var _i = -1;
-         for(var key in this.allVerticalList)
-         {
-             _i++;
-             if(alllist[_i] != undefined)
-             {
-                 this.allVerticalList[key] = alllist[_i];
-                 for(var j = 0;j<this.allVerticalList[key].length;j++)
-                 {
-                     var Item = this.allVerticalList[key][j];
-                     var ItemCom = Item.getComponent("Item");
-                     if(!ItemCom._isDestory)
-                     {
-                         var Indexs = Math.floor(Math.random()*5);
-                         Item.getComponent(cc.Sprite).spriteFrame = this.ColorList[Indexs];
-                         ItemCom._ColorType = Indexs;
-                         var keyValue = Number(key)+1;
-                         
-                     }
-                 }
-             }
-             else
-             {
-                 this.allVerticalList[key] = null;
-             }
-         }
+        this.StopPromptAnimation();
+        var IndexList = [];
+        var Vlist = [];
+        var VlistX = [];
+        var KeyList = [];
+        var _index = -1;
+        for(var key in this.allVerticalList)
+        {
+            if(this.allVerticalList[key] != null)
+            {
+                _index++;
+                Vlist.push(this.allVerticalList[key]);
+                VlistX.push(this.allVerticalList[key][0].getPosition().x);
+                IndexList.push(_index);
+                KeyList.push(key);
+            }
+        }
+        var alllist= {}
+        for(var i = 0;i < Vlist.length;i++)
+        {
+            var value =  Math.floor(Math.random()*IndexList.length);
+            var real =  IndexList[value];
+            IndexList.splice(value,1);
+
+            var posX = VlistX[i];
+
+            alllist[i] =  Vlist[real];
+            //var vv =  Vlist[real][Vlist[real].length-1].getComponent("Item")._ID-Vlist[i][Vlist[i].length-1].getComponent("Item")._ID;
+            for(var j = 0;j<Vlist[real].length;j++)
+            {
+                var startPOS =  Vlist[real][j].getPosition();
+                
+                Vlist[real][j].setPosition(cc.v2(posX,startPOS.y));
+                //var vreal =  Vlist[real][j].getComponent("Item")._ID;
+                //var target =  vreal - vv;
+                //Vlist[real][j].getComponent("Item")._ID = target;
+            }
+        }
+        var _i = -1;
+        for(var key in this.allVerticalList)
+        {
+            _i++;
+            if(alllist[_i] != undefined)
+            {
+                this.allVerticalList[key] = alllist[_i];
+                for(var j = 0;j<this.allVerticalList[key].length;j++)
+                {
+                    var Item = this.allVerticalList[key][j];
+                    var ItemCom = Item.getComponent("Item");
+                   
+                    if(!ItemCom._isDestory)
+                    {
+                        var Indexs = Math.floor(Math.random()*5);
+                        Item.getComponent(cc.Sprite).spriteFrame = this.ColorList[Indexs];
+                        ItemCom._ColorType = Indexs;
+                        var keyValue = Number(key)+1;
+                    }
+                }
+            }
+            else
+            {
+                this.allVerticalList[key] = null;
+            }
+        }
+        this.isReset = true;
+        this.IsDeath();
      },
  
      //消除同一个颜色道具

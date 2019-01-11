@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "c3c9f736-08b4-47cb-81fa-c901d90c8b80",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "恭喜获得-获得道具@2x": {
       "ver": "1.0.3",

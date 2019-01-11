@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "cb83de80-a38b-46b6-b0c7-db97760b77af",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "钻石不足-弹窗@2x": {
       "ver": "1.0.3",

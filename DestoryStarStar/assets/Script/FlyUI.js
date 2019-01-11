@@ -52,7 +52,7 @@ var FlyUI =  cc.Class({
         
         var s = cc.scaleTo(0.5,1.2);
         
-        var m = cc.moveTo(0.6,newVec2);
+        var m = cc.moveTo(0.8,newVec2);
 
         var call = cc.callFunc(function()
         {

@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "c60e5495-ec02-4687-9f70-cf5ed95c06f4",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "免费礼盒-打开必然获得@2x": {
       "ver": "1.0.3",

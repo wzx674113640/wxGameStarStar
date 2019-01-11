@@ -8,18 +8,23 @@ cc.Class({
     },
 
     onLoad () {
+        this.CloseAction = null;
         //this.Mask = this.node.parent.getChildByName("Mask");
         this.Mask = this.node.getChildByName("Mask");
         this.BG = this.node.getChildByName("Bg");
     },
 
     Close()
-    {
+    {   
         this.Mask.active = false;
         var s = cc.scaleTo(0.2,0.1);
         var call = cc.callFunc(function()
         {
             this.node.active = false;
+            if(this.CloseAction!= null)
+            {
+                this.CloseAction();
+            }
         }.bind(this));
         this.node.runAction(cc.sequence(s,call));
     },
@@ -32,7 +37,7 @@ cc.Class({
     },
 
     Show()
-    {
+    {   
         this.node.active = true;
         this.Mask.active = true;
         this.node.setScale(1);

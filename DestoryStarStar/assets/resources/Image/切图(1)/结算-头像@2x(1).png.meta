@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "f71f39e4-f6dc-4b70-95c7-94156ca88a63",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "结算-头像@2x(1)": {
       "ver": "1.0.3",

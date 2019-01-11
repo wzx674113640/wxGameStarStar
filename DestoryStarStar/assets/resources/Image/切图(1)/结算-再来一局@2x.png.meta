@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "6017ab32-dd84-4ff1-ad14-25d14b7fa9fa",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "结算-再来一局@2x": {
       "ver": "1.0.3",

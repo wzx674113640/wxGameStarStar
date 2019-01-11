@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "98b37c57-02d3-4c23-bff3-9879e8917dc5",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "过关-魔棒道具拷贝@2x": {
       "ver": "1.0.3",

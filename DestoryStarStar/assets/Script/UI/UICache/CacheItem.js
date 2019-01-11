@@ -22,11 +22,10 @@ cc.Class({
 
     SetItem(level,score,IsNeedResurt,id)
     {
-        cc.log("IsGameOver:"+IsNeedResurt);
         this.RankUI.active = true;
         this.ID = id;
         this.LabelLevel.string = "关卡："+level;
-        this.LabelScore.string ="分数："+ score;
+        this.LabelScore.string = "分数："+ score;
         if(IsNeedResurt)
         {
             this.BtnReurt.active = true;
@@ -50,18 +49,42 @@ cc.Class({
     
     BtnAaginClick()
     {
-        FileServe.Instance.ReadCache(this.ID);
-        //UIManage.Instance.ShowGameing();
-        this.GameInitCom.GameStart(true);
-        this.UIParent.active = false;
+        ShareAndVideo.Instance.SeeVedioClick(()=>
+        {
+            FileServe.Instance.ReadCache(this.ID);
+            //UIManage.Instance.ShowGameing();
+            this.GameInitCom.GameStart(true);
+            this.UIParent.active = false;
+        });
+       
     },
 
     BtnReurtClick()
     {
-        ShareAndVideo.Instance.AddShareEvent(()=>
+        if(this.GameInitCom.PopsList.Diamond >= 30)
         {
-            this.BtnAaginClick();
-        });
+            FileServe.Instance.ReadCache(this.ID);
+            //UIManage.Instance.ShowGameing();
+            this.GameInitCom.GameStart(true);
+            this.UIParent.active = false;
+
+            if(UIManage.Instance.SceneState == "Gaming")
+            {
+                var FactoryItem = require("FactoryItem");
+                FactoryItem.Instance.UIMianCom.UserDiamond(-30); 
+            }
+            else if(UIManage.Instance.SceneState =="Start")
+            {
+                this.GameInitCom.PopsList.Diamond-=30;
+                
+                UIManage.Instance.UIList[UIManage.Instance.Starting.name].getComponent("UIStart").SetDiamond();
+            }
+        }
+        else
+        {
+            UIManage.Instance.ShowUIDiamon();
+        }
+        
     }
     
 

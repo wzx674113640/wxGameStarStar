@@ -17,6 +17,7 @@ cc.Class({
 
     start () {
          this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
+         this.isPause = false;
     },
 
     Show()
@@ -25,16 +26,16 @@ cc.Class({
         this.LableTime.string = this._timeSecond;
         this.node.active = true;
         this.ShowReurtDiamon();
-        /*
-        if(FactoryItem.Instance.UIMianCom._PlayInfo._IsResurtTimes>0)
+        
+        if(FactoryItem.Instance.UIMianCom._PlayInfo._IsResurtTimes<3)
         {
             this.ShowReurt();
         }
         else
         {
-            
+            this.ShowReurtDiamon();
         }
-        */
+        
     },
 
     ShowReurt()
@@ -49,6 +50,19 @@ cc.Class({
         this.BtnResurtDiamon.active = true;
     },
 
+    BtnVideoReurt()
+    {
+        this.isPause = true;
+        ShareAndVideo.Instance.SeeVedioClick(()=>
+        {
+            this.Resurt();
+            this.isPause = false;
+        },null,()=>
+        {
+            this.isPause = false;
+        });
+    },
+
     BtnResurtDiamonClick()
     {
         if(this.GameInitCom.PopsList.Diamond>=10)
@@ -58,7 +72,11 @@ cc.Class({
         }
         else
         {
-            UIManage.Instance.ShowUIDiamon();
+            this.isPause = true;
+            UIManage.Instance.ShowUIDiamon(()=>
+            {
+                this.isPause = false;
+            });
         }
     },
 
@@ -96,22 +114,21 @@ cc.Class({
         {
             cache.IsGameStart = false;
         }
-
         this.GameInitCom.Init();
         FactoryItem.Instance.UIMianCom.ResurtAndInit();
-        FactoryItem.Instance.UIMianCom.BarScore.progress = 0;
         cc.sys.localStorage.setItem("ItemCacheList",false);
         
         var index = Math.floor(Math.random()*3);
         index ++;
         FlyUI.Instance.PropsUIFly(index);
-        
         this.node.active = false;
     },
     
 
    update(dt)
    {
+        if(this.isPause)
+            return;
         this._timeOne -=dt
         if(this._timeOne<=0)
         {   

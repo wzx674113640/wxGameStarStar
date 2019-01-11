@@ -11,6 +11,14 @@ cc.Class({
        LeftScore: cc.Label,
        RightScore:cc.Label,
 
+        MidName:cc.Label,
+        LeftName:cc.Label,
+        RightName:cc.Label,
+
+        MidRankImg:cc.Sprite,
+        LeftRankImg:cc.Sprite,
+        RightRankImg:cc.Sprite,
+
        MidImg: cc.Sprite,
        LeftImg: cc.Sprite,
        RightImg:cc.Sprite,
@@ -31,28 +39,66 @@ cc.Class({
     setSelf(rankNum,data)
     {
         this.MidNode.active = true;
-        this.MidRank.string = "第"+rankNum+"名";
+        if(rankNum>3)
+        {
+            this.MidRank.node.active = true;
+            this.MidRankImg.node.active = false;
+            this.MidRank.string = rankNum;
+        }
+        else
+        {
+            this.MidRank.node.active = false;
+            this.MidRankImg.node.active = true;
+            this.createImage("src/Rank"+rankNum+".png",this.MidRankImg);
+        }
         let score  = data.KVDataList.length != 0 ? data.KVDataList[0].value : 0;
-        this.MidScore.string =score+"分";
+        this.MidScore.string = score;
+        let nick = data.nickname.length <= 4 ? data.nickname : data.nickname.substr(0, 4) + "...";
+        this.MidName.string = nick;
         this.createImage(data.avatarUrl,this.MidImg);                      
     },
     
     setLeft(rankNum,data)
     {
         this.LeftNode.active = true;
-        this.LeftRank.string = "第"+rankNum+"名";
+        if(rankNum>3)
+        {
+            this.LeftRank.node.active = true;
+            this.LeftRankImg.node.active = false;
+            this.LeftRank.string = rankNum;
+        }
+        else
+        {
+            this.LeftRank.node.active = false;
+            this.LeftRankImg.node.active = true;
+            this.createImage("src/Rank"+rankNum+".png",this.LeftRankImg);
+        }
         let score  = data.KVDataList.length != 0 ? data.KVDataList[0].value : 0;
-        this.LeftScore.string =score+"分";
+        this.LeftScore.string = score;
+        let nick = data.nickname.length <= 4 ? data.nickname : data.nickname.substr(0, 4) + "...";
+        this.LeftName.string = nick;
         this.createImage(data.avatarUrl,this.LeftImg);                      
     },
-
 
     setRight(rankNum,data)
     {
         this.RightNode.active = true;
-        this.RightRank.string = "第"+rankNum+"名";
+        if(rankNum>3)
+        {
+            this.RightRank.node.active = true;
+            this.RightRankImg.node.active = false;
+            this.RightRank.string = rankNum;
+        }
+        else
+        {
+            this.RightRank.node.active = false;
+            this.RightRankImg.node.active = true;
+            this.createImage("src/Rank"+rankNum+".png",this.RightRankImg);
+        }
         let score  = data.KVDataList.length != 0 ? data.KVDataList[0].value : 0;
-        this.RightScore.string = score +"分";
+        this.RightScore.string = score;
+        let nick = data.nickname.length <= 4 ? data.nickname : data.nickname.substr(0, 4) + "...";
+        this.RightName.string = nick;
         this.createImage(data.avatarUrl,this.RightImg);                      
     },
 

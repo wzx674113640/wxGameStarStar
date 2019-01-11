@@ -1,0 +1,96 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "Hammer",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 2.5,
+  "sample": 60,
+  "speed": 1.5,
+  "wrapMode": "2",
+  "curveData": {
+    "paths": {
+      "New Sprite(Splash)": {
+        "props": {
+          "position": [
+            {
+              "frame": 0,
+              "value": [
+                138,
+                -35
+              ]
+            },
+            {
+              "frame": 1,
+              "value": [
+                -40,
+                -35
+              ]
+            },
+            {
+              "frame": 1.8333333333333333,
+              "value": [
+                -40,
+                -35
+              ]
+            },
+            {
+              "frame": 2,
+              "value": [
+                -40,
+                -35
+              ]
+            },
+            {
+              "frame": 2.5,
+              "value": [
+                138,
+                -35
+              ]
+            }
+          ],
+          "rotation": [
+            {
+              "frame": 0,
+              "value": -22
+            },
+            {
+              "frame": 0.9833333333333333,
+              "value": -22
+            },
+            {
+              "frame": 1.2333333333333334,
+              "value": 0
+            },
+            {
+              "frame": 1.5333333333333334,
+              "value": 45
+            },
+            {
+              "frame": 1.8333333333333333,
+              "value": -22
+            }
+          ]
+        }
+      },
+      "New Sprite": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 255
+            },
+            {
+              "frame": 1.8166666666666667,
+              "value": 255
+            },
+            {
+              "frame": 1.8833333333333333,
+              "value": 0
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

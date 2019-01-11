@@ -1,9 +1,10 @@
 {
-  "ver": "1.0.0",
+  "ver": "2.2.0",
   "uuid": "ddc7a66a-f717-4510-ab5d-d665fba8948e",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
+  "premultiplyAlpha": false,
   "subMetas": {
     "免费礼盒-权杖可消除随机一种颜色全部星星@2x": {
       "ver": "1.0.3",

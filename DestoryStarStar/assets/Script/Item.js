@@ -16,7 +16,7 @@ cc.Class({
         _ID:-1,
         _ColorType: -1,
         _isDestory: false,
-        _isAlreadyDetection: false
+        _isAlreadyDetection: false,
     },
 
     Clear()
@@ -27,32 +27,38 @@ cc.Class({
         this._isDestory = false;
         this._isAlreadyDetection = false;
         this.node.active = false;
+        this._isSplice = false;
     },
 
     start () {
 
+       
+        //this.node.on(cc.Node.EventType.TOUCH_START, function(event)
+        //{
+        //   
+        //});
+    },
+
+    ItemClick()
+    {
         var self = this;
-        this.node.on(cc.Node.EventType.TOUCH_START, function(event)
+        if(FactoryItem.Instance._IsTouch&&FactoryItem.Instance.IsGameStart)
         {
-            if(FactoryItem.Instance._IsTouch&&FactoryItem.Instance.IsGameStart)
+            FactoryItem.Instance.StopPromptAnimation();
+            switch(FactoryItem.Instance._TouchState)
             {
-                FactoryItem.Instance.StopPromptAnimation();
-                switch(FactoryItem.Instance._TouchState)
-                {
-                    case "":
-                        self.TouchNormal(self);
-                        break;
-                    case "1":
-                        self.TouchHammer(self.node);
-                        break;
-                    case "2":
-                        self.TouchChange(self.node);
-                        break;
-                    
-                }   
-            }
-           
-        });
+                case "":
+                    self.TouchNormal(self);
+                    break;
+                case "1":
+                    self.TouchHammer(self.node);
+                    break;
+                case "2":
+                    self.TouchChange(self.node);
+                    break;
+                
+            }   
+        }
     },
 
     TouchNormal(self)
@@ -98,6 +104,8 @@ cc.Class({
 
     FindSameItem(IsMianItem = false)
     {
+        if(FactoryItem.Instance.IsGameStart == false)
+            return;
         var p1 = this.node.getPosition();
         var P2List = this.GetRayPos();
         for(var i = 0;i<P2List.length;i++)
@@ -211,12 +219,14 @@ cc.Class({
     },
 
     //星星消失动画
-    PlayDestoryAnimation()
+    PlayDestoryAnimation(isplayEffect = true)
     {
         SoundManage.Instance.playDestoryStar();
-        Effect.Instance.PlayStarEffect(this.node.getPosition(),this._ColorType); 
+        if(isplayEffect)
+        {
+            Effect.Instance.PlayStarEffect(this.node.getPosition(),this._ColorType); 
+        }
         this.node.active = false;
-        
         /* 
         var s =  cc.scaleBy(0.2,0.2);
         var c =  cc.callFunc(function(){
