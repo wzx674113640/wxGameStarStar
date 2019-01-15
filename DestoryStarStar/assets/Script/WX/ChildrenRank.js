@@ -1,7 +1,10 @@
 
 var UserInfo = require("UserInfo");
 var UIManage = require("UIManage");
+var ShareAndVideo = require("ShareAndVideo");
 var getInfo = {code:null,nickName:null,avatarUrl:null,gender:null};
+var AppIDInfo = require("AppIDInfo");
+
 cc.Class({
     extends: cc.Component,
 
@@ -13,27 +16,33 @@ cc.Class({
         _version:103,//版本号
 
         _width:750,
-        _height:1334
+        _height:1334,
+
+        _Sence:0,
+        _AppIDInfoList:[],
+        
+    },
+
+    onLoad()
+    {
+        if(CC_WECHATGAME)
+        {
+            var obj = wx.getLaunchOptionsSync();
+            this._Sence =  obj.scene;
+        }
     },
 
     start () {
+        //ShareAndVideo.Instance.ShowPanelMask();
+        UIManage.Instance.ShowGameStart();
         this._version = 103;
         this.isShow = false;
         this.closeUpdate = false;
         if(!CC_WECHATGAME)
             return;
-        //window.wx.showShareMenu({withShareTicket: true});
         this.tex = new cc.Texture2D();
-        //this.getScreen();
         window.sharedCanvas.width = 750;
         window.sharedCanvas.height = 1334;
-        
-        //const openDataContext = wx.getOpenDataContext();
-        //const sharedCanvas = openDataContext.canvas;
-        //if (sharedCanvas) {
-        //    sharedCanvas.width = cc.game.canvas.width * 2;
-        //    sharedCanvas.height = cc.game.canvas.height * 2;
-        //}
         this.C2G_GetUserInfo();
     },
 
@@ -46,7 +55,6 @@ cc.Class({
         this._height = sysInfo.screenHeight;
     },
 
-   
     
     //获取后台信息
     C2G_GetUserInfo()
@@ -63,38 +71,48 @@ cc.Class({
             self.Login(getInfo,self);
         }
         else{
-            var self = this;
-            let sysInfo = window.wx.getSystemInfoSync();
-            let width = sysInfo.screenWidth;
-            let height = sysInfo.screenHeight;
-            let button = wx.createUserInfoButton({
-                type: 'text',
-                text: '',
-                style: {
-                    left: 10,
-                    top: 10,
-                    width: width - 20,
-                    height: height - 20,
-                    textAlign: 'center'
-                }
-            })
-            button.onTap((res) => {
-                var userInfo = res.userInfo
-                cc.sys.localStorage.setItem("nickName", userInfo.nickName);
-                cc.sys.localStorage.setItem("avatarUrl", userInfo.avatarUrl);
-                cc.sys.localStorage.setItem("gender", userInfo.gender);
-                getInfo.nickName = userInfo.nickName
-                getInfo.avatarUrl = userInfo.avatarUrl
-                getInfo.gender = userInfo.gender //Sex 0: unknown, 1: male, 2: female
-                button.hide();
-                //直接游戏
-                if(this.isbtnStart==undefined)
-                {
-                    UIManage.Instance.UIList["UIStart"].getComponent("UIStart").BtnGameStart();
-                    this.isbtnStart = true;
-                }
-                self.Login(getInfo,self);
-            })
+            if(cc.sys.localStorage.getItem("IsFirst")=="")
+            {
+                //打开新手礼包
+                this.Login(getInfo,this);
+                UIManage.Instance.ShowGiftBag();
+            }
+            else
+            {
+                var self = this;
+                let sysInfo = window.wx.getSystemInfoSync();
+                let width = sysInfo.screenWidth;
+                let height = sysInfo.screenHeight;
+                let button = wx.createUserInfoButton({
+                    type: 'text',
+                    text: '',
+                    style: {
+                        left: 10,
+                        top: 10,
+                        width: width - 20,
+                        height: height - 20,
+                        textAlign: 'center'
+                    }
+                })
+                button.onTap((res) => {
+                    var userInfo = res.userInfo
+                    cc.sys.localStorage.setItem("nickName", userInfo.nickName);
+                    cc.sys.localStorage.setItem("avatarUrl", userInfo.avatarUrl);
+                    cc.sys.localStorage.setItem("gender", userInfo.gender);
+                    getInfo.nickName = userInfo.nickName
+                    getInfo.avatarUrl = userInfo.avatarUrl
+                    getInfo.gender = userInfo.gender //Sex 0: unknown, 1: male, 2: female
+                    button.hide();
+                    //直接游戏
+                    //if(this.isbtnStart==undefined)
+                    //{
+                    //    UIManage.Instance.UIList["UIStart"].getComponent("UIStart").BtnGameStart();
+                    //    this.isbtnStart = true;
+                    //}
+                    self.Login(getInfo,self);
+                })
+            }
+           
         }
     },
 
@@ -104,6 +122,7 @@ cc.Class({
             success (res) {
                 if (res.code) {
                 getInfo.code = res.code
+                console.log("scene:",self._Sence);
                 //发起网络请求
                 wx.request({
                     url: 'https://xxx.qkxz.com/index.php?act=userinfo',
@@ -112,7 +131,7 @@ cc.Class({
                     nickName:getInfo.nickName,
                     avatarUrl: getInfo.avatarUrl,
                     gender:getInfo.gender,
-                    scene:0,
+                    scene:self._Sence,
                     //uid: self.key
                     uid:0,
                     },
@@ -138,6 +157,39 @@ cc.Class({
         })
     },
 
+    C2G_AppID()
+    {
+        if (!CC_WECHATGAME)
+            return;
+        var self =this; 
+        wx.request({
+            url: 'https://xxx.qkxz.com/index.php?act=gamelist',
+            data:
+            {
+                openid: self.playInfo.openid,
+                version:self._version
+            },
+            success (res) 
+            {
+                var data = res.data.data;
+                /*
+                var appIDInfo = new AppIDInfo();;
+                appIDInfo.id = data.id;
+                appIDInfo.url = data.url;
+                appIDInfo.img = data.img;
+                appIDInfo.title = data.title;
+                appIDInfo.appid = data.appid;
+                self._AppIDInfoList.push(appIDInfo);
+                */
+
+                self._AppIDInfoList = data.gamelist;
+                //数据接收完成
+                UIManage.Instance.OpenStartUI();
+                //ShareAndVideo.Instance.HidePanelMask(1);
+            }
+          })
+    },
+
     C2G_GameStart()
     {
         if (!CC_WECHATGAME)
@@ -148,8 +200,10 @@ cc.Class({
             data:
             {
                 openid: self.playInfo.openid,
+                version:self._version
             },
             success (res) {
+                self.gameID = res.data.data.id;
             }
           })
     },
@@ -167,7 +221,8 @@ cc.Class({
                 openid:self.playInfo.openid,
                 score: Score,
                 id : self.gameID,
-                gold: 0
+                gold: 0,
+                version:self._version
             },
             success (res) {
                 if(action!=null)
@@ -196,8 +251,9 @@ cc.Class({
                 var infodata =  res.data.data;
                 self.playInfo._is_status = infodata.is_status;
                 self.playInfo.count = Number(infodata.count);
-                var n = infodata.money.toFixed(2);
+                var n = Number(infodata.money);
                 self.playInfo.money = n;//总金额
+                self.C2G_AppID();
             }
         });
     },
@@ -213,17 +269,16 @@ cc.Class({
             data:
             {
                 openid:self.playInfo.openid,
+                version:self._version
             },
             success (res) 
             {
                 var infodata =  res.data.data;
                 if(infodata.length!=0)
                 {
-                    var num =  Number(infodata.money);
-                    num.toFixed(2);
-                    self.playInfo.money += num;
+                    self.playInfo.money = Number(infodata.total_money);
                     self.playInfo.count = Number(infodata.count);//红包总金额
-                    self.playInfo.getMoney = infodata.money.toFixed(2);
+                    self.playInfo.getMoney = Number(infodata.money);
                     action();
                 }
                
@@ -356,7 +411,39 @@ cc.Class({
             this.ChilrenView.spriteFrame = new cc.SpriteFrame(this.tex);
             this.ChilrenView.node.active = true;
         }
+    },
+    
+    associatedProgram(AppID,url)
+    {
+        wx.navigateToMiniProgram({
+            appId: AppID,
+            path: url,
+            envVersion: 'release',
+            success(res) {
+                
+            }
+          })
+    }, 
+
+//告诉后台我打开了那个APP
+    CG2_AppReqCount(ID)
+    {
+        if (!CC_WECHATGAME)
+            return;
+        var self = this;
+        wx.request({
+            url:'https://xxx.qkxz.com/index.php?act=game',
+            data:
+            {
+                openid:self.playInfo.openid,
+                version:self._version,
+                id:ID,
+            },
+            success (res) 
+            {
+                
+            }
+        });
     }
-   
 
 });

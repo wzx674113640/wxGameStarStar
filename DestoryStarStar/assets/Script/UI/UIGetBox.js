@@ -57,12 +57,14 @@ cc.Class({
         if(this.ChildrenRankCom.playInfo._is_status == 1)
         {
             this.BtnShare.active = true;
+            this.BtnVideo.active = false;
             this.BtnEnter.active = false;
         }
         else
         {
             this.BtnShare.active = false;
-            this.BtnEnter.active = true;
+            this.BtnEnter.active = false;
+            this.BtnVideo.active = true;
         }
         
     },
@@ -84,7 +86,7 @@ cc.Class({
 
     BtnVideoClick()
     {
-        ShareAndVideo.Instance.ShareAndVideo(()=>
+        ShareAndVideo.Instance.SeeVedioClick(()=>
         {
             this.GetBox();
         });

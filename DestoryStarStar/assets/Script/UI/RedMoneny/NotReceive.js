@@ -22,6 +22,6 @@ cc.Class({
             this.BtnShare.active = false;
          }
      }
-
+     
 
 });

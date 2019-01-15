@@ -340,7 +340,14 @@ var FactoryItem =  cc.Class({
                 
                 if(index == count)
                 {
-                    self.ShowPromptUI();
+                    if(IsSetValue == -1)
+                    {
+                        self.ShowPromptUI(false);
+                    }
+                    else
+                    {
+                        self.ShowPromptUI(true);
+                    }
                     self.GetColorEgg();
                     self.ClearCheckItem2();
                 }
@@ -350,12 +357,12 @@ var FactoryItem =  cc.Class({
        
     },
 
-    ShowPromptUI()
+    ShowPromptUI(isSkill = false)
     {
         var lengths = this._CheckItem.length;
         
-        this.UIMianCom.ShowGetScoreUI(lengths);
-
+        this.UIMianCom.ShowGetScoreUI(lengths,isSkill);
+        
         var value = lengths-5;
 
         if(value >= 4 )
@@ -368,7 +375,7 @@ var FactoryItem =  cc.Class({
             SoundManage.Instance.playPromptSound(value);
         }
     },
-
+    
     //每组结算生产彩蛋
     GetColorEgg()
     {
@@ -383,10 +390,10 @@ var FactoryItem =  cc.Class({
             }
         }
         
-        if(ColorEggState == ""&&this._CheckItem.length >=5)
+        if(ColorEggState == ""&&this._CheckItem.length >=5&& this.ChildrenRankCom.playInfo._is_status == 1)
         {
             var value1 = Math.floor(Math.random()*100);
-            if(value1<50)
+            if(value1<30)
             {
                 UIManage.Instance.ShowGetMoney(); //红包UI
                 ColorEggState = "Money";
@@ -516,7 +523,6 @@ var FactoryItem =  cc.Class({
         }
         if(isdeath != false)
         {
-            cc.log("22222");
             this.OpenAndClosePhysic(false);
             this.IsGameStart = false;
             this.isReset = false;

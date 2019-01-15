@@ -32,7 +32,7 @@ var UIManage = cc.Class({
         UICache:cc.Prefab,
         UIResurt:cc.Prefab,
         UIRedMoney:cc.Prefab,
-
+        UIGiftBag:cc.Prefab,
         SceneState:"",
     },
 
@@ -67,6 +67,11 @@ var UIManage = cc.Class({
         this.SceneState = "Start";
         this.ChildrenRankCom.HideChild();
         this.ChildrenRankCom.ResetChildMaxScore();
+    },
+
+    OpenStartUI()
+    {
+        this.Starting.getComponent("UIStart").ShowSeverInfo();
     },
 
     ShowUIReadCache()
@@ -141,6 +146,12 @@ var UIManage = cc.Class({
     {
         var UINode = this.loderPrefabs(this.UIResurt,this.UIPop);
         UINode.getComponent("UIResurt").Show();
+    },
+
+    ShowGiftBag()
+    {
+        var UINode = this.loderPrefabs(this.UIGiftBag,this.UIPop);
+        UINode.getComponent("UIGiftBag").Show();
     },
 
     ShowNode(prefab)

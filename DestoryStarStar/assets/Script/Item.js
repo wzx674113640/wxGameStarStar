@@ -31,12 +31,7 @@ cc.Class({
     },
 
     start () {
-
        
-        //this.node.on(cc.Node.EventType.TOUCH_START, function(event)
-        //{
-        //   
-        //});
     },
 
     ItemClick()

@@ -11,6 +11,7 @@ cc.Class({
         BtnResurtDiamon:cc.Node,
         BtnResurt:cc.Node,
         LableTime:cc.Label,
+        LableResurtCount:cc.Label,
         _timeOne:1,
         _timeSecond:9,
     },
@@ -26,9 +27,10 @@ cc.Class({
         this.LableTime.string = this._timeSecond;
         this.node.active = true;
         this.ShowReurtDiamon();
-        
-        if(FactoryItem.Instance.UIMianCom._PlayInfo._IsResurtTimes<3)
+        var ResurtCount = FactoryItem.Instance.UIMianCom._PlayInfo._IsResurtTimes;
+        if(ResurtCount>0)
         {
+            this.LableResurtCount.string = "("+ResurtCount+"/3)";
             this.ShowReurt();
         }
         else
@@ -54,7 +56,9 @@ cc.Class({
     {
         this.isPause = true;
         ShareAndVideo.Instance.SeeVedioClick(()=>
-        {
+        {   
+            FactoryItem.Instance.UIMianCom._PlayInfo._IsResurtTimes--;
+            FactoryItem.Instance.Cache();
             this.Resurt();
             this.isPause = false;
         },null,()=>
@@ -65,9 +69,10 @@ cc.Class({
 
     BtnResurtDiamonClick()
     {
-        if(this.GameInitCom.PopsList.Diamond>=10)
+        if(this.GameInitCom.PopsList.Diamond>=30)
         {
-            FactoryItem.Instance.UIMianCom.UserDiamond(-10);
+            FactoryItem.Instance.UIMianCom.UserDiamond(-30);
+            FactoryItem.Instance.Cache();
             this.Resurt();
         }
         else

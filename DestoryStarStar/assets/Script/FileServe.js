@@ -269,5 +269,20 @@ var FileServe =  cc.Class({
             return popsList;
         }
        
+    },
+/*
+    getDiamonCount()
+    {
+        var value = cc.sys.localStorage.getItem("DiamonCount");
+        if(value == "")
+        {
+            cc.sys.localStorage.setItem("DiamonCount",5);
+            return 5;
+        }
+        else
+        {
+            return value;
+        }
     }
+    */
 });

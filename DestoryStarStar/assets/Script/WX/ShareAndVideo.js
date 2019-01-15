@@ -21,6 +21,9 @@ var ShareAndVideo =  cc.Class({
         if (CC_WECHATGAME)
         {
             this.SharaHideShow();
+            this.videoAd = wx.createRewardedVideoAd({
+                adUnitId: 'adunit-649c1f174c1ce79c'
+            });
         }
         
     },
@@ -68,7 +71,7 @@ var ShareAndVideo =  cc.Class({
             var timeDate = new Date();
             this.hideTime = timeDate.getTime();
         })
-
+        
         wx.onShow(()=>
         {
             var timeDate = new Date();
@@ -136,7 +139,6 @@ var ShareAndVideo =  cc.Class({
                 bannerAd.show();
                 });
                 
-            //bannerAd.show().then(() => console.log('banner 广告显示'));
             
             bannerAd.onError(err => {
                 //console.log(err)
@@ -194,23 +196,27 @@ var ShareAndVideo =  cc.Class({
         this.ShowPanelMask();
         if(!CC_WECHATGAME)
             return;
-        this.videoAd = wx.createRewardedVideoAd({
-            adUnitId: 'adunit-649c1f174c1ce79c'
-        });
+        var self = this;
        
         this.videoAd.load().then(() => 
         {
-            this.HidePanelMask(1);
-            this.isStop = true;
-            this.videoAd.show()
+            self.HidePanelMask(1);
         });
+        this.videoAd.show().catch((err)=>
+        {
+            self.videoAd.load().then(()=>self.videoAd.show());
+        })
         this.videoAd.onError(err => {
-            this.HidePanelMask(1);
+            self.HidePanelMask(1);
+            wx.showToast({
+                title: '视频异常',
+                icon: 'success',
+                duration: 800
+            })
         })
         this.videoAd.onClose(res => {
-            this.videoAd.offClose();
-            if (this.isStop&& res && res.isEnded || res === undefined) {
-                this.isStop = false;
+            self.videoAd.offClose();
+            if (res && res.isEnded || res === undefined) {
                 if(str != null)
                 {
                     wx.showToast({
@@ -222,15 +228,17 @@ var ShareAndVideo =  cc.Class({
                 action();
             } 
             else {
-                this.isStop = false;
                 wx.showToast({
                     title: '没有看完视频',
                     icon: 'success',
                     duration: 800
                 })
-                failAction();
+                if(failAction!=null)
+                {
+                    failAction();
+                }
             }
-            this.HidePanelMask(1);
+            self.HidePanelMask(1);
         })
     },
 

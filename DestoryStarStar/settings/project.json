@@ -14,7 +14,6 @@
   "design-resolution-height": 1334,
   "design-resolution-width": 750,
   "excluded-modules": [
-    "Canvas Renderer",
     "TiledMap",
     "Spine Skeleton",
     "DragonBones",
@@ -27,6 +26,7 @@
     "EditBox",
     "VideoPlayer",
     "WebView",
+    "AudioSource",
     "NodePool",
     "StudioComponent",
     "Intersection",
@@ -47,13 +47,12 @@
   "group-list": [
     "default"
   ],
-  "last-module-event-record-time": 1546913537765,
+  "last-module-event-record-time": 1547519851082,
   "simulator-orientation": false,
   "simulator-resolution": {
     "height": 640,
     "width": 960
   },
   "use-customize-simulator": false,
-  "use-project-simulator-setting": false,
-  "start-scene": "current"
+  "use-project-simulator-setting": false
 }

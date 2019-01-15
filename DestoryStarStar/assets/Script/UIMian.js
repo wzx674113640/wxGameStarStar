@@ -52,9 +52,9 @@ cc.Class({
 
         HammerAniNode:cc.Node,
 
-        MoneyLabel:cc.Label
+        MoneyLabel:cc.Label,
         //_TouchState: "", //道具状态 ""：正常 "1"：锤子 "2":...
-        
+        Adver:cc.Node,
     },
 
     onLoad()
@@ -64,12 +64,27 @@ cc.Class({
         this.UpLayout = this.node.getChildByName("UpLayout");
         this.AdpativeUI();
         this._PlayInfo = new PlayInfo();
+
+        if(this.ChildrenRankCom.playInfo._is_status == 1)
+        {
+            if(this.ChildrenRankCom._AppIDInfoList.length > 0)
+            {
+                this.Adver.getComponent("AppItem").setItem(this.ChildrenRankCom._AppIDInfoList[0]);
+            }
+            else
+            {
+                this.Adver.action = false;
+            }
+        }
+        else
+        {
+            this.Adver.action = false;
+        }
     },
     
    
     setMoneyLabel()
     {
-        console.log("isRecive"+this.ChildrenRankCom.playInfo.isRecive);
         if(this.ChildrenRankCom.playInfo.isRecive)
         {
             this.MoneyLabel.string = this.ChildrenRankCom.playInfo.money;
@@ -184,13 +199,19 @@ cc.Class({
         }
     },  
 
-  
-
     onEnable()
     {
         this.ResurtAndInit();
         this.InitUI();
         ShareAndVideo.Instance.ShowOrHideAdervert(true);
+        if(this.ChildrenRankCom.playInfo._is_status == 1)
+        {
+            this.PropsDes.active = true;
+        }
+        else
+        {
+            this.PropsDes.active = false;
+        }
     },
 
     onDisable()
@@ -567,15 +588,23 @@ cc.Class({
         }
     },
 
-    ShowGetScoreUI(count)
+    ShowGetScoreUI(count,isSkill)
     {
         this.GetScoreUI.node.opacity = 0;
         this.ShowGetScoreTime = 2;
         var score = 0;
-        for(var i = 0;i<count;i++)
+        if(isSkill == false)
         {
-            score += (5+10*i);
+            for(var i = 0;i<count;i++)
+            {
+                score += (5+10*i);
+            }
         }
+        else
+        {
+            score = count*10;
+        }
+        
         this.GetScoreUI.string = count+"连消 "+score+"分"
         var c = cc.fadeIn(0.5);
         this.GetScoreUI.node.runAction(c);

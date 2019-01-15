@@ -17,7 +17,7 @@ cc.Class({
 
     start () {
         //游戏开始入口
-        UIManage.Instance.ShowGameStart();
+       
         //cc.director.getPhysicsManager().enabled = true;
         //cc.director.getPhysicsManager().gravity = cc.v2();
     },

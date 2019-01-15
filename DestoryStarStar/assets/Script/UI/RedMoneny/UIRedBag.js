@@ -38,14 +38,14 @@ cc.Class({
             }
             else
             {
-                console.log("还未领取红包!!!");
                 //红包的UI动画
                 this.Mask.active = false;
                 this.ShowUIAni();
                 this.RedUIAni.setScale(1);
+                this.RedUIAni.setPosition(cc.v2(0,0));
                 this.scheduleOnce(function(){
                     var s =  cc.scaleTo(0.5,0.1);
-                    var m = cc.moveTo(0.5,this.TargetPos);
+                    var m = cc.moveTo(0.5,cc.v2(322,430));
                     var c = cc.callFunc(function(){
                         this.RedUIAni.active = false;
                     }.bind(this));
@@ -67,7 +67,6 @@ cc.Class({
 
     ShowNotRecive()
     {
-        
         this.setRecive(false);
         this.node.active = true;
         this.NotReceive.active = true;
@@ -140,19 +139,33 @@ cc.Class({
     
     BtnVideo()
     {
-        ShareAndVideo.Instance.SeeVedioClick(()=>
+        if(this.ChildrenRankCom.playInfo.money == 0)
         {
             this.GetMoneyEvent();
-        });
-       
+        }
+        else
+        {
+            ShareAndVideo.Instance.SeeVedioClick(()=>
+            {
+                this.GetMoneyEvent();
+            });
+        }   
     },
 
     BtnShare()
-    {
-        ShareAndVideo.Instance.AddShareEvent(()=>
+    { 
+        if(this.ChildrenRankCom.playInfo.money == 0)
         {
             this.GetMoneyEvent();
-        })
+        }
+        else
+        {
+            ShareAndVideo.Instance.AddShareEvent(()=>
+            {
+                this.GetMoneyEvent();
+            })
+        }
+       
     },
 
     GetMoneyEvent()
@@ -162,8 +175,6 @@ cc.Class({
         {
             self.setRecive(true);
             var playInfo = self.ChildrenRankCom.playInfo;
-            console.log("playInfo",playInfo);
-
             self.LabelGetMoney.string = playInfo.getMoney;
             self.LabelMoney.string = playInfo.money;
             FactoryItem.Instance.UIMianCom.setMoneyLabel();
