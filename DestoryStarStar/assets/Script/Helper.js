@@ -13,10 +13,11 @@ var Helper  =  cc.Class({
     onLoad()
     {
         Helper.Instance = this;
+        this.urlList = [];
+        this.sFlist = [];
     },
     
     createImage(avatarUrl,ImgHead) {
-        
         let image = window.wx.createImage();
         image.onload = function(){
             let texture = new cc.Texture2D();
@@ -25,37 +26,31 @@ var Helper  =  cc.Class({
             ImgHead.spriteFrame = new cc.SpriteFrame(texture);
         };
         image.src = avatarUrl;
-        
-        /*
-        image.src = avatarUrl;
+    } ,
+
+    createAppImage(url,container) {
         var index = -1;
-        for(var i = 0;i < this.StrList.length;i++)
+        for(var i = 0;i<this.urlList.length;i++)
         {
-            if(this.StrList[i] == avatarUrl)
+            if(url == this.urlList[i])
             {
                 index = i;
-                return;
+                break;
             }
         }
         if(index==-1)
         {
-            let image = window.wx.createImage();
             var self = this;
-            image.onload = function(){
-                let texture = new cc.Texture2D();
-                texture.initWithElement(image);
-                texture.handleLoadedTexture();
-                ImgHead.spriteFrame = new cc.SpriteFrame(texture);
-                self.StrList.push(avatarUrl);
-                self.ImgList.push(ImgHead.spriteFrame);
-            };
-            image.src = avatarUrl;
+            cc.loader.load(url, function (err, texture) {
+                var sprite  = new cc.SpriteFrame(texture);
+                container.spriteFrame = sprite;
+                self.urlList.push(url);
+                self.sFlist.push(sprite);
+            });
         }
         else
         {
-            ImgHead.spriteFrame = this.ImgList[index];
+            container.spriteFrame = this.sFlist[index];
         }
-        */
-    } ,
-
+    }
 });

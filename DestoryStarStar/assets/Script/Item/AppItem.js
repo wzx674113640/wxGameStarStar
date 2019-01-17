@@ -9,9 +9,9 @@ cc.Class({
         Name:cc.Label
     },
 
-
     start () {
-       
+       this.urlList = [];
+       this.sFlist = [];
         //this.Img = this.node.getChildByName('HeadImge').getComponent(cc.Sprite);
         //this.Name = this.node.getChildByName("Name").getComponent(cc.Label);
         this.childrenRankCom = cc.find("wx").getComponent("ChildrenRank");
@@ -20,10 +20,8 @@ cc.Class({
     setItem(appInfo)
     {
         this.node.active = true;
-        this.createImage(appInfo.img,this.Img);
-        //this.Name.string = appInfo.title;
+        Helper.Instance.createAppImage(appInfo.img,this.Img);
         this.Name.string = appInfo.title.length <= 4 ? appInfo.title : appInfo.title.substr(0, 4) ;
-
         var self = this;
         this.Img.node.targetOff(this);
         this.Img.node.on(cc.Node.EventType.TOUCH_START, function(event)
@@ -32,11 +30,5 @@ cc.Class({
             self.childrenRankCom.associatedProgram(appInfo.appid,appInfo.url);
         },this);
     },   
-    createImage(url,container) {
-        
-        cc.loader.load(url, function (err, texture) {
-            var sprite  = new cc.SpriteFrame(texture);
-            container.spriteFrame = sprite;
-        });
-    }
+   
 });

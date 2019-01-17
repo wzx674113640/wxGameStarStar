@@ -119,6 +119,7 @@ var FactoryItem =  cc.Class({
         {
             var index = Math.floor(Math.random()*100);
         }
+        /*
         for(var i = 0;i<itemChildrens.length;i++)
         {
             if(i == index)
@@ -131,6 +132,28 @@ var FactoryItem =  cc.Class({
             var time  = 0.01*(100-i)+0.1;
             var move = cc.moveBy(time,cc.v2(0,-this._StartMoveDis));
             itemChildrens[i].runAction(move);
+        }
+        */
+        var timeindex = 10;
+        var indexbox = -1;
+        for(var key in this.allVerticalList)
+        {
+            var time1 = 0.05 + timeindex*0.05;
+            timeindex--;
+            for(var i = 0;i<this.allVerticalList[key].length;i++)
+            {
+                indexbox++;
+                var time = time1+0.05*(10-i);
+                if(indexbox == index)
+                {
+                    if(!isCashe)
+                    {
+                        this.allVerticalList[key][i].getComponent("Item").ShowBox();
+                    }
+                }
+                var move = cc.moveBy(time,cc.v2(0,-this._StartMoveDis));
+                this.allVerticalList[key][i].runAction(move);
+            }
         }
         //清理Gc
         if(CC_WECHATGAME)
@@ -145,7 +168,7 @@ var FactoryItem =  cc.Class({
             self._CheckItem.length = 0;
             self.OpenAndClosePhysic(true);
             self.ChildrenRankCom.ShowOne();
-        },1.1);
+        },1.5);
         this.isGameOver = false;
     },
 
@@ -156,7 +179,7 @@ var FactoryItem =  cc.Class({
         item.setPosition(cc.v2(pos.x,pos.y + this._StartMoveDis));
         item.setScale(1);
         item.parent = this.ItemParent;
-       
+        
         //var index = Math.floor(Math.random()*5);
         var ItemCom =  item.getComponent("Item");
         ItemCom._ColorType = index;

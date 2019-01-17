@@ -30,7 +30,7 @@ cc.Class({
         if(CC_WECHATGAME)
         {
             var obj = wx.getLaunchOptionsSync();
-            this._Sence = obj.query.key==undefined? null:obj.query.key;
+            this._Sence = obj.query.scene==undefined? null:obj.query.scene;
         }
     },
 

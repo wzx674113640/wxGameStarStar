@@ -28,10 +28,16 @@ cc.Class({
         this._isAlreadyDetection = false;
         this.node.active = false;
         this._isSplice = false;
+        this.isTouch = false;
     },
 
     start () {
-       
+        this.isTouch = false;
+       //this.ItemList = FactoryItem.Instance.ItemParent.children;
+       this.node.on(cc.Node.EventType.TOUCH_START,()=>{
+           this.ItemClick();
+        },this);
+
     },
 
     ItemClick()
@@ -84,8 +90,14 @@ cc.Class({
     {
         FactoryItem.Instance.ChangeProps(item);
     },
-
-
+//得到上下左右
+/*
+    GetLUDR()
+    {
+        var leftIndex = (this._ID%10)-1>=0?this._ID-1:null;
+        this.left
+    },
+*/
     GetRayPos()
     {
         var p1 = this.node.getPosition();

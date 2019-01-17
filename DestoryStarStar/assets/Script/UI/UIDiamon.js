@@ -82,15 +82,15 @@ cc.Class({
             if(UIManage.Instance.SceneState == "Gaming")
             {
                 var FactoryItem = require("FactoryItem");
-                FactoryItem.Instance.UIMianCom.UserDiamond(10); 
+                FactoryItem.Instance.UIMianCom.UserDiamond(30); 
             }
             else if(UIManage.Instance.SceneState =="Start")
             {
-                this.GameInitCom.PopsList.Diamond+=10;
+                this.GameInitCom.PopsList.Diamond+=30;
                 
                 UIManage.Instance.UIList[UIManage.Instance.Starting.name].getComponent("UIStart").SetDiamond();
             }
             this.Close();
-        },"获得钻石X10");
+        },"获得钻石X30");
     }
 });
