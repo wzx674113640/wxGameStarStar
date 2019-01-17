@@ -12,7 +12,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "shotBoom",
+    "_name": "ShootBoom1",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -46,14 +46,14 @@
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": 407,
-      "y": 418,
+      "x": 359,
+      "y": 473,
       "z": 0
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.15,
-      "y": 0.15,
+      "x": 0.5,
+      "y": 0.5,
       "z": 1
     },
     "_rotationX": 0,
@@ -83,50 +83,50 @@
     "_dstBlendFactor": 1,
     "_custom": true,
     "_file": {
-      "__uuid__": "1b44a3df-cb97-4287-ba57-0e50c9d6726d"
+      "__uuid__": "e59ffebd-f0c9-453e-a11a-bee20ccb179f"
     },
     "_spriteFrame": null,
     "_stopped": true,
     "playOnLoad": true,
     "autoRemoveOnFinish": false,
-    "totalParticles": 400,
+    "totalParticles": 1711,
     "duration": 0.05,
-    "emissionRate": 2000,
-    "life": 0.2,
-    "lifeVar": 0.1,
+    "emissionRate": 1500,
+    "life": 0.3,
+    "lifeVar": 0.3,
     "_startColor": {
       "__type__": "cc.Color",
-      "r": 51,
-      "g": 204,
-      "b": 204,
-      "a": 255
+      "r": 239,
+      "g": 239,
+      "b": 216,
+      "a": 191
     },
     "_startColorVar": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
-      "a": 0
+      "r": 216,
+      "g": 102,
+      "b": 127,
+      "a": 127
     },
     "_endColor": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 216,
+      "g": 51,
+      "b": 102,
       "a": 255
     },
     "_endColorVar": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
-      "a": 0
+      "r": 76,
+      "g": 191,
+      "b": 51,
+      "a": 163
     },
-    "angle": 76,
+    "angle": 89,
     "angleVar": 180,
-    "startSize": 163,
-    "startSizeVar": 10,
-    "endSize": -1,
+    "startSize": 16,
+    "startSizeVar": 19,
+    "endSize": 8,
     "endSizeVar": 0,
     "startSpin": 0,
     "startSpinVar": 0,
@@ -146,12 +146,12 @@
     "emitterMode": 0,
     "gravity": {
       "__type__": "cc.Vec2",
-      "x": -20,
-      "y": 420
+      "x": 0,
+      "y": 50
     },
-    "speed": 732,
-    "speedVar": 20,
-    "tangentialAccel": -700,
+    "speed": 399,
+    "speedVar": 0,
+    "tangentialAccel": 0,
     "tangentialAccelVar": 0,
     "radialAccel": 0,
     "radialAccelVar": 0,
@@ -171,9 +171,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "ca8cd6c4-c86a-43c2-b830-9c66482a11f0"
+      "__id__": 0
     },
-    "fileId": "43cfYbQl1NS4w9gqeSLwk9",
+    "fileId": "e6UWBRYJZHF4tGdGVbLP1X",
     "sync": false
   }
 ]

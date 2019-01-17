@@ -149,15 +149,15 @@ var FactoryItem =  cc.Class({
         this.isGameOver = false;
     },
 
-    CreatItem(pos,num)
+    CreatItem(pos,num,index)
     {   
         var item = this.ItemParent.children.length==100? this.ItemParent.children[num]:cc.instantiate(this.ItemPrefabs);
         item.active = true;
         item.setPosition(cc.v2(pos.x,pos.y + this._StartMoveDis));
         item.setScale(1);
         item.parent = this.ItemParent;
-        //item._ID = num+1;
-        var index = Math.floor(Math.random()*5);
+       
+        //var index = Math.floor(Math.random()*5);
         var ItemCom =  item.getComponent("Item");
         ItemCom._ColorType = index;
         ItemCom._ID = num+1;
@@ -390,16 +390,18 @@ var FactoryItem =  cc.Class({
             }
         }
         
-        if(ColorEggState == ""&&this._CheckItem.length >=5&& this.ChildrenRankCom.playInfo._is_status == 1)
+        if(CC_WECHATGAME)
         {
-            var value1 = Math.floor(Math.random()*100);
-            if(value1<30)
+            if(ColorEggState == ""&&this._CheckItem.length >=5&& this.ChildrenRankCom.playInfo._is_status == 1)
             {
-                UIManage.Instance.ShowGetMoney(); //红包UI
-                ColorEggState = "Money";
+                var value1 = Math.floor(Math.random()*100);
+                if(value1<30)
+                {
+                    UIManage.Instance.ShowGetMoney(); //红包UI
+                    ColorEggState = "Money";
+                }
             }
         }
-        
 
         if(ColorEggState == ""&& this.UIMianCom._PlayInfo._IsShowSkill == false)
         {

@@ -25,10 +25,13 @@
     "_components": [
       {
         "__id__": 318
+      },
+      {
+        "__id__": 319
       }
     ],
     "_prefab": {
-      "__id__": 319
+      "__id__": 320
     },
     "_opacity": 255,
     "_color": {
@@ -3812,14 +3815,14 @@
       "y": 1,
       "z": 1
     },
-    "_rotationX": 0,
-    "_rotationY": 0,
+    "_rotationX": 16.34304000001576,
+    "_rotationY": 16.34304000001576,
     "_quat": {
       "__type__": "cc.Quat",
       "x": 0,
       "y": 0,
-      "z": 0,
-      "w": 1
+      "z": -0.14213692826123986,
+      "w": 0.9898470051601203
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -4820,7 +4823,7 @@
         "__id__": 145
       }
     ],
-    "_active": true,
+    "_active": false,
     "_level": 0,
     "_components": [
       {
@@ -5373,9 +5376,7 @@
     "_enabled": true,
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "7a0dbd14-a521-461e-ab38-7a2c88f71a34"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -5416,11 +5417,11 @@
     },
     "_enabled": true,
     "_defaultClip": {
-      "__uuid__": "20133716-8a6a-4014-9770-9c701bf7560c"
+      "__uuid__": "75357458-2555-4b84-b8e0-a0ec9f5be9af"
     },
     "_clips": [
       {
-        "__uuid__": "20133716-8a6a-4014-9770-9c701bf7560c"
+        "__uuid__": "75357458-2555-4b84-b8e0-a0ec9f5be9af"
       }
     ],
     "playOnLoad": true,
@@ -11139,6 +11140,19 @@
     "_IsTouch": true,
     "_StartMoveDis": 100,
     "_TouchState": "",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_defaultClip": null,
+    "_clips": [],
+    "playOnLoad": false,
     "_id": ""
   },
   {

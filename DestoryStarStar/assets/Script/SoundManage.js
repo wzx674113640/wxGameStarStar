@@ -32,8 +32,17 @@ var  SoundManage = cc.Class({
 
     playMusic()
     {
-        cc.audioEngine.playMusic(this.AduioClipList[6], true);
-        cc.audioEngine.setMusicVolume(0.5);
+        //cc.audioEngine.playMusic(this.AduioClipList[6], true);
+        //cc.audioEngine.setMusicVolume(0.5);
+        //this.LoadSever();
+    },
+    
+    LoadSever()
+    {
+        let urlString = "https://xxx.qkxz.com/static/login.mp3";
+        cc.loader.load(urlString,cc.AudioClip,function (err, tex) {
+            cc.audioEngine.playMusic(tex);
+        });
     },
 
     onLoad()

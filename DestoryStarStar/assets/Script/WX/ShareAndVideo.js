@@ -29,30 +29,41 @@ var ShareAndVideo =  cc.Class({
     },
     AddShareEvent(action)
     {
-        var value = Math.floor(Math.random()*4);
+        var value = Math.floor(Math.random()*6);
         if(value==0)
         {
             var ShareString = "小学生又出“神造句”,语文老师笑了,家长被气哭!";
-            //var ShareImg = "src/share0.jpg";
             var ShareImg = "https://graph.baidu.com/resource/112d08be6b1a7de0d774601546858513.jpg";
         }
         else if(value == 1)
         {
             var ShareString = "据说这个游戏能玩到1个亿，你能达到这个小目标吗";
-            //var ShareImg = "src/share1.jpg"
             var ShareImg = "https://graph.baidu.com/resource/1bc836d39b531256d31dc01546858489.jpg";
         }
         else if(value == 2)
         {
             var ShareString = "2018春节请假攻略,最长可休16天！";
-            //var ShareImg = "src/share2.jpg"
             var ShareImg = "https://graph.baidu.com/resource/15572e698f3e043f7f9be01546858430.jpg";
         }
         else if(value == 3)
         {
             var ShareString = "2018年平均工资出炉,这次您又被平均了吗?";
-            //var ShareImg = "src/share3.jpg"
             var ShareImg = "https://graph.baidu.com/resource/10e22ce69808d71d0525201546858474.jpg";
+        }
+        else if(value == 4)
+        {
+            var ShareString = "买充气娃娃漏气报警 警方回应:110救不了你女朋友";
+            var ShareImg = "https://graph.baidu.com/resource/148e46647ba650088f5e101547187219.jpg";
+        }
+        else if(value == 5)
+        {
+            var ShareString = "科学测试看到熊猫的视力都5.0";
+            var ShareImg = "https://graph.baidu.com/resource/1b4c6abe412ddff71f98401547187530.jpg";
+        }
+        else if(value == 6)
+        {
+            var ShareString = "女生必看!最新化妆品抽检结果出炉，这80批次都不合格。";
+            var ShareImg = "https://graph.baidu.com/resource/102d38f22f45ec3ac7dff01547633570.jpg";
         }
         wx.shareAppMessage({
             title: ShareString,

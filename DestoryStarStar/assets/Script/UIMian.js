@@ -65,26 +65,13 @@ cc.Class({
         this.AdpativeUI();
         this._PlayInfo = new PlayInfo();
 
-        if(this.ChildrenRankCom.playInfo._is_status == 1)
-        {
-            if(this.ChildrenRankCom._AppIDInfoList.length > 0)
-            {
-                this.Adver.getComponent("AppItem").setItem(this.ChildrenRankCom._AppIDInfoList[0]);
-            }
-            else
-            {
-                this.Adver.action = false;
-            }
-        }
-        else
-        {
-            this.Adver.action = false;
-        }
     },
     
    
     setMoneyLabel()
     {
+        if(!CC_WECHATGAME)
+            return;
         if(this.ChildrenRankCom.playInfo.isRecive)
         {
             this.MoneyLabel.string = this.ChildrenRankCom.playInfo.money;
@@ -204,13 +191,27 @@ cc.Class({
         this.ResurtAndInit();
         this.InitUI();
         ShareAndVideo.Instance.ShowOrHideAdervert(true);
+        if(!CC_WECHATGAME)
+        {
+            return;
+        }
         if(this.ChildrenRankCom.playInfo._is_status == 1)
         {
             this.PropsDes.active = true;
+            var value = this.ChildrenRankCom._AppIDInfoList.length;
+            if(value > 0)
+            {
+                this.Adver.getComponent("AppItem").setItem(this.ChildrenRankCom._AppIDInfoList[value-1]);
+            }
+            else
+            {
+                this.Adver.active = false;
+            }
         }
         else
         {
             this.PropsDes.active = false;
+            this.Adver.active = false;
         }
     },
 

@@ -11,6 +11,8 @@ cc.Class({
     properties: {
         ChilrenView:cc.Sprite,
         WXSUB:cc.WXSubContextView,
+        loadUI:cc.Node,
+        Mask:cc.Node,
         _updateFrae:0.1,
         _updateFrameCool:0.1,
         _version:103,//版本号
@@ -28,7 +30,7 @@ cc.Class({
         if(CC_WECHATGAME)
         {
             var obj = wx.getLaunchOptionsSync();
-            this._Sence =  obj.scene;
+            this._Sence = obj.query.key==undefined? null:obj.query.key;
         }
     },
 
@@ -43,6 +45,7 @@ cc.Class({
         this.tex = new cc.Texture2D();
         window.sharedCanvas.width = 750;
         window.sharedCanvas.height = 1334;
+        this.playInfo = new UserInfo();
         this.C2G_GetUserInfo();
     },
 
@@ -59,7 +62,6 @@ cc.Class({
     //获取后台信息
     C2G_GetUserInfo()
     {
-        this.playInfo = new UserInfo();
         if (!CC_WECHATGAME)
             return;
         if(cc.sys.localStorage.getItem("nickName")!= "")
@@ -112,17 +114,16 @@ cc.Class({
                     self.Login(getInfo,self);
                 })
             }
-           
         }
     },
 
     Login(getInfo,self)
     {
+        //this.ShowMask();
         wx.login({
             success (res) {
                 if (res.code) {
                 getInfo.code = res.code
-                console.log("scene:",self._Sence);
                 //发起网络请求
                 wx.request({
                     url: 'https://xxx.qkxz.com/index.php?act=userinfo',
@@ -172,19 +173,15 @@ cc.Class({
             success (res) 
             {
                 var data = res.data.data;
-                /*
-                var appIDInfo = new AppIDInfo();;
-                appIDInfo.id = data.id;
-                appIDInfo.url = data.url;
-                appIDInfo.img = data.img;
-                appIDInfo.title = data.title;
-                appIDInfo.appid = data.appid;
-                self._AppIDInfoList.push(appIDInfo);
-                */
-
+               
                 self._AppIDInfoList = data.gamelist;
                 //数据接收完成
-                UIManage.Instance.OpenStartUI();
+                if(self.isLoadStart == undefined)
+                {   
+                    self.isLoadStart = true;
+                    UIManage.Instance.OpenStartUI();
+                }
+               
                 //ShareAndVideo.Instance.HidePanelMask(1);
             }
           })
@@ -253,6 +250,7 @@ cc.Class({
                 self.playInfo.count = Number(infodata.count);
                 var n = Number(infodata.money);
                 self.playInfo.money = n;//总金额
+                //self.HideMask();
                 self.C2G_AppID();
             }
         });
@@ -444,6 +442,20 @@ cc.Class({
                 
             }
         });
-    }
+    },
 
+    ShowMask()
+    {
+        this.Mask.active = true;
+        this.loadUI.active = true;
+        var m = cc.rotateBy(0.5, 180);
+        var re = cc.repeatForever(m)
+        this.loadUI.runAction(re);
+    },
+
+    HideMask()
+    {
+        this.Mask.active = false;
+        this.loadUI.active = false;
+    }
 });

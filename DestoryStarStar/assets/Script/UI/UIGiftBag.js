@@ -24,13 +24,13 @@ cc.Class({
 
     BtnStartGame()
     {
+        this.Close();
         this.GameInitCom.realGamestart();
         this.childrenRankCom.C2G_GameStart();
         UIManage.Instance.UIList["UIStart"].getComponent("UIStart")._C2GAction = ()=>
         {
             this.childrenRankCom.C2G_GetUserInfo();
         }
-        this.Close();
         cc.sys.localStorage.setItem("IsFirst",1);
     }
 });

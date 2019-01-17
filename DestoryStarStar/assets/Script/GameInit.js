@@ -92,13 +92,21 @@ cc.Class({
         {
             var ItemlayoutChildren = this.ItemLayout.children;
             FactoryItem.Instance.allVerticalList = new Array();
+            if(FactoryItem.Instance.UIMianCom._PlayInfo._Level<=5)
+            {
+                var WeightIndex = Math.floor(Math.random()*4);
+            }
+            else
+            {
+                var WeightIndex = -1
+            }
+
             for(var i = 0;i<ItemlayoutChildren.length;i++)
             {
                 var worldPos = ItemlayoutChildren[i].convertToWorldSpaceAR(cc.v2(0,0));
-                //var worldPos =  ItemlayoutChildren[i].getPosition();
-                var Item =  FactoryItem.Instance.CreatItem(worldPos,i);
+                var index = this.LevelDiffcultValue(WeightIndex);
+                var Item =  FactoryItem.Instance.CreatItem(worldPos,i,index);
                 var ItemCom = Item.getComponent("Item");
-                //ItemCom._ID = i+1;
                 ItemCom._isDestory = false;
                 ItemCom._Leftstep = 0;
                 ItemCom._isAlreadyDetection = false;
@@ -112,6 +120,45 @@ cc.Class({
         
     },
     
+    LevelDiffcultValue(WeightIndex)
+    {
+        var DiffWeight = 0.1;
+        var level = FactoryItem.Instance.UIMianCom._PlayInfo._Level;
+        if(level<=10)
+        {
+            DiffWeight = 0.2;
+        }
+        else if(level>10&&level<=20)
+        {
+            DiffWeight = 0.15
+        }
+        else
+        {
+            DiffWeight = 0.1;
+        }
+        if(WeightIndex == -1)
+        {
+            var index =  Math.floor(Math.random()*5);
+        }
+        else
+        {
+            var randomValue = Math.random()*1;
+            if(randomValue<DiffWeight)
+            {
+                var index = WeightIndex;
+            }
+            else if(randomValue>=DiffWeight&&randomValue<2*DiffWeight)
+            {
+                var index= WeightIndex + 1;
+            }
+            else 
+            {
+                var index = Math.floor(Math.random()*5);
+            }
+        }
+        return index;
+    },
+
     CacheInit(cache)
     {
         //FactoryItem.Instance.unscheduleAllCallbacks();

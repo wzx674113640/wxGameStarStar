@@ -14,6 +14,9 @@
   "design-resolution-height": 1334,
   "design-resolution-width": 750,
   "excluded-modules": [
+    "Canvas Renderer",
+    "Renderer Texture",
+    "Dynamic Atlas",
     "TiledMap",
     "Spine Skeleton",
     "DragonBones",
@@ -54,5 +57,6 @@
     "width": 960
   },
   "use-customize-simulator": false,
-  "use-project-simulator-setting": false
+  "use-project-simulator-setting": false,
+  "start-scene": "current"
 }

@@ -29,8 +29,16 @@ cc.Class({
         this.SetDiamond();
         if(this._C2GAction != null)
         {
-            this._C2GAction();
+            this._C2GAction();//新手礼包后返回首页授权
             this._C2GAction = null;
+        }
+        if(this.isEnbela == undefined)
+        {
+            this.isEnbela = true;
+        }
+        else if(this.isEnbela == true)
+        {
+            this.ShowSeverInfo();
         }
     },
 
@@ -60,40 +68,57 @@ cc.Class({
         //设置底部
         if(this.childrenRankCom.playInfo._is_status == 1)
         {
+            
+            this.SetAppItem();
             var AppIDInfoList = this.childrenRankCom._AppIDInfoList;
             var Applength = AppIDInfoList.length;
+            
+            //var _AppNodeList = this.AppNodeList.children;
+            //var _LeftAppNodeList = this.LeftAppNodeList.children;
+            
             for(var i = 0;i < this.AppNodeList.children.length;i++)
             {
                 if(Applength > i)
                 {
                     this.AppNodeList.children[i].getComponent("AppItem").setItem(AppIDInfoList[i]);
                 }
+                else
+                {
+                    this.AppNodeList.children[i].active = false;
+                }
             }
+            
             for(var i = 0;i < this.LeftAppNodeList.children.length;i++)
             {
                 if(Applength > i)
                 {
                     this.LeftAppNodeList.children[i].getComponent("AppItem").setItem(AppIDInfoList[i]);
                 }
+                else
+                {
+                    this.LeftAppNodeList.children[i].active = false;
+                }
             }
+            
         }
         else
         {
             this.AppNodeList.active = false;
             this.BtnAppList.active = false;
         }
-        /*
-        var AppIDInfoList = this.childrenRankCom._AppIDInfoList[0];
-        for(var i = 0;i < this.AppNodeList.children.length;i++)
-        {
-            this.AppNodeList.children[0].getChildByName("HeadImg").getComponent(cc.Sprite).spriteFrame = AppIDInfoList.img;
-        }
-        this.AppNodeList[0].on(cc.Node.EventType.TOUCH_START, function(event)
-        {
-            var appinfo = AppIDInfoList;
-            this.childrenRankCom.associatedProgram(appinfo.appid);
-        }
-        */
+        
+    },
+
+    randomsort(a, b) {
+        return Math.random()>.5 ? -1 : 1;
+        //用Math.random()函数生成0~1之间的随机数与0.5比较，返回-1或1
+    },
+
+    SetAppItem()
+    {
+        var AppIDInfoList = this.childrenRankCom._AppIDInfoList;
+        
+        AppIDInfoList.sort(this.randomsort);
     },
 
     SetScore()

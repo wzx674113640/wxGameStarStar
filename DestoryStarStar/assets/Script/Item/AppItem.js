@@ -20,16 +20,23 @@ cc.Class({
     setItem(appInfo)
     {
         this.node.active = true;
-        Helper.Instance.createImage(appInfo.img,this.Img);
+        this.createImage(appInfo.img,this.Img);
         //this.Name.string = appInfo.title;
-        this.Name.string = appInfo.title.length <= 4 ? appInfo.title : appInfo.title.substr(0, 4) + "...";
+        this.Name.string = appInfo.title.length <= 4 ? appInfo.title : appInfo.title.substr(0, 4) ;
 
         var self = this;
-        this.Img.node.targetOff(this.Img.node);
+        this.Img.node.targetOff(this);
         this.Img.node.on(cc.Node.EventType.TOUCH_START, function(event)
         {
             self.childrenRankCom.CG2_AppReqCount(appInfo.id);
             self.childrenRankCom.associatedProgram(appInfo.appid,appInfo.url);
-        });
+        },this);
     },   
+    createImage(url,container) {
+        
+        cc.loader.load(url, function (err, texture) {
+            var sprite  = new cc.SpriteFrame(texture);
+            container.spriteFrame = sprite;
+        });
+    }
 });
