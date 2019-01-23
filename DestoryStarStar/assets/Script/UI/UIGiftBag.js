@@ -31,6 +31,6 @@ cc.Class({
         {
             this.childrenRankCom.C2G_GetUserInfo();
         }
-        cc.sys.localStorage.setItem("IsFirst",1);
+        cc.sys.localStorage.setItem("IsFirst","1");
     }
 });

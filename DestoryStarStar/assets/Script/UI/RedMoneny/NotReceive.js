@@ -1,4 +1,5 @@
 var ShareAndVideo = require("ShareAndVideo");
+var FileServe = require("FileServe");
 
 cc.Class({
     extends: cc.Component,
@@ -10,17 +11,26 @@ cc.Class({
 
      onEnable()
      {
-         var value = Math.floor(Math.random()*2);
-         if(value == 0 )
+         if(FileServe.Instance.GetAllVideoCount()<=0)
          {
             this.BtnVideo.active = false;
             this.BtnShare.active = true;
          }
          else
          {
-            this.BtnVideo.active = true;
-            this.BtnShare.active = false;
+            var value = Math.floor(Math.random()*10);
+            if(value <=3)
+            {
+                this.BtnVideo.active = false;
+                this.BtnShare.active = true;
+            }
+            else
+            {
+                this.BtnVideo.active = true;
+                this.BtnShare.active = false;
+            }
          }
+         
      }
      
 

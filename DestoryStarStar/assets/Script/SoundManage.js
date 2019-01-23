@@ -32,8 +32,8 @@ var  SoundManage = cc.Class({
 
     playMusic()
     {
-        //cc.audioEngine.playMusic(this.AduioClipList[6], true);
-        //cc.audioEngine.setMusicVolume(0.5);
+        cc.audioEngine.playMusic(this.AduioClipList[6], true);
+        cc.audioEngine.setMusicVolume(0.5);
         //this.LoadSever();
     },
     

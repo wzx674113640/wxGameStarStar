@@ -3772,7 +3772,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 509,
+      "y": -16,
       "z": 0
     },
     "_scale": {
@@ -3839,13 +3839,13 @@
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5035609959660593,
+      "x": 0.5,
       "y": 0.5
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -315,
-      "y": -39,
+      "x": -0.3917095562665054,
+      "y": 0,
       "z": 0
     },
     "_scale": {
@@ -3917,7 +3917,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -8,
+      "y": 0,
       "z": 0
     },
     "_scale": {
@@ -3969,8 +3969,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
-      "height": 80
+      "width": 400,
+      "height": 400
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4071,8 +4071,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 44.49,
-      "height": 20
+      "width": 222.46,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4082,7 +4082,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -54.6,
+      "y": -378,
       "z": 0
     },
     "_scale": {
@@ -4114,13 +4114,13 @@
       "__id__": 112
     },
     "_enabled": true,
-    "_srcBlendFactor": 770,
+    "_srcBlendFactor": 1,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
     "_string": "1000",
     "_N$string": "1000",
-    "_fontSize": 20,
-    "_lineHeight": 20,
+    "_fontSize": 100,
+    "_lineHeight": 100,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -4170,8 +4170,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 80,
-      "height": 20
+      "width": 400,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4181,7 +4181,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 78,
+      "y": 310,
       "z": 0
     },
     "_scale": {
@@ -4213,13 +4213,13 @@
       "__id__": 115
     },
     "_enabled": true,
-    "_srcBlendFactor": 770,
+    "_srcBlendFactor": 1,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
     "_string": "即将超越",
     "_N$string": "即将超越",
-    "_fontSize": 20,
-    "_lineHeight": 20,
+    "_fontSize": 100,
+    "_lineHeight": 100,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -4269,8 +4269,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 40,
-      "height": 20
+      "width": 200,
+      "height": 100
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4280,7 +4280,7 @@
     "_position": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -30.5,
+      "y": -251,
       "z": 0
     },
     "_scale": {
@@ -4312,13 +4312,13 @@
       "__id__": 118
     },
     "_enabled": true,
-    "_srcBlendFactor": 770,
+    "_srcBlendFactor": 1,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
     "_string": "昵称",
     "_N$string": "昵称",
-    "_fontSize": 20,
-    "_lineHeight": 20,
+    "_fontSize": 100,
+    "_lineHeight": 100,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -4557,15 +4557,13 @@
       "__id__": 107
     },
     "_enabled": true,
-    "alignMode": 1,
-    "_wasAlignOnce": {},
-    "isAlignOnce": {},
+    "alignMode": 0,
     "_target": null,
     "_alignFlags": 45,
-    "_left": 4.608290443733495,
-    "_right": 635.3917095562665,
-    "_top": 111.5,
-    "_bottom": 33.5,
+    "_left": 319.6082904437335,
+    "_right": 320.3917095562665,
+    "_top": 72.5,
+    "_bottom": 72.5,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -4630,8 +4628,8 @@
     "_alignFlags": 45,
     "_left": 0,
     "_right": 0,
-    "_top": 0.5,
-    "_bottom": 1018.5,
+    "_top": 525.5,
+    "_bottom": 493.5,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,

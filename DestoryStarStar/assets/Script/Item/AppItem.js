@@ -30,5 +30,5 @@ cc.Class({
             self.childrenRankCom.associatedProgram(appInfo.appid,appInfo.url);
         },this);
     },   
-   
+    
 });

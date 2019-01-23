@@ -112,12 +112,10 @@ var FileServe =  cc.Class({
         {
             var cacheList = []; 
             cacheList.push(playList);
-            //cacheList[0] = playList;
             var playvalue = JSON.stringify(cacheList);
             cc.sys.localStorage.setItem("PlayInfoList",playvalue);
             var cacheItemList = [];
             cacheItemList.push(ItemCachePosList);
-            //cacheItemList[0] = ItemCachePosList;
             var ItemPosvalue = JSON.stringify(cacheItemList);
             
             cc.sys.localStorage.setItem("ItemCachePosList",ItemPosvalue);
@@ -270,6 +268,104 @@ var FileServe =  cc.Class({
         }
        
     },
+
+    //是否过了一天
+    IsPassDay()
+    {
+        var ItemDay = cc.sys.localStorage.getItem("Day");
+        var ItemMonth = cc.sys.localStorage.getItem("Month");
+        //var ItemMinute = cc.sys.localStorage.getItem("Minute");
+        var data = new Date();
+        var day = data.getUTCDate();
+        var month = data.getUTCMonth();
+        //var minute = data.getMinutes();
+        if(ItemDay === ""||ItemDay === null)
+        {
+            this.ReSetCount();
+            cc.sys.localStorage.setItem("Day",day);
+            cc.sys.localStorage.setItem("Month",month);
+            return false ;//不需要重置道具
+        }
+        else
+        {
+         
+            if(month-ItemMonth>0)
+            {
+                this.ReSetCount();
+                cc.sys.localStorage.setItem("Day",day);
+                cc.sys.localStorage.setItem("Month",month);
+                return true ;//重置道具
+            }
+            else
+            {
+                if(day - ItemDay>0)
+                {
+                    this.ReSetCount();
+                    cc.sys.localStorage.setItem("Day",day);
+                    cc.sys.localStorage.setItem("Month",month);
+                    return true; 
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+    },
+
+//更新每天的次数
+    ReSetCount()
+    {
+        cc.sys.localStorage.setItem("DimondCount",5);
+        cc.sys.localStorage.setItem("VideoCount",10);
+    },
+
+
+//限制看得砖石的次数
+    GetDimondVideoCount()
+    {
+        var ItemDimondCount = cc.sys.localStorage.getItem("DimondCount");
+        if(ItemDimondCount === ""||ItemDimondCount === null)
+        {
+            cc.sys.localStorage.setItem("DimondCount",5);
+            ItemDimondCount = 5;
+            return ItemDimondCount;
+        }
+        else
+        {
+            if(ItemDimondCount <= 0)
+            {
+                return -1;
+            }
+            else
+            {
+                return ItemDimondCount;
+            }
+        }
+    },
+//限制今天看视频的次数
+    GetAllVideoCount()
+    {
+        var Vcount = 10;
+        var ItemVideoCount = cc.sys.localStorage.getItem("VideoCount");
+        if(ItemVideoCount === ""|| ItemVideoCount === null)
+        {
+            cc.sys.localStorage.setItem("VideoCount",Vcount);
+            return Vcount;
+        }
+        else
+        {
+            if(ItemVideoCount <= 0)
+            {
+                return -1;
+            }
+            else
+            {
+                return ItemVideoCount;
+            }
+        }
+    }
+
 /*
     getDiamonCount()
     {

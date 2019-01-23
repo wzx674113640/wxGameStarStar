@@ -70,7 +70,6 @@ var FlyUI =  cc.Class({
     
     PropsUIFly(index)
     {
-        
         var PropsFly = this._FlyPropsUIList.length > 0.?this._FlyPropsUIList.pop():cc.instantiate(this.FlyPropsUIPrefabs);
 
         PropsFly.setPosition(cc.find("Canvas").getPosition());
@@ -79,16 +78,15 @@ var FlyUI =  cc.Class({
 
         PropsFly.parent = this.node,
         
-
         PropsFly.getComponent(cc.Sprite).spriteFrame = this.PropsUISpriteFrame[index];
 
         if(index == 0)
         {
-            PropsFly.getChildByName("Count").string = "x5";
+            PropsFly.getChildByName("Count").getComponent(cc.Label).string = "x5";
         }
         else
         {
-            PropsFly.getChildByName("Count").string = "x1";
+            PropsFly.getChildByName("Count").getComponent(cc.Label).string = "x1";
         }
 
         PropsFly.active = true;

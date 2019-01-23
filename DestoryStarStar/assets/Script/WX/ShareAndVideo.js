@@ -1,5 +1,5 @@
 
-
+var FileServe = require("FileServe");
 var ShareAndVideo =  cc.Class({
     extends: cc.Component,
 
@@ -24,10 +24,29 @@ var ShareAndVideo =  cc.Class({
             this.videoAd = wx.createRewardedVideoAd({
                 adUnitId: 'adunit-649c1f174c1ce79c'
             });
+
+            var strlist = this.GetPic();
+            var ShareString = strlist[0];
+            var ShareImg = strlist[1];
+            wx.onShareAppMessage(()=>{
+                return {
+                    title: ShareString,
+                    imageUrl: ShareImg,
+                    success(res){
+                    },
+                    fail(res){
+                  }
+                } 
+            });
+            wx.showShareMenu({
+                withShareTicket: true
+            });
         }
-        
+
+       
     },
-    AddShareEvent(action)
+
+    GetPic()
     {
         var value = Math.floor(Math.random()*6);
         if(value==0)
@@ -65,6 +84,17 @@ var ShareAndVideo =  cc.Class({
             var ShareString = "女生必看!最新化妆品抽检结果出炉，这80批次都不合格。";
             var ShareImg = "https://graph.baidu.com/resource/102d38f22f45ec3ac7dff01547633570.jpg";
         }
+        var strs = [];
+        strs.push(ShareString);
+        strs.push(ShareImg);
+        return strs;
+    },
+
+    AddShareEvent(action)
+    {
+        var strlist = this.GetPic();
+        var ShareString = strlist[0];
+        var  ShareImg = strlist[1];
         wx.shareAppMessage({
             title: ShareString,
             imageUrl: ShareImg,
@@ -184,20 +214,30 @@ var ShareAndVideo =  cc.Class({
 
     ShareAndVideo(action)
     {
-        var value = Math.floor(Math.random()*2);
-        if(value == 0)
-        {
-            ShareAndVideo.Instance.SeeVedioClick(()=>
+        if(FileServe.Instance.GetAllVideoCount()<=0)
+        {   
+            ShareAndVideo.Instance.AddShareEvent(()=>
             {
                 action();
             });
         }
         else
         {
-            ShareAndVideo.Instance.AddShareEvent(()=>
+            var value = Math.floor(Math.random()*2);
+            if(value == 0)
             {
-                action();
-            });
+                ShareAndVideo.Instance.SeeVedioClick(()=>
+                {
+                    action();
+                });
+            }
+            else
+            {
+                ShareAndVideo.Instance.AddShareEvent(()=>
+                {
+                    action();
+                });
+            }
         }
     },
 
@@ -237,6 +277,10 @@ var ShareAndVideo =  cc.Class({
                     })
                 }
                 action();
+                //视频次数减一
+                var value = cc.sys.localStorage.getItem("VideoCount");
+                value--;
+                cc.sys.localStorage.setItem("VideoCount",value);
             } 
             else {
                 wx.showToast({

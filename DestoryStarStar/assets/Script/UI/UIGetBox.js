@@ -4,6 +4,7 @@ var ShareAndVideo = require("ShareAndVideo");
 
 var FlyUI = require("FlyUI");
 
+var FileServe = require("FileServe");
 cc.Class({
     extends: require("BasePopUI"),
 
@@ -35,17 +36,6 @@ cc.Class({
 
     Show()
     {
-        var value = Math.floor(Math.random()*2);
-        if(value == 0)
-        {
-            this.BtnShare.active = false;
-            this.BtnVideo.active = true;
-        }
-        else
-        {
-            this.BtnShare.active = true;
-            this.BtnVideo.active = false;
-        }
         this.node.active = true;
         this.Mask.active = true;
         this.ImgProps.active = false;
@@ -56,9 +46,28 @@ cc.Class({
             return;
         if(this.ChildrenRankCom.playInfo._is_status == 1)
         {
-            this.BtnShare.active = true;
-            this.BtnVideo.active = false;
-            this.BtnEnter.active = false;
+            if(FileServe.Instance.GetAllVideoCount()<=0)
+            {
+                this.BtnShare.active = true;
+                this.BtnEnter.active = false;
+                this.BtnVideo.active = false;
+            }
+            else
+            {
+                var value = Math.floor(Math.random()*2);
+                if(value == 0)
+                {
+                    this.BtnShare.active = false;
+                    this.BtnEnter.active = false;
+                    this.BtnVideo.active = true;
+                }
+                else
+                {
+                    this.BtnShare.active = true;
+                    this.BtnEnter.active = false;
+                    this.BtnVideo.active = false;
+                }
+            }
         }
         else
         {

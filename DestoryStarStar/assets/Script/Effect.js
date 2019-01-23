@@ -26,7 +26,13 @@ var Effect =  cc.Class({
     onLoad()
     {
         Effect.Instance = this;
-        this.ColorStr = ["紫色@2x.png","红色@2x.png","绿色@2x.png","蓝色@2x.png","黄色@2x.png"];
+        
+        for(var i = 0;i<10;i++)
+        {
+            var starEffectNode = cc.instantiate(this.StarEffectPrefabs);
+            starEffectNode.parent = this.node;
+            this._StarEffectList.push(starEffectNode);
+        }
     },
 
     start () {
@@ -37,8 +43,6 @@ var Effect =  cc.Class({
     {
         var starEffectNode = this._StarEffectList.length == 0? cc.instantiate(this.StarEffectPrefabs):this._StarEffectList.pop();
 
-        //var starEffectNode = cc.instantiate(this.StarEffectPrefabs);
-
         starEffectNode.setPosition(pos);
 
         starEffectNode.parent = this.node;
@@ -47,10 +51,6 @@ var Effect =  cc.Class({
 
         var starEffectCom =  starEffectNode.getComponent(cc.ParticleSystem);
     
-        //var path = "resources/Image/Star/";
-        
-        //starEffectCom.texture = cc.url.raw(path+this.ColorStr[colorType]);
-        
         starEffectCom.spriteFrame = this.EffectStar[colorType];
 
         starEffectCom.resetSystem();

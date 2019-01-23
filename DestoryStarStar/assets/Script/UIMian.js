@@ -517,10 +517,8 @@ cc.Class({
 
     CancelProps(IsState = true)
     {   
-        if(FactoryItem.Instance._TouchState == "1"||FactoryItem.Instance._TouchState == "2")
-        {
-            ShareAndVideo.Instance.AdervertActive(true);
-        }
+        ShareAndVideo.Instance.AdervertActive(true);
+        
         if(IsState)
         {
             FactoryItem.Instance._TouchState = "";
@@ -642,7 +640,6 @@ cc.Class({
         //this.RsetBtn.active = false;
 
         this._PlayInfo.ResetInfo();
-
         this.LableScoreUI.string = this._PlayInfo._Score;
         this.LableNeedScoreUI.string = "目标:"+ this._PlayInfo._NeedScore;
         this.LevelLabel.string = this._PlayInfo._Level;
@@ -652,7 +649,7 @@ cc.Class({
     IsSuccess()
     {
         //提交分数
-        this.ChildrenRankCom.SubmitScore(this._PlayInfo._Score);
+        this.ChildrenRankCom.SubmitScore(this._PlayInfo._Score,this._PlayInfo._Level);
         
         if(this._PlayInfo._Score>=this._PlayInfo._NeedScore)
         {

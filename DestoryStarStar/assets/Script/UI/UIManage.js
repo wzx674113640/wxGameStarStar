@@ -17,6 +17,7 @@ var UIManage = cc.Class({
     properties: {
         UIPop:cc.Node,
         UIMian:cc.Node,
+        UIApp:cc.Node,
         UIList:[],
 
         Gameing:cc.Prefab,
@@ -33,6 +34,7 @@ var UIManage = cc.Class({
         UIResurt:cc.Prefab,
         UIRedMoney:cc.Prefab,
         UIGiftBag:cc.Prefab,
+        UIBtnAppList:cc.Prefab,
         SceneState:"",
     },
 
@@ -158,7 +160,13 @@ var UIManage = cc.Class({
     {
         var UINode = this.loderPrefabs(prefab,this.UIPop);
         UINode.getComponent("BasePopUI").Show();
-    }
+    },
     
+    ShowAppBtn()
+    {
+        var UINode =  this.loderPrefabs(this.UIBtnAppList,this.UIApp);
+        //UINode.getComponent("UIBtnApp").Show();
+        return UINode;
+    }
 });
 

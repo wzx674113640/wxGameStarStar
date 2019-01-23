@@ -33,6 +33,7 @@ cc.Class({
         this.TxtName.string = nick;
         this.TxtScore.string = txtScore;
         Helper.Instance.createImage(imgHeadUrl,this.ImgHead);
+        this.ImgHead.node.active = true;
     },
     
     Clear()

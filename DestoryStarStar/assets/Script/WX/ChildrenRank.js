@@ -13,6 +13,7 @@ cc.Class({
         WXSUB:cc.WXSubContextView,
         loadUI:cc.Node,
         Mask:cc.Node,
+        SmallChilrenView:cc.Sprite,
         _updateFrae:0.1,
         _updateFrameCool:0.1,
         _version:103,//版本号
@@ -25,14 +26,7 @@ cc.Class({
         
     },
 
-    onLoad()
-    {
-        if(CC_WECHATGAME)
-        {
-            var obj = wx.getLaunchOptionsSync();
-            this._Sence = obj.query.scene==undefined? null:obj.query.scene;
-        }
-    },
+   
 
     start () {
         //ShareAndVideo.Instance.ShowPanelMask();
@@ -40,12 +34,16 @@ cc.Class({
         this._version = 103;
         this.isShow = false;
         this.closeUpdate = false;
+        this.isAlreadyLogin = false;
         if(!CC_WECHATGAME)
             return;
         this.tex = new cc.Texture2D();
         window.sharedCanvas.width = 750;
         window.sharedCanvas.height = 1334;
+        
         this.playInfo = new UserInfo();
+        var obj = wx.getLaunchOptionsSync();
+        this._Sence = obj.query.scene==undefined? null:obj.query.scene;
         this.C2G_GetUserInfo();
     },
 
@@ -56,6 +54,8 @@ cc.Class({
         let sysInfo = window.wx.getSystemInfoSync();
         this._width = sysInfo.screenWidth;
         this._height = sysInfo.screenHeight;
+        this.SmallChilrenView.node.width = this._width;
+        this.SmallChilrenView.node.height = this._height;
     },
 
     
@@ -64,6 +64,11 @@ cc.Class({
     {
         if (!CC_WECHATGAME)
             return;
+        if(this.isAlreadyLogin == false)
+        {   
+            this.ShowMask();
+        }
+        
         if(cc.sys.localStorage.getItem("nickName")!= "")
         {
             var self = this;
@@ -77,11 +82,16 @@ cc.Class({
             {
                 //打开新手礼包
                 this.Login(getInfo,this);
+              
                 UIManage.Instance.ShowGiftBag();
             }
             else
             {
                 var self = this;
+                if(this.isAlreadyLogin == false)
+                {
+                    this.Login(getInfo,self);
+                }
                 let sysInfo = window.wx.getSystemInfoSync();
                 let width = sysInfo.screenWidth;
                 let height = sysInfo.screenHeight;
@@ -111,14 +121,15 @@ cc.Class({
                     //    UIManage.Instance.UIList["UIStart"].getComponent("UIStart").BtnGameStart();
                     //    this.isbtnStart = true;
                     //}
-                    self.Login(getInfo,self);
+                    self.Login(getInfo,self,false);
                 })
             }
         }
     },
 
-    Login(getInfo,self)
+    Login(getInfo,self,isReqGameInfo = true)
     {
+       
         //this.ShowMask();
         wx.login({
             success (res) {
@@ -137,18 +148,29 @@ cc.Class({
                     uid:0,
                     },
                     success (res) {
+                    self.isAlreadyLogin = true;//是否登录过
                     var severuserinfo =  res.data.data;
                     
-                    //this.PlayInfo.curSkin = 0;
                     self.playInfo.openid = severuserinfo.openid,
                     self.playInfo.id = severuserinfo.id;
                     self.playInfo.nickName = severuserinfo.nickName;
                     self.playInfo.avatar_url = severuserinfo.avatar_url;
                     self.playInfo.score = severuserinfo.score;
                     self.IsGetUserInfo = true;
-                    self.C2G_GameInfo();
+                    if(isReqGameInfo)
+                    {
+                        self.C2G_GameInfo();
+                    }  
                     //self.C2G_Redlog();
-                    
+                    },
+                    fail()
+                    {
+                        self.HideMask();
+                        wx.showToast({
+                            title: "网络数据请求失败",
+                            icon: 'success',
+                            duration: 800
+                        })
                     }
                 })
                 } else {
@@ -206,7 +228,7 @@ cc.Class({
     },
 
     //C2G游戏结束
-    C2G_GameOver(Score,action = null)
+    C2G_GameOver(Score,level,action = null)
     {
         if (!CC_WECHATGAME)
             return;
@@ -219,7 +241,8 @@ cc.Class({
                 score: Score,
                 id : self.gameID,
                 gold: 0,
-                version:self._version
+                version:self._version,
+                level:level
             },
             success (res) {
                 if(action!=null)
@@ -250,8 +273,17 @@ cc.Class({
                 self.playInfo.count = Number(infodata.count);
                 var n = Number(infodata.money);
                 self.playInfo.money = n;//总金额
-                //self.HideMask();
+                self.HideMask();
                 self.C2G_AppID();
+            },
+            fail()
+            {
+                self.HideMask();
+                wx.showToast({
+                    title: "网络数据请求失败",
+                    icon: 'success',
+                    duration: 800
+                })
             }
         });
     },
@@ -328,14 +360,11 @@ cc.Class({
     {
         if(!CC_WECHATGAME)
             return;
-        this.ShowChild(false);
+        this.ShowSmallChild(false);
         window.wx.postMessage({
             messageType: 5,
             MAIN_MENU_NUM: "x1",
         });
-        //this._updateFrameCool = 1;
-        //this.WXSUB.enbale = false;
-        //this.isShow = false;
     },
 
     ShowTwo()
@@ -347,14 +376,11 @@ cc.Class({
             messageType: 4,
             MAIN_MENU_NUM: "x1",
         });
-        //this._updateFrameCool = 1;
-        //this.WXSUB.enbale = false;
-        //this.isShow = false;
     },
     //提交分数
-    SubmitScore(curscore)
+    SubmitScore(curscore,level)
     {
-        this.C2G_GameOver(curscore);
+        this.C2G_GameOver(curscore,level);
         
         if(!CC_WECHATGAME)
             return;
@@ -381,11 +407,25 @@ cc.Class({
         }
     },
 
+    ShowSmallChild()
+    {
+        if (window.sharedCanvas != undefined&&window.sharedCanvas!=null) {
+            this.tex.initWithElement(window.sharedCanvas);
+            this.tex.handleLoadedTexture();
+            this.ChilrenView.spriteFrame = new cc.SpriteFrame(this.tex);
+        }
+        this.SmallChilrenView.spriteFrame = this.ChilrenView.spriteFrame;
+        this.SmallChilrenView.node.active = true;
+        this.ChilrenView.node.active = false;
+        this.isShow = false;
+    },
+
     //关闭子域
     HideChild()
     {
         this.isShow = false;
-        this.ChilrenView.node.active =false;
+        this.SmallChilrenView.node.active = false;
+        this.ChilrenView.node.active = false;
         if(!CC_WECHATGAME)
             return;
         window.wx.postMessage({
@@ -408,6 +448,7 @@ cc.Class({
             this.tex.handleLoadedTexture();
             this.ChilrenView.spriteFrame = new cc.SpriteFrame(this.tex);
             this.ChilrenView.node.active = true;
+            this.SmallChilrenView.node.active = false;
         }
     },
     

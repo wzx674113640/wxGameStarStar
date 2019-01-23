@@ -119,7 +119,7 @@ cc.Class({
         {
             cache.IsGameStart = false;
         }
-        this.GameInitCom.Init();
+        this.GameInitCom.Init(true);
         FactoryItem.Instance.UIMianCom.ResurtAndInit();
         cc.sys.localStorage.setItem("ItemCacheList",false);
         

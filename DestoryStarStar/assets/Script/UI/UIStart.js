@@ -14,14 +14,7 @@ cc.Class({
 
        AppNodeList:cc.Node,
 
-       LeftAppNodeList:cc.Node,
-
-       BtnAppList:cc.Node,
-
-       BtnAppListSprite:{
-           type:cc.SpriteFrame,
-           default:[]
-       }
+      
     },
 
     onEnable()
@@ -38,7 +31,11 @@ cc.Class({
         }
         else if(this.isEnbela == true)
         {
-            this.ShowSeverInfo();
+            if(CC_WECHATGAME)
+            {
+                this.ShowSeverInfo();
+            }
+            
         }
     },
 
@@ -63,19 +60,17 @@ cc.Class({
 
     ShowSeverInfo()
     {
+      
         this.childNode.active = true;
         this.SetScore();
         //设置底部
         if(this.childrenRankCom.playInfo._is_status == 1)
         {
-            
+            var UIAppBtn =  UIManage.Instance.ShowAppBtn();
             this.SetAppItem();
             var AppIDInfoList = this.childrenRankCom._AppIDInfoList;
             var Applength = AppIDInfoList.length;
-            
-            //var _AppNodeList = this.AppNodeList.children;
-            //var _LeftAppNodeList = this.LeftAppNodeList.children;
-            
+            UIAppBtn.getComponent("UIBtnApp").ShowItem(AppIDInfoList,Applength);
             for(var i = 0;i < this.AppNodeList.children.length;i++)
             {
                 if(Applength > i)
@@ -88,23 +83,10 @@ cc.Class({
                 }
             }
             
-            for(var i = 0;i < this.LeftAppNodeList.children.length;i++)
-            {
-                if(Applength > i)
-                {
-                    this.LeftAppNodeList.children[i].getComponent("AppItem").setItem(AppIDInfoList[i]);
-                }
-                else
-                {
-                    this.LeftAppNodeList.children[i].active = false;
-                }
-            }
-            
         }
         else
         {
             this.AppNodeList.active = false;
-            this.BtnAppList.active = false;
         }
         
     },
@@ -139,11 +121,7 @@ cc.Class({
 
     update()
     {
-        //if(this.childrenRankCom.playInfo != undefined&&this.childrenRankCom.playInfo.score != null&&this.isSet==false)
-        //{
-        //    this.isSet = true;
-        //   this.SetScore();
-        //}
+       
     },
 
     PlaySound()
@@ -198,21 +176,4 @@ cc.Class({
         this.childrenRankCom.associatedProgram(AppID);
     },
 
-    AppClick()
-    {
-        if(this.isOpen == false)
-        {
-            var m = cc.moveBy(0.3,cc.v2(425,0));
-            this.BtnAppList.runAction(m);
-            this.isOpen = true;
-            this.BtnAppList.getComponent(cc.Sprite).spriteFrame = this.BtnAppListSprite[0];
-        }
-        else
-        {
-            var m = cc.moveBy(0.3,cc.v2(-425,0));
-            this.BtnAppList.runAction(m);
-            this.isOpen = false;
-            this.BtnAppList.getComponent(cc.Sprite).spriteFrame = this.BtnAppListSprite[1];
-        }
-    }
 });

@@ -49,14 +49,27 @@ cc.Class({
     
     BtnAaginClick()
     {
-        ShareAndVideo.Instance.SeeVedioClick(()=>
+        if(FileServe.Instance.GetAllVideoCount()==-1)
         {
-            FileServe.Instance.ReadCache(this.ID);
-            //UIManage.Instance.ShowGameing();
-            this.GameInitCom.GameStart(true);
-            this.UIParent.active = false;
-        });
-       
+            ShareAndVideo.Instance.AddShareEvent(()=>
+            {
+                FileServe.Instance.ReadCache(this.ID);
+                //UIManage.Instance.ShowGameing();
+                this.GameInitCom.GameStart(true);
+                this.UIParent.active = false;
+            });
+        }
+        else
+        {
+            ShareAndVideo.Instance.SeeVedioClick(()=>
+            {
+                FileServe.Instance.ReadCache(this.ID);
+                //UIManage.Instance.ShowGameing();
+                this.GameInitCom.GameStart(true);
+                this.UIParent.active = false;
+            });
+        }
+        
     },
 
     BtnReurtClick()

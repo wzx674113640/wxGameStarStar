@@ -33,8 +33,8 @@ cc.Class({
 
     start () {
         this.isTouch = false;
-       //this.ItemList = FactoryItem.Instance.ItemParent.children;
-       this.node.on(cc.Node.EventType.TOUCH_START,()=>{
+        //this.ItemList = FactoryItem.Instance.ItemParent.children;
+        this.node.on(cc.Node.EventType.TOUCH_START,()=>{
            this.ItemClick();
         },this);
 
@@ -57,14 +57,14 @@ cc.Class({
                 case "2":
                     self.TouchChange(self.node);
                     break;
-                
             }   
         }
     },
 
     TouchNormal(self)
     {
-        var s1 = cc.scaleTo(0.05,0.9);
+        FactoryItem.Instance._IsTouch = false;
+        var s1 = cc.scaleTo(0.05,0.8);
         var s2 = cc.scaleTo(0.05,1);
         var call = cc.callFunc(function(){
             self.FindSameItem(true);
@@ -90,14 +90,99 @@ cc.Class({
     {
         FactoryItem.Instance.ChangeProps(item);
     },
+
 //得到上下左右
-/*
-    GetLUDR()
+    GetLUDR(IshasMyself = true)
     {
-        var leftIndex = (this._ID%10)-1>=0?this._ID-1:null;
-        this.left
+        this.LUDRList = [];
+
+        this.ItemList =  FactoryItem.Instance.allVerticalList;
+        var _itemList = [];
+        for(var key in this.ItemList)
+        {
+            if(this.ItemList[key] != null)
+            {
+                _itemList.push(this.ItemList[key]);
+            }
+        }
+
+        for(var i = 0;i < _itemList.length;i++)
+        {
+            for(var j = 0;j<_itemList[i].length;j++)
+            {
+                if(_itemList[i][j] == this.node)
+                {
+                    if(IshasMyself)
+                    {
+                        this.LUDRList.push(this.node);
+                    }
+                    if(i-1>=0)
+                    {
+                        var left = _itemList[i-1][j];
+                        if(left!=null)
+                            this.LUDRList.push(left);
+                    }
+                    if(_itemList.length>i+1)
+                    {
+                        var Right = _itemList[i+1][j]; 
+                        if(Right!=null)
+                            this.LUDRList.push(Right);
+                    }
+                    if(j-1>=0)
+                    {
+                        var Up = _itemList[i][j-1];
+                        if(Up!=null)
+                            this.LUDRList.push(Up);
+                    }
+                    
+                    if(_itemList[i].length>j+1)
+                    {
+                        var Down = _itemList[i][j+1];
+                        if(Down!=null)
+                        {
+                            this.LUDRList.push(Down);
+                        }
+                    }
+                }
+            }
+        }
     },
-*/
+
+    FindSameItem(IsMianItem = false)
+    {
+        if(FactoryItem.Instance.IsGameStart == false)
+            return;
+        this.GetLUDR();
+        for(var i = 0;i<this.LUDRList.length;i++)
+        {
+            var ItemCom = this.LUDRList[i].getComponent("Item");
+            if(ItemCom._ColorType == this._ColorType)
+            {
+                var count = FactoryItem.Instance.AddCheckItem(this.LUDRList[i]);
+                if(count >= 2)
+                {
+                    ItemCom.FindSameItem();
+                }
+            }
+        }
+        
+        if(IsMianItem)
+        {
+            if(FactoryItem.Instance._CheckItem.length>=2)
+            {
+                FactoryItem.Instance._IsTouch = true;
+            
+                FactoryItem.Instance.ClearCheckItem();
+            }
+            else
+            {
+                FactoryItem.Instance.ClearCheckLight();
+            }
+        }
+        
+    },
+
+
     GetRayPos()
     {
         var p1 = this.node.getPosition();
@@ -109,6 +194,7 @@ cc.Class({
         return P2List;
     },
 
+    /*
     FindSameItem(IsMianItem = false)
     {
         if(FactoryItem.Instance.IsGameStart == false)
@@ -148,48 +234,33 @@ cc.Class({
         }
         return;
     },
-
+    */
     //检查相同的Item
     detectionSameItem(IsMianItem = true,isOnlydetection = false)
     {
-        var p1 = this.node.getPosition();
-        var P2List = this.GetRayPos();
-
-        for(var i = 0;i<P2List.length;i++)
-        {   
-            var output = cc.director.getPhysicsManager().rayCast(p1, P2List[i], cc.RayCastType.Any);
-           
-            if(output.length>0)
+        if(FactoryItem.Instance.IsGameStart == false)
+            return;
+        this.GetLUDR(false);
+        for(var i = 0;i<this.LUDRList.length;i++)
+        {
+            var ItemCom = this.LUDRList[i].getComponent("Item");
+            if(ItemCom._ColorType == this._ColorType)
             {
-                var OtherColor = output[0].collider.getComponent("Item")._ColorType;
-                
-                if(OtherColor==this._ColorType)
+                if(isOnlydetection&&this.LUDRList[i] != this.node)
                 {
-                    if(isOnlydetection)
-                    {
-                        return false;
-                    }
-                    if(!FactoryItem.Instance.AddMaxItem(output[0].collider.node))
-                    {
-                        output[0].collider.node.getComponent("Item").detectionSameItem(false);
-                    }
+                    return false;
                 }
-                else
+                if(!FactoryItem.Instance.AddMaxItem(this.LUDRList[i]))
                 {
-                    continue;
+                    ItemCom.detectionSameItem(false);
                 }
-            }
-            else
-            {
-                continue;
             }
         }
-
         if(IsMianItem)
         {
             FactoryItem.Instance.CompareItemList();
         }
-        return ;
+       
     },
   
     //提示星星的动画
@@ -228,6 +299,7 @@ cc.Class({
     //星星消失动画
     PlayDestoryAnimation(isplayEffect = true)
     {
+        FactoryItem.Instance._IsTouch = false;
         SoundManage.Instance.playDestoryStar();
         if(isplayEffect)
         {

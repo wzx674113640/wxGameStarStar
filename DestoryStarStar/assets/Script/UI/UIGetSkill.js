@@ -1,5 +1,6 @@
 var ShareAndVideo = require("ShareAndVideo");
 var FactoryItem = require("FactoryItem");
+var FileServe = require("FileServe");
 cc.Class({
     extends: require("BasePopUI"),
 
@@ -18,17 +19,6 @@ cc.Class({
 
     Show()
     {
-        var value = Math.floor(Math.random()*2);
-        if(value == 0)
-        {
-            this.BtnVideo.active = false;
-            this.BtnShare.active = true;
-        }
-        else
-        {   
-            this.BtnVideo.active = true;
-            this.BtnShare.active = false;
-        }
         this.node.active = true;
         this.Mask.active = true;
         this.BtnClose.active = true;
@@ -36,13 +26,34 @@ cc.Class({
             return;
         if(this.childrenRankCom.playInfo._is_status == 1)
         {
-            this.BtnEnter.active = false;
-            this.BtnShare.active= true;
+            if(FileServe.Instance.GetAllVideoCount()<=0)
+            {
+                this.BtnShare.active = true;
+                this.BtnEnter.active = false;
+                this.BtnVideo.active = false;
+            }
+            else
+            {
+                var value = Math.floor(Math.random()*2);
+                if(value == 0)
+                {
+                    this.BtnVideo.active = false;
+                    this.BtnEnter.active = false;
+                    this.BtnShare.active = true;
+                }
+                else
+                {   
+                    this.BtnVideo.active = true;
+                    this.BtnShare.active = false;
+                    this.BtnEnter.active = false;
+                }
+            }
         }
         else
         {
             this.BtnEnter.active = true;
             this.BtnShare.active= false;
+            this.BtnVideo.active = false;
         }
     },
 

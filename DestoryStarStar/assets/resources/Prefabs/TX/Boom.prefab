@@ -12,7 +12,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "New Particle",
+    "_name": "Boom",
     "_objFlags": 0,
     "_parent": null,
     "_children": [],
@@ -88,13 +88,13 @@
     "_spriteFrame": {
       "__uuid__": "d06b51c1-98a9-4f7f-86fb-3a00038d7518"
     },
-    "_stopped": false,
-    "playOnLoad": true,
+    "_stopped": true,
+    "playOnLoad": false,
     "autoRemoveOnFinish": false,
     "totalParticles": 200,
     "duration": 0.05,
-    "emissionRate": 150,
-    "life": 1.8,
+    "emissionRate": 120,
+    "life": 1.5,
     "lifeVar": 0.25,
     "_startColor": {
       "__type__": "cc.Color",
@@ -127,21 +127,21 @@
     "angle": 90,
     "angleVar": 45,
     "startSize": 30,
-    "startSizeVar": 10,
+    "startSizeVar": 5,
     "endSize": -1,
     "endSizeVar": 0,
-    "startSpin": 0,
-    "startSpinVar": 0,
-    "endSpin": 0,
-    "endSpinVar": 0,
+    "startSpin": 45,
+    "startSpinVar": 45,
+    "endSpin": 45,
+    "endSpinVar": 45,
     "sourcePos": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 0
+      "y": -10
     },
     "posVar": {
       "__type__": "cc.Vec2",
-      "x": 30,
+      "x": 60,
       "y": 40
     },
     "positionType": 0,

@@ -3,17 +3,17 @@ var ShareAndVideo  = require("ShareAndVideo");
 
 var UIManage = require("UIManage");
 
-
+var FileServe = require("FileServe");
 
 cc.Class({
     extends: require("BasePopUI"),
 
     properties: {
         BtnSeeVideo:cc.Node,
-        action : null
+        BtnShare:cc.Node,
+        _action : null
     },
     
-   
     onLoad()
     {
         this._super();
@@ -23,7 +23,6 @@ cc.Class({
     start()
     {
         this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
-        
     },
 
     onEnable()
@@ -32,11 +31,30 @@ cc.Class({
             return;
         if(this.childrenRankCom.playInfo._is_status == 1)
         {
-            this.BtnSeeVideo.active = true;
+            if(FileServe.Instance.GetAllVideoCount()<=0)
+            {
+                this.BtnSeeVideo.active = false;
+                this.BtnShare.active = true;
+            }
+            else
+            {
+                var value = Math.floor(Math.random()*2);
+                if(value == 0)
+                {
+                    this.BtnSeeVideo.active = false;
+                    this.BtnShare.active = true;
+                }
+                else
+                {   
+                    this.BtnSeeVideo.active = true;
+                    this.BtnShare.active = false;
+                }
+            }
         }
         else
         {
             this.BtnSeeVideo.active = false;
+            this.BtnShare.active = false;
         }
     },
 
@@ -49,48 +67,79 @@ cc.Class({
             this.node.active = false;
         }.bind(this));
         this.node.runAction(cc.sequence(s,call));
-        if(this.action!=null)
+        if(this._action!=null)
         {
-            this.action();
-            this.action = null;
+            this._action();
+            this._action = null;
         }
     },
 
-    BtnVideo()
+    BtnVideo() 
     {
-        /*
-        ShareAndVideo.Instance.AddShareEvent(()=>
+        var Count = FileServe.Instance.GetDimondVideoCount();
+        if(Count == -1)
         {
-            if(UIManage.Instance.SceneState == "Gaming")
+            if(CC_WECHATGAME)
             {
-                var FactoryItem = require("FactoryItem");
-                FactoryItem.Instance.UIMianCom.UserDiamond(10); 
+                wx.showToast({
+                    title: '今日次数用尽',
+                    icon: 'success',
+                    duration: 800
+                })
             }
-            else if(UIManage.Instance.SceneState =="Start")
+        }
+        else
+        {
+            var self = this;
+            //看视频...奖励5个钻石
+            ShareAndVideo.Instance.SeeVedioClick(()=>
             {
-                this.GameInitCom.PopsList.Diamond+=10;
-                
-                UIManage.Instance.UIList[UIManage.Instance.Starting.name].getComponent("UIStart").SetDiamond();
-            }
-            this.Close();
-        });
-        */
+                self.getDimond(Count);
+            },"获得钻石x30");
+        }
         
-        //看视频...奖励5个钻石
-        ShareAndVideo.Instance.SeeVedioClick(()=>
+    },
+
+    getDimond(count)
+    {
+        if(UIManage.Instance.SceneState == "Gaming")
         {
-            if(UIManage.Instance.SceneState == "Gaming")
+            var FactoryItem = require("FactoryItem");
+            FactoryItem.Instance.UIMianCom.UserDiamond(30); 
+        }
+        else if(UIManage.Instance.SceneState =="Start")
+        {
+            this.GameInitCom.PopsList.Diamond+=30;
+            
+            UIManage.Instance.UIList[UIManage.Instance.Starting.name].getComponent("UIStart").SetDiamond();
+        }
+        this.Close();
+        count--;
+        cc.sys.localStorage.setItem("DimondCount",count);
+    },
+
+    BtnShareClick()
+    {
+        var Count = FileServe.Instance.GetDimondVideoCount();
+        if(Count == -1)
+        {
+            if(CC_WECHATGAME)
             {
-                var FactoryItem = require("FactoryItem");
-                FactoryItem.Instance.UIMianCom.UserDiamond(30); 
+                wx.showToast({
+                    title: '今日次数用尽',
+                    icon: 'success',
+                    duration: 800
+                })
             }
-            else if(UIManage.Instance.SceneState =="Start")
+        }
+        else
+        {
+            var self = this;
+            ShareAndVideo.Instance.AddShareEvent(()=>
             {
-                this.GameInitCom.PopsList.Diamond+=30;
-                
-                UIManage.Instance.UIList[UIManage.Instance.Starting.name].getComponent("UIStart").SetDiamond();
-            }
-            this.Close();
-        },"获得钻石X30");
+                self.getDimond(Count);
+            })
+        }
+        
     }
 });

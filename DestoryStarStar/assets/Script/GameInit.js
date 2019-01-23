@@ -16,10 +16,7 @@ cc.Class({
     },
 
     start () {
-        //游戏开始入口
-       
-        //cc.director.getPhysicsManager().enabled = true;
-        //cc.director.getPhysicsManager().gravity = cc.v2();
+        
     },
 
     //获取玩家道具数据
@@ -30,20 +27,36 @@ cc.Class({
        if(cList != null)
        {
            this.PopsList.Diamond = cList.Diamond;
+
+           FileServe.Instance.IsPassDay();
            this.PopsList.Hammer = cList.Hammer;
            this.PopsList.Reset = cList.Reset;
            this.PopsList.Change = cList.Change;
+           
+           /*
+           if(FileServe.Instance.IsPassDay())
+           {
+                this.PopsList.Hammer = 0;
+                this.PopsList.Reset = 0;
+                this.PopsList.Change = 0;
+           }
+           else
+           {
+                this.PopsList.Hammer = cList.Hammer;
+                this.PopsList.Reset = cList.Reset;
+                this.PopsList.Change = cList.Change;
+           }
+           */
        }
        else
        {
+            FileServe.Instance.IsPassDay();
            //新手礼包
            this.PopsList.Diamond = 50;
            this.PopsList.Hammer = 1;
            this.PopsList.Reset = 1;
        }
     },
-    
-   
     
     realGamestart()
     {
@@ -82,29 +95,19 @@ cc.Class({
     },
     
 
-    Init()
+    Init(isEasy = false)
     {
-        //FactoryItem.Instance.unscheduleAllCallbacks();
-        //FactoryItem.Instance.UIMianCom.unscheduleAllCallbacks();
         FactoryItem.Instance.IsGameStart = false;
         FactoryItem.Instance.UIMianCom.BarScore.progress = 0;
         FactoryItem.Instance.UIMianCom.StartAnimation(()=>
         {
             var ItemlayoutChildren = this.ItemLayout.children;
             FactoryItem.Instance.allVerticalList = new Array();
-            if(FactoryItem.Instance.UIMianCom._PlayInfo._Level<=5)
-            {
-                var WeightIndex = Math.floor(Math.random()*4);
-            }
-            else
-            {
-                var WeightIndex = -1
-            }
-
-            for(var i = 0;i<ItemlayoutChildren.length;i++)
+            var WeightIndex = Math.floor(Math.random()*4);
+            for(var i = 99;i>=0;i--)
             {
                 var worldPos = ItemlayoutChildren[i].convertToWorldSpaceAR(cc.v2(0,0));
-                var index = this.LevelDiffcultValue(WeightIndex);
+                var index = this.LevelDiffcultValue(WeightIndex,isEasy);
                 var Item =  FactoryItem.Instance.CreatItem(worldPos,i,index);
                 var ItemCom = Item.getComponent("Item");
                 ItemCom._isDestory = false;
@@ -112,29 +115,34 @@ cc.Class({
                 ItemCom._isAlreadyDetection = false;
                 ItemCom.IsGameStart = false;
                 ItemCom._PromptCoolTime = FactoryItem.Instance.constCoolTime;
-                 
             }
-            
             FactoryItem.Instance.GetDis();
         });
         
     },
     
-    LevelDiffcultValue(WeightIndex)
+    LevelDiffcultValue(WeightIndex,isEasy = false)
     {
-        var DiffWeight = 0.1;
-        var level = FactoryItem.Instance.UIMianCom._PlayInfo._Level;
-        if(level<=10)
+        if(isEasy)
         {
-            DiffWeight = 0.2;
-        }
-        else if(level>10&&level<=20)
-        {
-            DiffWeight = 0.15
+            var DiffWeight = 0.25;
         }
         else
         {
-            DiffWeight = 0.1;
+            var DiffWeight = 0.1;
+            var level = FactoryItem.Instance.UIMianCom._PlayInfo._Level;
+            if(level<=10)
+            {
+                DiffWeight = 0.2;
+            }
+            else if(level>10&&level<=20)
+            {
+                DiffWeight = 0.15
+            }
+            else
+            {
+                DiffWeight = 0.1;
+            }
         }
         if(WeightIndex == -1)
         {
@@ -161,13 +169,10 @@ cc.Class({
 
     CacheInit(cache)
     {
-        //FactoryItem.Instance.unscheduleAllCallbacks();
-        //FactoryItem.Instance.UIMianCom.unscheduleAllCallbacks();
-        //FactoryItem.Instance.UIMianCom.BarScore.progress = 0;
         FactoryItem.Instance.IsGameStart = false;
         FactoryItem.Instance.UIMianCom.StartAnimation(()=>
         {
-            for(var i = 0;i<cache.length;i++)
+            for(var i = cache.length-1;i>=0;i--)
             {
                 var posx = cc.v2(cache[i].X,cache[i].Y);
                 var colorType = cache[i]._ColorType;
@@ -178,11 +183,9 @@ cc.Class({
                 var Item =  FactoryItem.Instance.CacheCreatItem(posx,i,colorType,_isDestory,_isHasBox);
                 Item.active = _active;
             }
-            //FactoryItem.Instance.UIMianCom.BarScore.progress = 0;
             FactoryItem.Instance.test();
             FactoryItem.Instance.GetDis(true);
         });
-       
     }
     
 });

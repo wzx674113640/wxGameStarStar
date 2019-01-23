@@ -11101,7 +11101,20 @@
     "sync": false
   },
   {
-    "__type__": "835cfW71e5PnppyPgOqTOck",
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "_defaultClip": null,
+    "_clips": [],
+    "playOnLoad": false,
+    "_id": ""
+  },
+  {
+    "__type__": "93969V2eMlHCaEq5GltO21K",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -11136,23 +11149,10 @@
     "_CheckItem": [],
     "_DetectionItem": [],
     "_ItemMaxList": [],
-    "_PromptCoolTime": 3,
+    "_PromptCoolTime": 5,
     "_IsTouch": true,
-    "_StartMoveDis": 100,
+    "_StartMoveDis": 300,
     "_TouchState": "",
-    "_id": ""
-  },
-  {
-    "__type__": "cc.Animation",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "_defaultClip": null,
-    "_clips": [],
-    "playOnLoad": false,
     "_id": ""
   },
   {
