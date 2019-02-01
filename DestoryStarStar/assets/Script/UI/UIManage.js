@@ -35,6 +35,7 @@ var UIManage = cc.Class({
         UIRedMoney:cc.Prefab,
         UIGiftBag:cc.Prefab,
         UIBtnAppList:cc.Prefab,
+        UITimeGift:cc.Prefab,
         SceneState:"",
     },
 
@@ -58,6 +59,7 @@ var UIManage = cc.Class({
         this.Gameing = this.loderPrefabs(this.Gameing,this.UIMian);
         this.Gameing.active = true;
         this.Starting.active = false;
+        
         this.SceneState = "Gaming";
     },
 
@@ -167,6 +169,12 @@ var UIManage = cc.Class({
         var UINode =  this.loderPrefabs(this.UIBtnAppList,this.UIApp);
         //UINode.getComponent("UIBtnApp").Show();
         return UINode;
+    },
+
+    ShowUITimeGift()
+    {
+        var UINode = this.loderPrefabs(this.UITimeGift,this.UIPop);
+        UINode.getComponent("UITimeGift").Show();
     }
 });
 

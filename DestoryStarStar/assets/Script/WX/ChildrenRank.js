@@ -16,7 +16,7 @@ cc.Class({
         SmallChilrenView:cc.Sprite,
         _updateFrae:0.1,
         _updateFrameCool:0.1,
-        _version:103,//版本号
+        _version:105,//版本号
 
         _width:750,
         _height:1334,
@@ -31,7 +31,7 @@ cc.Class({
     start () {
         //ShareAndVideo.Instance.ShowPanelMask();
         UIManage.Instance.ShowGameStart();
-        this._version = 103;
+        this._version = 105;
         this.isShow = false;
         this.closeUpdate = false;
         this.isAlreadyLogin = false;
@@ -43,7 +43,8 @@ cc.Class({
         
         this.playInfo = new UserInfo();
         var obj = wx.getLaunchOptionsSync();
-        this._Sence = obj.query.scene==undefined? null:obj.query.scene;
+        var Sence = obj.query.scene==undefined? null:obj.query.scene;
+        this._Sence = decodeURIComponent(Sence);
         this.C2G_GetUserInfo();
     },
 
@@ -82,7 +83,7 @@ cc.Class({
             {
                 //打开新手礼包
                 this.Login(getInfo,this);
-              
+                
                 UIManage.Instance.ShowGiftBag();
             }
             else
@@ -129,8 +130,6 @@ cc.Class({
 
     Login(getInfo,self,isReqGameInfo = true)
     {
-       
-        //this.ShowMask();
         wx.login({
             success (res) {
                 if (res.code) {
@@ -195,8 +194,9 @@ cc.Class({
             success (res) 
             {
                 var data = res.data.data;
-               
+                
                 self._AppIDInfoList = data.gamelist;
+                
                 //数据接收完成
                 if(self.isLoadStart == undefined)
                 {   
@@ -271,7 +271,7 @@ cc.Class({
                 var infodata =  res.data.data;
                 self.playInfo._is_status = infodata.is_status;
                 self.playInfo.count = Number(infodata.count);
-                var n = Number(infodata.money);
+                var n = infodata.money;
                 self.playInfo.money = n;//总金额
                 self.HideMask();
                 self.C2G_AppID();
@@ -306,9 +306,9 @@ cc.Class({
                 var infodata =  res.data.data;
                 if(infodata.length!=0)
                 {
-                    self.playInfo.money = Number(infodata.total_money);
+                    self.playInfo.money = infodata.total_money;
                     self.playInfo.count = Number(infodata.count);//红包总金额
-                    self.playInfo.getMoney = Number(infodata.money);
+                    self.playInfo.getMoney = infodata.money;
                     action();
                 }
                
@@ -358,6 +358,7 @@ cc.Class({
 
     ShowOne()
     {
+        return;
         if(!CC_WECHATGAME)
             return;
         this.ShowSmallChild(false);
@@ -452,14 +453,23 @@ cc.Class({
         }
     },
     
-    associatedProgram(AppID,url)
+    associatedProgram(AppID,url,ID)
     {
+        var self = this;
         wx.navigateToMiniProgram({
             appId: AppID,
             path: url,
             envVersion: 'release',
             success(res) {
-                
+                wx.request({
+                    url: "https://xxx.qkxz.com/index.php?act=cgame",
+                    data: {
+                      openid: self.playInfo.openid,
+                      version: self._version,
+                      id: ID,
+                      appid:AppID
+                    },
+                  });
             }
           })
     }, 

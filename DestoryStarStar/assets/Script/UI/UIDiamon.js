@@ -27,6 +27,12 @@ cc.Class({
 
     onEnable()
     {
+        if(!this.IsShowShare)
+        {
+            this.BtnSeeVideo.active = true;
+            this.BtnShare.active = false;
+            return;
+        }
         if(!CC_WECHATGAME)
             return;
         if(this.childrenRankCom.playInfo._is_status == 1)

@@ -49,6 +49,14 @@ cc.Class({
     
     BtnAaginClick()
     {
+        ShareAndVideo.Instance.SeeVedioClick(()=>
+        {
+            FileServe.Instance.ReadCache(this.ID);
+            //UIManage.Instance.ShowGameing();
+            this.GameInitCom.GameStart(true);
+            this.UIParent.active = false;
+        });
+        return;
         if(FileServe.Instance.GetAllVideoCount()==-1)
         {
             ShareAndVideo.Instance.AddShareEvent(()=>

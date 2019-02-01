@@ -58,7 +58,7 @@ cc.Class({
     BtnReciveMoney()
     {
         wx.showModal({
-            content: '红包金额达到20元方可体现',
+            content: '福券不足！',
             success(res) {
                 
             }
@@ -73,6 +73,7 @@ cc.Class({
         this.Receive.active = false;
         this.RedUIAni.active = false;
         this.ReceiveMoney.active = false;
+        this.NotReceive.getComponent("NotReceive").Show();
     },
 
     ShowRecive()

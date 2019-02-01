@@ -1,5 +1,47 @@
 
 var FileServe = require("FileServe");
+
+var SharePIC = [
+    "https://graph.baidu.com/resource/112d08be6b1a7de0d774601546858513.jpg",
+    "https://graph.baidu.com/resource/1bc836d39b531256d31dc01546858489.jpg",
+    "https://graph.baidu.com/resource/15572e698f3e043f7f9be01546858430.jpg",
+    "https://graph.baidu.com/resource/10e22ce69808d71d0525201546858474.jpg",
+    "https://graph.baidu.com/resource/148e46647ba650088f5e101547187219.jpg",
+    "https://graph.baidu.com/resource/1b4c6abe412ddff71f98401547187530.jpg",
+    "https://graph.baidu.com/resource/102d38f22f45ec3ac7dff01547633570.jpg",
+    "https://graph.baidu.com/resource/104c44ea433f7c00756ee01548379593.jpg",
+    "https://graph.baidu.com/resource/11ae28338d1dc3d6b119201547190683.jpg",
+    "https://graph.baidu.com/resource/1b60daac8cbaa661fbd5c01547187761.jpg",
+    "https://graph.baidu.com/resource/1e65565995b79ba143e3f01547187561.jpg",
+    "https://graph.baidu.com/resource/1021beff7970a5efa3d8c01548921588.jpg",
+    "https://graph.baidu.com/resource/102eb15c4e0df60de233d01548922417.jpg",
+    "https://graph.baidu.com/resource/1027cf4fbbc1d2f671ab801548922645.jpg",
+    "https://graph.baidu.com/resource/10260bcbb0ce3bb558ac401548923558.jpg",
+    "https://graph.baidu.com/resource/102ff4288db93bf5aa96601548923596.jpg",
+    "https://graph.baidu.com/resource/102845328159aa003a7db01548925239.jpg"
+    
+]
+
+var ShareStr = [
+    "小学生又出“神造句”,语文老师笑了,家长被气哭!",
+    "据说这个游戏能玩到1个亿，你能达到这个小目标吗",
+    "2018春节请假攻略,最长可休16天！",
+    "2018年平均工资出炉,这次您又被平均了吗?",
+    "买充气娃娃漏气报警 警方回应:110救不了你女朋友",
+    "科学测试看到熊猫的视力都5.0",
+    "女生必看!最新化妆品抽检结果出炉，这80批次都不合格。",
+    "下个月开始独生子女具备5个条件就可以领钱",
+    "时隔多年，2019年春晚节目居然又有他？",
+    "2019年中国房租最贵十大城市排名一览",
+    "99%的人都不会知道为什么A会是第一个死",
+    "看图你能看到多少只动物？",
+    "2019年全年公休放假安排",
+    "12张色彩敏感测试图,只有1%的能人到第四关",
+    "让999个老师吐血的神童试卷",
+    "“神童”的考试卷火了,看到最后,网友:干的漂亮",
+    "十二星座测试：你会选择下面哪一位做你未来的情人？"
+];
+
 var ShareAndVideo =  cc.Class({
     extends: cc.Component,
 
@@ -11,13 +53,14 @@ var ShareAndVideo =  cc.Class({
     properties: {
         PanelMask:cc.Node,
         FailUI:cc.Node
+        
     },
     
     onLoad()
     { 
         ShareAndVideo.Instance = this;
         this.ShareEvent = null;//分享的事件
-        
+       
         if (CC_WECHATGAME)
         {
             this.SharaHideShow();
@@ -25,79 +68,43 @@ var ShareAndVideo =  cc.Class({
                 adUnitId: 'adunit-649c1f174c1ce79c'
             });
 
-            var strlist = this.GetPic();
-            var ShareString = strlist[0];
-            var ShareImg = strlist[1];
+            var value = Math.floor(Math.random()*11);
+            this.ShareImg = SharePIC[value];
+            this.ShareString = ShareStr[value];
+            var self = this;
             wx.onShareAppMessage(()=>{
                 return {
-                    title: ShareString,
-                    imageUrl: ShareImg,
+                    title: self.ShareString,
+                    imageUrl: self.ShareImg,
                     success(res){
+                        var value = Math.floor(Math.random()*SharePIC.length);
+                        this.ShareImg = SharePIC[value];
+                        this.ShareString = ShareStr[value];
                     },
                     fail(res){
+                        var value = Math.floor(Math.random()*SharePIC.length);
+                        this.ShareImg = SharePIC[value];
+                        this.ShareString = ShareStr[value];
                   }
                 } 
             });
             wx.showShareMenu({
                 withShareTicket: true
             });
+
+          
         }
 
-       
-    },
-
-    GetPic()
-    {
-        var value = Math.floor(Math.random()*6);
-        if(value==0)
-        {
-            var ShareString = "小学生又出“神造句”,语文老师笑了,家长被气哭!";
-            var ShareImg = "https://graph.baidu.com/resource/112d08be6b1a7de0d774601546858513.jpg";
-        }
-        else if(value == 1)
-        {
-            var ShareString = "据说这个游戏能玩到1个亿，你能达到这个小目标吗";
-            var ShareImg = "https://graph.baidu.com/resource/1bc836d39b531256d31dc01546858489.jpg";
-        }
-        else if(value == 2)
-        {
-            var ShareString = "2018春节请假攻略,最长可休16天！";
-            var ShareImg = "https://graph.baidu.com/resource/15572e698f3e043f7f9be01546858430.jpg";
-        }
-        else if(value == 3)
-        {
-            var ShareString = "2018年平均工资出炉,这次您又被平均了吗?";
-            var ShareImg = "https://graph.baidu.com/resource/10e22ce69808d71d0525201546858474.jpg";
-        }
-        else if(value == 4)
-        {
-            var ShareString = "买充气娃娃漏气报警 警方回应:110救不了你女朋友";
-            var ShareImg = "https://graph.baidu.com/resource/148e46647ba650088f5e101547187219.jpg";
-        }
-        else if(value == 5)
-        {
-            var ShareString = "科学测试看到熊猫的视力都5.0";
-            var ShareImg = "https://graph.baidu.com/resource/1b4c6abe412ddff71f98401547187530.jpg";
-        }
-        else if(value == 6)
-        {
-            var ShareString = "女生必看!最新化妆品抽检结果出炉，这80批次都不合格。";
-            var ShareImg = "https://graph.baidu.com/resource/102d38f22f45ec3ac7dff01547633570.jpg";
-        }
-        var strs = [];
-        strs.push(ShareString);
-        strs.push(ShareImg);
-        return strs;
     },
 
     AddShareEvent(action)
     {
-        var strlist = this.GetPic();
-        var ShareString = strlist[0];
-        var  ShareImg = strlist[1];
+        var value = Math.floor(Math.random()*11);
+        this.ShareImg = SharePIC[value];
+        this.ShareString = ShareStr[value];
         wx.shareAppMessage({
-            title: ShareString,
-            imageUrl: ShareImg,
+            title: this.ShareString,
+            imageUrl: this.ShareImg,
             success(res){
             },
             fail(res){
@@ -176,11 +183,12 @@ var ShareAndVideo =  cc.Class({
                 }
                 });
             bannerAd.onLoad(() => {
-                bannerAd.style.top = screenHeight-bannerAd.style.realHeight;
-                bannerAd.show();
-                });
                 
-            
+                bannerAd.style.top = screenHeight-bannerAd.style.realHeight;
+
+                bannerAd.show();
+            });
+                
             bannerAd.onError(err => {
                 //console.log(err)
             })
@@ -214,6 +222,12 @@ var ShareAndVideo =  cc.Class({
 
     ShareAndVideo(action)
     {
+        ShareAndVideo.Instance.SeeVedioClick(()=>
+        {
+            action();
+        });
+        return;
+
         if(FileServe.Instance.GetAllVideoCount()<=0)
         {   
             ShareAndVideo.Instance.AddShareEvent(()=>
@@ -255,7 +269,7 @@ var ShareAndVideo =  cc.Class({
         });
         this.videoAd.show().catch((err)=>
         {
-            self.videoAd.load().then(()=>self.videoAd.show());
+           //self.videoAd.load().then(()=>self.videoAd.show());
         })
         this.videoAd.onError(err => {
             self.HidePanelMask(1);
@@ -264,6 +278,7 @@ var ShareAndVideo =  cc.Class({
                 icon: 'success',
                 duration: 800
             })
+            action();
         })
         this.videoAd.onClose(res => {
             self.videoAd.offClose();
@@ -276,7 +291,7 @@ var ShareAndVideo =  cc.Class({
                         duration: 800
                     })
                 }
-                action();
+                action(); 
                 //视频次数减一
                 var value = cc.sys.localStorage.getItem("VideoCount");
                 value--;

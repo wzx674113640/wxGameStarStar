@@ -9,20 +9,20 @@ cc.Class({
         BtnShare:cc.Node
     },
 
-     onEnable()
+     Show()
      {
          if(FileServe.Instance.GetAllVideoCount()<=0)
          {
-            this.BtnVideo.active = false;
-            this.BtnShare.active = true;
+            this.BtnVideo.active = true;
+            this.BtnShare.active = false;
          }
          else
          {
             var value = Math.floor(Math.random()*10);
             if(value <=3)
             {
-                this.BtnVideo.active = false;
-                this.BtnShare.active = true;
+                this.BtnVideo.active = true;
+                this.BtnShare.active = false;
             }
             else
             {

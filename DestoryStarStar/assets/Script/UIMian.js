@@ -64,17 +64,15 @@ cc.Class({
         this.UpLayout = this.node.getChildByName("UpLayout");
         this.AdpativeUI();
         this._PlayInfo = new PlayInfo();
-
     },
     
-   
     setMoneyLabel()
     {
         if(!CC_WECHATGAME)
             return;
         if(this.ChildrenRankCom.playInfo.isRecive)
         {
-            this.MoneyLabel.string = this.ChildrenRankCom.playInfo.money;
+            this.MoneyLabel.string = this.ChildrenRankCom.playInfo.money + "福券";
         }
         else
         {
@@ -97,6 +95,11 @@ cc.Class({
                 var pos = cc.v2(mpos.x,mpos.y + 80);
                 //需要适配
                 this.UpLayout.setPosition(pos);
+
+                var small = this.ChildrenRankCom.SmallChilrenView.node;
+                var cPos = small.getPosition();
+                var posc = cc.v2(cPos.x,cPos.y + 80);
+                small.setPosition(posc);
             }
             this.IsAdpative = true;
         }
@@ -170,7 +173,9 @@ cc.Class({
     },
 
     cache()
-    {
+    {   
+        FileServe.Instance.SetPlayInfoCache();
+
         if(FactoryItem.Instance.isReset)
         {
             FileServe.Instance.SetPlayInfoCache();
@@ -184,6 +189,7 @@ cc.Class({
         {
             FileServe.Instance.SetPlayInfoCache();//只存关卡数
         }
+        
     },  
 
     onEnable()
@@ -201,7 +207,7 @@ cc.Class({
             var value = this.ChildrenRankCom._AppIDInfoList.length;
             if(value > 0)
             {
-                this.Adver.getComponent("AppItem").setItem(this.ChildrenRankCom._AppIDInfoList[value-1]);
+               this.ShowUpAppItem();
             }
             else
             {
@@ -213,6 +219,16 @@ cc.Class({
             this.PropsDes.active = false;
             this.Adver.active = false;
         }
+    },
+
+    ShowUpAppItem()
+    {
+        var cList =this.ChildrenRankCom._AppIDInfoList;
+        var value = Math.floor(Math.random()*cList.length);
+        this.Adver.getComponent("AppItem").setItem(cList[value],()=>
+        {
+            this.ShowUpAppItem();
+        });
     },
 
     onDisable()
@@ -227,13 +243,32 @@ cc.Class({
         if(cache != null)
         {
             this._PlayInfo._LastNeedScore = cache._LastNeedScore;
+            
             if(cache.IsGameStart == false)
             {
                 this._PlayInfo._Score = cache._LastScore;
             }
             else
             {
-                this._PlayInfo._Score = cache._Score;
+                var cache1 = cc.sys.localStorage.getItem("VesionScore");
+                if(cache1 == null || cache1 == "")
+                {
+                    this._PlayInfo._Score = cache._LastScore;
+                    cc.sys.localStorage.setItem("VesionScore",this.ChildrenRankCom._version);
+                }
+                else
+                {
+                    if(Number(cache1) == this.ChildrenRankCom._version)
+                    {
+                        this._PlayInfo._Score = cache._Score;
+                    }
+                    else
+                    {
+                        this._PlayInfo._Score = cache._LastScore;
+                        cc.sys.localStorage.setItem("VesionScore",this.ChildrenRankCom._version);
+                    }
+                }
+               
             }
             this._PlayInfo._LastScore = cache._LastScore;
             this._PlayInfo._Level = cache._Level;
@@ -245,7 +280,7 @@ cc.Class({
             this._PlayInfo._IsShowSkill = cache._IsShowSkill;
 
             this.LableScoreUI.string = this._PlayInfo._Score;
-            this.LableNeedScoreUI.string = "目标:"+ this._PlayInfo._NeedScore;
+            this.LableNeedScoreUI.string =  this._PlayInfo._NeedScore;
             this.LevelLabel.string = this._PlayInfo._Level;
             
             this.setLableUI(0);
@@ -254,7 +289,7 @@ cc.Class({
         {
             this._PlayInfo = new PlayInfo ();
             this.LableScoreUI.string = this._PlayInfo._Score;
-            this.LableNeedScoreUI.string = "目标:"+ this._PlayInfo._NeedScore;
+            this.LableNeedScoreUI.string = this._PlayInfo._NeedScore;
             this.LevelLabel.string = this._PlayInfo._Level;
         }
         
@@ -263,6 +298,7 @@ cc.Class({
 
     UpdateFreindRank()
     {
+        return;
         this.ChildrenRankCom.ShowChildrenGameOver(this._PlayInfo._Score);
         this.ChildrenRankCom.ShowOne();
     },
@@ -624,7 +660,7 @@ cc.Class({
 
     NextLevel(isMove = true )
     {
-        this.LableNeedScoreUI.string = "目标:"+ this._PlayInfo._NeedScore;
+        this.LableNeedScoreUI.string = this._PlayInfo._NeedScore;
         this.LevelLabel.string = this._PlayInfo._Level;
         if(isMove)
         {
@@ -641,7 +677,7 @@ cc.Class({
 
         this._PlayInfo.ResetInfo();
         this.LableScoreUI.string = this._PlayInfo._Score;
-        this.LableNeedScoreUI.string = "目标:"+ this._PlayInfo._NeedScore;
+        this.LableNeedScoreUI.string = this._PlayInfo._NeedScore;
         this.LevelLabel.string = this._PlayInfo._Level;
         FactoryItem.Instance.Init();
     },

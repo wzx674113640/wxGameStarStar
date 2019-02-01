@@ -7,7 +7,6 @@
   "design-resolution-height": 1334,
   "design-resolution-width": 750,
   "excluded-modules": [
-    "Canvas Renderer",
     "Renderer Texture",
     "Dynamic Atlas",
     "TiledMap",
@@ -45,13 +44,13 @@
   "group-list": [
     "default"
   ],
-  "last-module-event-record-time": 1548124802272,
+  "last-module-event-record-time": 1548740045596,
   "simulator-orientation": false,
   "simulator-resolution": {
     "height": 640,
     "width": 960
   },
-  "start-scene": "current",
   "use-customize-simulator": false,
-  "use-project-simulator-setting": false
+  "use-project-simulator-setting": false,
+  "start-scene": "current"
 }

@@ -26,18 +26,16 @@ var Effect =  cc.Class({
     onLoad()
     {
         Effect.Instance = this;
-        
+        /*
         for(var i = 0;i<10;i++)
         {
             var starEffectNode = cc.instantiate(this.StarEffectPrefabs);
             starEffectNode.parent = this.node;
             this._StarEffectList.push(starEffectNode);
         }
+        */
     },
 
-    start () {
-
-    },
 
     PlayStarEffect(pos,colorType)
     {

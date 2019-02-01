@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "b7835882-27b5-42d6-a5a2-85fcb2fe7f92",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "礼物-按钮2@2x": {
+      "ver": "1.0.3",
+      "uuid": "2f90d294-6ae7-4012-9a6a-81602d87e201",
+      "rawTextureUuid": "b7835882-27b5-42d6-a5a2-85fcb2fe7f92",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 386,
+      "height": 99,
+      "rawWidth": 386,
+      "rawHeight": 99,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

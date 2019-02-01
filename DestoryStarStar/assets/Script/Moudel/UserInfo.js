@@ -17,7 +17,8 @@ var UserInfo =  cc.Class({
             },
             set(value)
             {
-                var realValue = this.toDecimal2(value);
+                var realValue = this.toDecimal2(value)*200;
+                
                 this._getMoney = realValue;
             }            
         },//得到的钱
@@ -29,7 +30,7 @@ var UserInfo =  cc.Class({
             },
             set(value)
             {
-                var realValue = this.toDecimal2(value);
+                var realValue = this.toDecimal2(value)*200;
                 this._money = realValue;
             }
         },//总金额

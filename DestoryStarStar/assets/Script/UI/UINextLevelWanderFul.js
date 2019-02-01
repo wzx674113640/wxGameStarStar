@@ -10,7 +10,7 @@ cc.Class({
         PropsUISpriteFrame: {
             type:cc.SpriteFrame,
             default:[],
-        }
+        },
     },
 
     onLoad()
@@ -22,6 +22,7 @@ cc.Class({
     Show()
     {
         this._super();
+       
         this.PropsValue = Math.floor(Math.random()*this.PropsUISpriteFrame.length);
         this.PropsUI.spriteFrame = this.PropsUISpriteFrame[this.PropsValue];
         if(this.PropsValue == 0)
@@ -74,6 +75,10 @@ cc.Class({
     BtnNoProps()
     {
         this.BtnNextLevel();
+        if(this.NotNeedReward != null)
+        {
+            ShareAndVideo.Instance.AdervertActive(true);
+        }
     },
    
 });

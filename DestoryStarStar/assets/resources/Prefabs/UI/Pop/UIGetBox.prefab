@@ -204,7 +204,27 @@
       "__id__": 2
     },
     "_enabled": true,
+    "duration": 0.1,
+    "zoomScale": 1.2,
+    "clickEvents": [],
+    "_N$interactable": true,
+    "_N$enableAutoGrayEffect": false,
+    "_N$transition": 0,
     "transition": 0,
+    "_N$normalColor": {
+      "__type__": "cc.Color",
+      "r": 214,
+      "g": 214,
+      "b": 214,
+      "a": 255
+    },
+    "_N$pressedColor": {
+      "__type__": "cc.Color",
+      "r": 211,
+      "g": 211,
+      "b": 211,
+      "a": 255
+    },
     "pressedColor": {
       "__type__": "cc.Color",
       "r": 211,
@@ -212,23 +232,18 @@
       "b": 211,
       "a": 255
     },
-    "hoverColor": {
+    "_N$hoverColor": {
       "__type__": "cc.Color",
       "r": 255,
       "g": 255,
       "b": 255,
       "a": 255
     },
-    "duration": 0.1,
-    "zoomScale": 1.2,
-    "clickEvents": [],
-    "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
-    "_N$normalColor": {
+    "hoverColor": {
       "__type__": "cc.Color",
-      "r": 214,
-      "g": 214,
-      "b": 214,
+      "r": 255,
+      "g": 255,
+      "b": 255,
       "a": 255
     },
     "_N$disabledColor": {
@@ -255,9 +270,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6f50793a-6c37-4a97-899c-23b850dadaeb"
+      "__uuid__": "335e0b19-45d1-4bea-9f55-550f8aec4bff"
     },
-    "fileId": "ebkTbN7QtCspnaY7FZyBKv",
+    "fileId": "c9YRO75QVNJKbAA0jJPLZG",
     "sync": false
   },
   {
@@ -357,9 +372,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6f50793a-6c37-4a97-899c-23b850dadaeb"
+      "__uuid__": "335e0b19-45d1-4bea-9f55-550f8aec4bff"
     },
-    "fileId": "01qacDGyFFgIAA/GaDu7vv",
+    "fileId": "efNIB/vtdBiZasRs/A2hoJ",
     "sync": false
   },
   {
@@ -511,6 +526,7 @@
     "_N$file": null,
     "_isSystemFontUsed": true,
     "_spacingX": 0,
+    "_batchAsBitmap": false,
     "_N$horizontalAlign": 1,
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
@@ -523,9 +539,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6f50793a-6c37-4a97-899c-23b850dadaeb"
+      "__uuid__": "335e0b19-45d1-4bea-9f55-550f8aec4bff"
     },
-    "fileId": "49An1SeuZJjrLRXF/5eXrH",
+    "fileId": "d2pCzKM+tM2rbrwaQtw7i0",
     "sync": false
   },
   {
@@ -538,9 +554,7 @@
     "_enabled": true,
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
-    "_spriteFrame": {
-      "__uuid__": "6cc19c94-c607-422b-88db-e8f2320842e5"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_sizeMode": 1,
     "_fillType": 0,
@@ -562,9 +576,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6f50793a-6c37-4a97-899c-23b850dadaeb"
+      "__uuid__": "335e0b19-45d1-4bea-9f55-550f8aec4bff"
     },
-    "fileId": "5ciMQdZfdH1KPq0rMCAon4",
+    "fileId": "86oKB3X65L8p9BvcqjJALx",
     "sync": false
   },
   {
@@ -664,9 +678,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6f50793a-6c37-4a97-899c-23b850dadaeb"
+      "__uuid__": "335e0b19-45d1-4bea-9f55-550f8aec4bff"
     },
-    "fileId": "8bgMEZPlNIA54VZ17/mFXx",
+    "fileId": "d6hswLXGxG3pDOvTvv9TO5",
     "sync": false
   },
   {
@@ -766,9 +780,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6f50793a-6c37-4a97-899c-23b850dadaeb"
+      "__uuid__": "335e0b19-45d1-4bea-9f55-550f8aec4bff"
     },
-    "fileId": "86ZXsWCCxBdYFV0SyKexGp",
+    "fileId": "56QnLRZE5LpJtOOytpo60K",
     "sync": false
   },
   {
@@ -868,9 +882,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6f50793a-6c37-4a97-899c-23b850dadaeb"
+      "__uuid__": "335e0b19-45d1-4bea-9f55-550f8aec4bff"
     },
-    "fileId": "44+52QA5ZFSJ3w1aW7S3T4",
+    "fileId": "968zvWnwlAiosL+9rGpZr+",
     "sync": false
   },
   {
@@ -904,8 +918,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 177,
-      "height": 26
+      "width": 148,
+      "height": 31
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -950,7 +964,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "f207eed0-7850-4bbe-8c07-16e4461b2259"
+      "__uuid__": "915f1c82-ec72-4205-967b-5851a910631a"
     },
     "_type": 1,
     "_sizeMode": 1,
@@ -975,21 +989,6 @@
       "__id__": 24
     },
     "_enabled": true,
-    "transition": 3,
-    "pressedColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
-    "hoverColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
     "duration": 0.1,
     "zoomScale": 1.2,
     "clickEvents": [
@@ -999,7 +998,37 @@
     ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
+    "_N$transition": 3,
+    "transition": 3,
     "_N$normalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_N$pressedColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "pressedColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_N$hoverColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "hoverColor": {
       "__type__": "cc.Color",
       "r": 255,
       "g": 255,
@@ -1041,7 +1070,8 @@
     "target": {
       "__id__": 1
     },
-    "component": "UIGetBox",
+    "component": "",
+    "_componentId": "4a81bRFPD1HtbXMYOTKyjN9",
     "handler": "Close",
     "customEventData": ""
   },
@@ -1051,9 +1081,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6f50793a-6c37-4a97-899c-23b850dadaeb"
+      "__uuid__": "335e0b19-45d1-4bea-9f55-550f8aec4bff"
     },
-    "fileId": "bcBmdLk0VJ2L6+s99uuM/E",
+    "fileId": "f9s6r4pexF25JzSNovq4KD",
     "sync": false
   },
   {
@@ -1087,8 +1117,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 340,
-      "height": 150
+      "width": 306,
+      "height": 99
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1133,7 +1163,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "9e72f6ba-ab51-4016-b835-17f79d461940"
+      "__uuid__": "b9913840-6f46-47b1-9b2a-5ea1161f7630"
     },
     "_type": 1,
     "_sizeMode": 1,
@@ -1158,8 +1188,39 @@
       "__id__": 29
     },
     "_enabled": true,
+    "duration": 0.1,
+    "zoomScale": 1.2,
+    "clickEvents": [
+      {
+        "__id__": 32
+      }
+    ],
+    "_N$interactable": true,
+    "_N$enableAutoGrayEffect": false,
+    "_N$transition": 3,
     "transition": 3,
+    "_N$normalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_N$pressedColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
     "pressedColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_N$hoverColor": {
       "__type__": "cc.Color",
       "r": 255,
       "g": 255,
@@ -1173,22 +1234,6 @@
       "b": 255,
       "a": 255
     },
-    "duration": 0.1,
-    "zoomScale": 1.2,
-    "clickEvents": [
-      {
-        "__id__": 32
-      }
-    ],
-    "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
-    "_N$normalColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
     "_N$disabledColor": {
       "__type__": "cc.Color",
       "r": 255,
@@ -1196,9 +1241,7 @@
       "b": 255,
       "a": 255
     },
-    "_N$normalSprite": {
-      "__uuid__": "9e72f6ba-ab51-4016-b835-17f79d461940"
-    },
+    "_N$normalSprite": null,
     "_N$pressedSprite": {
       "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
     },
@@ -1224,7 +1267,8 @@
     "target": {
       "__id__": 1
     },
-    "component": "UIGetBox",
+    "component": "",
+    "_componentId": "4a81bRFPD1HtbXMYOTKyjN9",
     "handler": "BtnEnterClick",
     "customEventData": ""
   },
@@ -1234,9 +1278,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6f50793a-6c37-4a97-899c-23b850dadaeb"
+      "__uuid__": "335e0b19-45d1-4bea-9f55-550f8aec4bff"
     },
-    "fileId": "89Yb4NAlJL1rJmMlC94suP",
+    "fileId": "a71SV1fN9BvoddK4T6qKKn",
     "sync": false
   },
   {
@@ -1270,8 +1314,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 440,
-      "height": 150
+      "width": 386,
+      "height": 99
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1316,7 +1360,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "83c9e881-22c3-43a8-9cf8-69543058752b"
+      "__uuid__": "89b8dabe-c7ac-4966-babd-af073f9ff25c"
     },
     "_type": 1,
     "_sizeMode": 1,
@@ -1341,8 +1385,39 @@
       "__id__": 34
     },
     "_enabled": true,
+    "duration": 0.1,
+    "zoomScale": 1.2,
+    "clickEvents": [
+      {
+        "__id__": 37
+      }
+    ],
+    "_N$interactable": true,
+    "_N$enableAutoGrayEffect": false,
+    "_N$transition": 3,
     "transition": 3,
+    "_N$normalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_N$pressedColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
     "pressedColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_N$hoverColor": {
       "__type__": "cc.Color",
       "r": 255,
       "g": 255,
@@ -1356,22 +1431,6 @@
       "b": 255,
       "a": 255
     },
-    "duration": 0.1,
-    "zoomScale": 1.2,
-    "clickEvents": [
-      {
-        "__id__": 37
-      }
-    ],
-    "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
-    "_N$normalColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
     "_N$disabledColor": {
       "__type__": "cc.Color",
       "r": 255,
@@ -1379,9 +1438,7 @@
       "b": 255,
       "a": 255
     },
-    "_N$normalSprite": {
-      "__uuid__": "83c9e881-22c3-43a8-9cf8-69543058752b"
-    },
+    "_N$normalSprite": null,
     "_N$pressedSprite": {
       "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
     },
@@ -1408,6 +1465,7 @@
       "__id__": 1
     },
     "component": "UIGetBox",
+    "_componentId": "",
     "handler": "BtnShareClick",
     "customEventData": ""
   },
@@ -1417,9 +1475,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6f50793a-6c37-4a97-899c-23b850dadaeb"
+      "__uuid__": "335e0b19-45d1-4bea-9f55-550f8aec4bff"
     },
-    "fileId": "13CitdkidNo5nQp9YbJRXd",
+    "fileId": "86jXRnlFBP+IveFjT7egeD",
     "sync": false
   },
   {
@@ -1453,8 +1511,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 440,
-      "height": 150
+      "width": 386,
+      "height": 99
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1499,7 +1557,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "b48ec97d-48a5-4281-b705-ff0be1ea8e81"
+      "__uuid__": "2f90d294-6ae7-4012-9a6a-81602d87e201"
     },
     "_type": 1,
     "_sizeMode": 1,
@@ -1524,8 +1582,39 @@
       "__id__": 39
     },
     "_enabled": true,
+    "duration": 0.1,
+    "zoomScale": 1.2,
+    "clickEvents": [
+      {
+        "__id__": 42
+      }
+    ],
+    "_N$interactable": true,
+    "_N$enableAutoGrayEffect": false,
+    "_N$transition": 3,
     "transition": 3,
+    "_N$normalColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_N$pressedColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
     "pressedColor": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
+    "_N$hoverColor": {
       "__type__": "cc.Color",
       "r": 255,
       "g": 255,
@@ -1539,22 +1628,6 @@
       "b": 255,
       "a": 255
     },
-    "duration": 0.1,
-    "zoomScale": 1.2,
-    "clickEvents": [
-      {
-        "__id__": 42
-      }
-    ],
-    "_N$interactable": true,
-    "_N$enableAutoGrayEffect": false,
-    "_N$normalColor": {
-      "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
-      "a": 255
-    },
     "_N$disabledColor": {
       "__type__": "cc.Color",
       "r": 255,
@@ -1562,9 +1635,7 @@
       "b": 255,
       "a": 255
     },
-    "_N$normalSprite": {
-      "__uuid__": "83c9e881-22c3-43a8-9cf8-69543058752b"
-    },
+    "_N$normalSprite": null,
     "_N$pressedSprite": {
       "__uuid__": "e9ec654c-97a2-4787-9325-e6a10375219a"
     },
@@ -1591,6 +1662,7 @@
       "__id__": 1
     },
     "component": "UIGetBox",
+    "_componentId": "",
     "handler": "BtnVideoClick",
     "customEventData": ""
   },
@@ -1600,9 +1672,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6f50793a-6c37-4a97-899c-23b850dadaeb"
+      "__uuid__": "335e0b19-45d1-4bea-9f55-550f8aec4bff"
     },
-    "fileId": "e254ioZdFG9Y+A+b03HDF3",
+    "fileId": "69c7fBqN1LpaKdZ2qQpyak",
     "sync": false
   },
   {
@@ -1613,6 +1685,9 @@
       "__id__": 1
     },
     "_enabled": true,
+    "NotNeedReward": {
+      "__id__": 24
+    },
     "ImgBox": {
       "__id__": 15
     },
@@ -1636,16 +1711,16 @@
     },
     "PropsUISpriteFrame": [
       {
-        "__uuid__": "6cc19c94-c607-422b-88db-e8f2320842e5"
+        "__uuid__": "13415d29-d7bb-4300-a75c-e37f87519caa"
       },
       {
-        "__uuid__": "249e3b65-7d5d-4235-bc56-183da0b75e93"
+        "__uuid__": "9cdb4b62-232f-4d0b-bf93-68f986c10514"
       },
       {
-        "__uuid__": "a0f242c7-40a4-45f2-adef-fe188ae6be7b"
+        "__uuid__": "825e4942-4a0f-4a95-a3cc-868b1e2a91e3"
       },
       {
-        "__uuid__": "6c640823-fcef-43b8-b9f8-5c86a6537e27"
+        "__uuid__": "789afbc4-7847-4552-83ef-0e65d561ec1a"
       }
     ],
     "_id": ""
@@ -1656,9 +1731,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6f50793a-6c37-4a97-899c-23b850dadaeb"
+      "__uuid__": "335e0b19-45d1-4bea-9f55-550f8aec4bff"
     },
-    "fileId": "8b2mlaDihAP7Z2Tb2iKCYb",
+    "fileId": "6bLYTz6yJGnbq/Fn0BrMo3",
     "sync": false
   }
 ]

@@ -1,4 +1,5 @@
 var UIManage = require("UIManage");
+var ShareAndVideo = require("ShareAndVideo");
 
 cc.Class({
     extends: cc.Component,
@@ -7,6 +8,7 @@ cc.Class({
         ContentNode:cc.Node ,//Item的父对象
         ItemRankPrefabs:cc.Prefab, //Item预制体
         FTol:cc.Toggle,
+        WTol:cc.Toggle,
     },
 
     onLoad () {
@@ -17,19 +19,27 @@ cc.Class({
         this.IsRequ = true; //是否请求子域排行榜数据
     },
 
+    ShareClick()
+    {
+        ShareAndVideo.Instance.AddShareEvent(()=>
+        {
+
+        });
+    },
+
     Open()
     {
-        if(!this.FTol.ischecked)
-        {
-            this.FTol.check();
-        }
+        this.node.active = true;
+        //this.WTol.uncheck();
+        this.FTol.isChecked = true;
+        this.WTol.isChecked = false;
         this.IsLoadJson = true;
         this.WRanking.active = false;
         this.selfItem.active = false;
         //TODO 显示子域的好友排行榜
         this.ChildrenRankCom.ShowFrindRanking(this.IsRequ);
         this.isRequ = false;
-        this.node.active = true;
+        
     },
 
     Close()
@@ -96,14 +106,14 @@ cc.Class({
                             iteminfo.getComponent("RankItem").SetItem(obj[i].num, obj[i].avatar_url,obj[i].nick_name,obj[i].score);
                         }
                         // 设置排行榜滑动长度
-                        if(self.ContentNode.children.length>=5)
+                        if(self.ContentNode.children.length>=6)
                         {
-                            var height = 780+(self.ContentNode.children.length-4)*136;
+                            var height = 677+(self.ContentNode.children.length-5)*119;
                             self.Content.setContentSize(682,height); 
                         }
                         else
                         {
-                            self.Content.setContentSize(682,780);
+                            self.Content.setContentSize(682,677);
                         }
                         
                         self.selfItem.getComponent("RankItem").SetItem(view.num, view.avatar_url,view.nick_name,view.score);

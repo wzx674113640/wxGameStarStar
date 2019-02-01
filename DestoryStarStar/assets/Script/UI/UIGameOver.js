@@ -7,6 +7,7 @@ cc.Class({
 
     properties: {
         UIScore:cc.Label,
+        AppLayout:cc.Node,
     },
 
     onLoad()
@@ -17,15 +18,29 @@ cc.Class({
 
     Show () {
         this._super();
+        this.ChildrenRankCom.HideChild();
         var playInfo =  FactoryItem.Instance.UIMianCom._PlayInfo;
         this.UIScore.string = playInfo._Score;
-        this.ChildrenRankCom.ShowTwo();
+        //this.ChildrenRankCom.ShowTwo();
+        this.OpenApp();
+    },
+
+    OpenApp()
+    {
+        var Info = this.ChildrenRankCom._AppIDInfoList;
+        for(var i = 0; i<this.AppLayout.children.length;i++)
+        {
+            if(Info.length>i)
+            {
+                this.AppLayout.children[i].getComponent("AppItem").setItem(Info[i]);
+            }
+        }   
+        
     },
 
     Close()
     {
         this._super();
-        this.ChildrenRankCom.HideChild();
     },
 
     BtnAgain()

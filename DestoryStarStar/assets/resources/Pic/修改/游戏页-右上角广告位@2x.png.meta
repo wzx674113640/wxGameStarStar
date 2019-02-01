@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "4add55f0-e852-4c8e-888f-59239a50748f",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "游戏页-右上角广告位@2x": {
+      "ver": "1.0.3",
+      "uuid": "b7f7bc85-9b8b-403f-a23f-876016b9a2b7",
+      "rawTextureUuid": "4add55f0-e852-4c8e-888f-59239a50748f",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 80,
+      "height": 80,
+      "rawWidth": 80,
+      "rawHeight": 80,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,6 +1,4 @@
 
-
-
 var FileServe =  cc.Class({
     extends: cc.Component,
 
@@ -15,6 +13,7 @@ var FileServe =  cc.Class({
 
     onLoad()
     {
+        cc.game.setFrameRate(50);
         FileServe.Instance = this;
         this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
         //this.GameInitCom.firstInit();
@@ -28,7 +27,6 @@ var FileServe =  cc.Class({
     {
         var FactoryItem = require("FactoryItem");
         var playList = {};
-
         var playerInfo = FactoryItem.Instance.UIMian.getComponent("UIMian")._PlayInfo;
         playList._LastNeedScore = playerInfo._LastNeedScore;
         playList._NeedScore = playerInfo._NeedScore;
@@ -62,7 +60,12 @@ var FileServe =  cc.Class({
                 var active = ItemList[i].active == true? 1:0;
                 ItemInfo.active = active;
                 ItemInfo._ID = ItemComm._ID;//****/
-                var pos = ItemList[i].getPosition();
+                var pos1 = ItemList[i].getPosition();
+                 
+                var  numx = Number(pos1.x.toFixed(1));
+                var  numy = Number(pos1.y.toFixed(1));
+                var pos = cc.v2(numx,numy);
+
                 ItemInfo.X = pos.x;
                 ItemInfo.Y = pos.y;
                 ItemInfo._isHasBox = ItemComm._isHasBox;
@@ -274,11 +277,9 @@ var FileServe =  cc.Class({
     {
         var ItemDay = cc.sys.localStorage.getItem("Day");
         var ItemMonth = cc.sys.localStorage.getItem("Month");
-        //var ItemMinute = cc.sys.localStorage.getItem("Minute");
         var data = new Date();
         var day = data.getUTCDate();
         var month = data.getUTCMonth();
-        //var minute = data.getMinutes();
         if(ItemDay === ""||ItemDay === null)
         {
             this.ReSetCount();
@@ -317,7 +318,7 @@ var FileServe =  cc.Class({
     ReSetCount()
     {
         cc.sys.localStorage.setItem("DimondCount",5);
-        cc.sys.localStorage.setItem("VideoCount",10);
+        cc.sys.localStorage.setItem("VideoCount",7);
     },
 
 
@@ -346,7 +347,7 @@ var FileServe =  cc.Class({
 //限制今天看视频的次数
     GetAllVideoCount()
     {
-        var Vcount = 10;
+        var Vcount = 7;
         var ItemVideoCount = cc.sys.localStorage.getItem("VideoCount");
         if(ItemVideoCount === ""|| ItemVideoCount === null)
         {

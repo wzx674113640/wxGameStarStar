@@ -34,6 +34,7 @@ var FactoryItem =  cc.Class({
 
         _StartMoveDis: 300,
         _TouchState: "", //道具状态 ""：正常 "1"：锤子 "2":...
+        _index:0
     },
 
     Clear()
@@ -76,6 +77,8 @@ var FactoryItem =  cc.Class({
 
 
     start () {
+        this.Disx = 72;
+        this.Disy = 73;
         this.ChildrenRankCom = cc.find("wx").getComponent("ChildrenRank");
     },
 
@@ -89,58 +92,8 @@ var FactoryItem =  cc.Class({
         }
     },
 
-    GetDis(isCashe = false)
+    GetDis()
     {
-        var  itemChildrens = this.ItemParent.children;
-        //var disx =  itemChildrens[1].getPosition().x-itemChildrens[2].getPosition().x;
-        //var disy =  itemChildrens[1].getPosition().y-itemChildrens[11].getPosition().y;
-        //this.Disx = Math.abs(disx);
-        //this.Disy = Math.abs(disy);
-        this.Disx = 72;
-        this.Disy = 73;
-        var value = Math.floor(Math.random()*100);
-        if(value<40)
-        {
-            var index = Math.floor(Math.random()*100);
-        }
-
-        for(var i = 0;i<itemChildrens.length;i++)
-        {
-            if(i == index)
-            {
-                if(!isCashe)
-                {
-                    itemChildrens[i].getComponent("Item").ShowBox();
-                }
-            }
-            var time  = 0.01*(100-i)+0.1;
-            var move = cc.moveBy(time,cc.v2(0,-this._StartMoveDis));
-            itemChildrens[i].runAction(move);
-        }
-
-        /*
-        var timeindex = 10;
-        var indexbox = -1;
-        for(var key in this.allVerticalList)
-        {
-            var time1 = 0.05 + timeindex*0.05;
-            timeindex--;
-            for(var i = 0;i<this.allVerticalList[key].length;i++)
-            {
-                indexbox++;
-                var time = time1+0.05*(10-i);
-                if(indexbox == index)
-                {
-                    if(!isCashe)
-                    {
-                        this.allVerticalList[key][i].getComponent("Item").ShowBox();
-                    }
-                }
-                var move = cc.moveBy(time,cc.v2(0,-this._StartMoveDis));
-                this.allVerticalList[key][i].runAction(move);
-            }
-        }
-        */
         //清理Gc
         if(CC_WECHATGAME)
         {
@@ -155,6 +108,7 @@ var FactoryItem =  cc.Class({
             self.ChildrenRankCom.ShowOne();
         },1.5);
         this.isGameOver = false;
+
     },
 
     CreatItem(pos,num,index)
@@ -162,11 +116,13 @@ var FactoryItem =  cc.Class({
         var item = this.ItemParent.children.length==100? this.ItemParent.children[num]:cc.instantiate(this.ItemPrefabs);
         item.active = true;
         item.setPosition(cc.v2(pos.x,pos.y + this._StartMoveDis));
+
         item.setScale(1);
         item.parent = this.ItemParent;
         var ItemCom =  item.getComponent("Item");
         ItemCom._ColorType = index;
         ItemCom._ID = num+1;
+        ItemCom._isDestory = false;
         item.getComponent(cc.Sprite).spriteFrame = this.ColorList[index];
         ItemCom.HideLight();
         this.allocationVertical(num,item);
@@ -219,6 +175,9 @@ var FactoryItem =  cc.Class({
 //分配竖列 
     allocationVertical(num,myItem)
     {
+        var myItemCom = myItem.getComponent("Item");
+        if(myItemCom._isDestory)
+            return;
         var index = (num+1)%this.across;
         if(this.allVerticalList.length == 0)
         {
@@ -238,11 +197,37 @@ var FactoryItem =  cc.Class({
         }
     },
 
-    test()
+    setItemXY()
     {
         for(var key in this.allVerticalList)
         {
-            var  index = 0;
+            for(var i = 0;i<this.allVerticalList[key].length;i++)
+            {
+                this.allVerticalList[key][i].getComponent("Item").setXY(Number(key),i);
+            }
+        }
+    },
+
+    test()
+    {
+        var indexlist = [];
+        var index = -1;
+        for(var key in this.allVerticalList)
+        {
+            index ++;
+            if(this.allVerticalList[key].length == 0)
+            {
+                indexlist.push(index);
+            }
+        }
+        for(var i = 0; i< indexlist.length;i++)
+        {
+            this.allVerticalList.splice(indexlist[i]-i,1);
+        }
+        this.setItemXY();
+        /*
+        for(var key in this.allVerticalList)
+        {
             for(var i = this.allVerticalList[key].length-1;i>=0;i--)
             {
                 if(this.allVerticalList[key][i].getComponent("Item")._isDestory)
@@ -252,9 +237,10 @@ var FactoryItem =  cc.Class({
             }
             if(this.allVerticalList[key] != null && this.allVerticalList[key].length == 0)
             {
-                this.allVerticalList[key] = null;
+                this.allVerticalList[key] = null
             }
         }
+        */
     },
 
     AddCheckItem(checkItem,isAnimation = true)
@@ -419,7 +405,7 @@ var FactoryItem =  cc.Class({
         for(var i = 0;i< this._CheckItem.length;i++)
         {
             var itemComm = this._CheckItem[i].getComponent("Item");
-            itemComm.HideLight();
+            itemComm.LightUI.active = false;
             itemComm._isDestory = false;
         }
         this._CheckItem.length = 0;
@@ -463,6 +449,7 @@ var FactoryItem =  cc.Class({
                 self.IsDeath();
                 self.UIMianCom.UpdateFreindRank();
                 self._IsTouch = true;
+                
             }, timer);
 
         }, 0.4);
@@ -484,12 +471,16 @@ var FactoryItem =  cc.Class({
     {
         var isleftAni = false;
         var leftstep = 0;
+        var index = -1;
+        var indexlist = [];
         for(var _key1 in this.allVerticalList)
          {
+             index++;
              if(this.allVerticalList[_key1] != null && this.allVerticalList[_key1].length == 0)
              {
                 leftstep++;
                 this.allVerticalList[_key1] = null;
+                indexlist.push(index);
              }
              else if(leftstep >0&&this.allVerticalList[_key1] !=null)
              {
@@ -501,20 +492,36 @@ var FactoryItem =  cc.Class({
                 }
              }
          }
+         for(var i = 0; i< indexlist.length;i++)
+         {
+             this.allVerticalList.splice(indexlist[i]-i,1);
+         }
          return isleftAni;
     },
     MoveDownItem(step,item)
     {
-        //item.getComponent("Item")._ID + step*10;
-        var move =  cc.moveBy(0.15,cc.v2(0,-this.Disy*step));
+        item.getComponent("Item")._Y -= step;
+        var pos = item.getPosition();
+        var  numx = Number(pos.x.toFixed(1));
+        var  numy = Number(pos.y.toFixed(1));
+        var targetPos = cc.v2(numx,numy-this.Disy*step);
+        
+        var move =  cc.moveTo(0.15,targetPos);
         var move1 = cc.moveBy(0.1,cc.v2(0,20));
         var move2 = cc.moveBy(0.05,cc.v2(0,-20));
+        
         item.runAction(cc.sequence(move,move1,move2));
     },
     MoveleftItem(step,item)
     {
+        item.getComponent("Item")._X -= step;
+        var pos = item.getPosition();
+        var  numx = Number(pos.x.toFixed(1));
+        var  numy = Number(pos.y.toFixed(1));
+        var targetPos = cc.v2(numx-this.Disx*step,numy);
+
         //item.getComponent("Item")._ID - step;
-        var move =  cc.moveBy(0.1,cc.v2(-this.Disx*step,0));
+        var move =  cc.moveTo(0.1,targetPos);
        
         item.runAction(move);
     },
@@ -742,15 +749,11 @@ var FactoryItem =  cc.Class({
             var posX = VlistX[i];
 
             alllist[i] =  Vlist[real];
-            //var vv =  Vlist[real][Vlist[real].length-1].getComponent("Item")._ID-Vlist[i][Vlist[i].length-1].getComponent("Item")._ID;
             for(var j = 0;j<Vlist[real].length;j++)
             {
                 var startPOS =  Vlist[real][j].getPosition();
                 
                 Vlist[real][j].setPosition(cc.v2(posX,startPOS.y));
-                //var vreal =  Vlist[real][j].getComponent("Item")._ID;
-                //var target =  vreal - vv;
-                //Vlist[real][j].getComponent("Item")._ID = target;
             }
         }
         var _i = -1;
@@ -779,6 +782,7 @@ var FactoryItem =  cc.Class({
                 this.allVerticalList[key] = null;
             }
         }
+        this.setItemXY();
         this.isReset = true;
         this.IsDeath();
      },

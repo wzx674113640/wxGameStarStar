@@ -21,15 +21,15 @@ cc.Class({
     {
         if(this.isOpen == false)
         {
-            var m = cc.moveBy(0.3,cc.v2(425,0));
-            this.BtnAppList.runAction(m);
+            var m = cc.moveBy(0.3,cc.v2(595,0));
+            this.node.runAction(m);
             this.isOpen = true;
             this.BtnAppList.getComponent(cc.Sprite).spriteFrame = this.BtnAppListSprite[0];
         }
         else
         {
-            var m = cc.moveBy(0.3,cc.v2(-425,0));
-            this.BtnAppList.runAction(m);
+            var m = cc.moveBy(0.3,cc.v2(-595,0));
+            this.node.runAction(m);
             this.isOpen = false;
             this.BtnAppList.getComponent(cc.Sprite).spriteFrame = this.BtnAppListSprite[1];
         }

@@ -44,6 +44,12 @@ cc.Class({
         this.PropsValue = Math.floor(Math.random()*this.PropsUISpriteFrame.length);
         if (!CC_WECHATGAME)
             return;
+        if(!this.IsShowShare)
+        {
+            this.BtnVideo.active = true;
+            this.BtnShare.active = false;
+            return;
+        }
         if(this.ChildrenRankCom.playInfo._is_status == 1)
         {
             if(FileServe.Instance.GetAllVideoCount()<=0)
@@ -82,6 +88,10 @@ cc.Class({
     {
         this.node.active = false;
         this.Mask.active = false;
+        if(this.NotNeedReward != null)
+        {
+            ShareAndVideo.Instance.AdervertActive(true);
+        }
     },
 
     BtnShareClick()

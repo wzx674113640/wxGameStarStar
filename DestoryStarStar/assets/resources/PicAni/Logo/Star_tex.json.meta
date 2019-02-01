@@ -1,0 +1,7 @@
+{
+  "ver": "1.0.0",
+  "uuid": "dd8671b1-4671-4b61-91ec-aaf33c5b33eb",
+  "atlasJson": "{\"width\":1024,\"imagePath\":\"Star_tex.png\",\"height\":512,\"name\":\"Star\",\"SubTexture\":[{\"width\":698,\"y\":1,\"height\":358,\"name\":\"222x\",\"x\":1}]}",
+  "texture": "6278381a-a233-49f4-b2e2-1f8df350ec7c",
+  "subMetas": {}
+}

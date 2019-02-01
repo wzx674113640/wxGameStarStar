@@ -22,8 +22,14 @@ cc.Class({
         this.node.active = true;
         this.Mask.active = true;
         this.BtnClose.active = true;
+
+        this.BtnVideo.active = true;
+        this.BtnShare.active = false;
+        return;
+
         if (!CC_WECHATGAME)
             return;
+      
         if(this.childrenRankCom.playInfo._is_status == 1)
         {
             if(FileServe.Instance.GetAllVideoCount()<=0)
@@ -61,6 +67,10 @@ cc.Class({
     {
         this.node.active = false;
         this.Mask.active = false;
+        if(this.NotNeedReward != null)
+        {
+            ShareAndVideo.Instance.AdervertActive(true);
+        }
     },
 
     BtnShareClick()

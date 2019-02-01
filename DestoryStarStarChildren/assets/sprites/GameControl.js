@@ -22,6 +22,7 @@ cc.Class({
   
 
     start () {
+        cc.find("Canvas").y = 667;
         window.wx.onMessage(data => {
             if (data.messageType == 0) {//移除排行榜
                 this.removeChild();
@@ -162,7 +163,6 @@ cc.Class({
                             if(data.length <= 1||isfirst == true)
                             {
                                 this.UIEndOne.getComponent("UIEndOne").Win();
-                                console.log("自己最大");
                                 this._MaxScore = 99999999;
                             }
                             //空的 则此人为最后一名
@@ -330,16 +330,16 @@ cc.Class({
                             item.getComponent('RankItem').init(i, playerInfo);
                             if(playerInfo.avatarUrl == userData.avatarUrl)
                             {
-                                this.myRankingItem.getComponent('RankItem').init(i, playerInfo,false);
+                                this.myRankingItem.getComponent('MyItem').init(i, playerInfo,false);
                                 IsSetMySelf = true;
                             }
                             if(i==data.length-1&&IsSetMySelf == false)
                             {
-                                this.myRankingItem.getComponent('RankItem').init();
+                                //this.myRankingItem.getComponent('RankItem').init();
                                 playerInfo.nickname = userData.nickname;
                                 playerInfo.avatarUrl = playerInfo.avatarUrl;
                                 playerInfo.KVDataList.length = 0;
-                                this.myRankingItem.getComponent('RankItem').init(data.length-1,playerInfo,false);
+                                this.myRankingItem.getComponent('MyItem').init(data.length-1,playerInfo,false);
                                 IsSetMySelf = true;
                             }
                         }
@@ -349,14 +349,14 @@ cc.Class({
                         }
                        
                         // 设置排行榜滑动长度
-                        if(self.LayoutNode.children.length>=5)
+                        if(self.LayoutNode.children.length>=6)
                         {
-                            var height =780+(self.LayoutNode.children.length-4)*136;
+                            var height = 677+(self.LayoutNode.children.length-5)*119;
                             self.Content.setContentSize(682,height); 
                         }
                         else
                         {
-                            self.Content.setContentSize(682,780);
+                            self.Content.setContentSize(682,677);
                         }
                     },
                     fail: res => {

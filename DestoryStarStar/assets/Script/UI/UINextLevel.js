@@ -7,7 +7,6 @@ cc.Class({
     properties: {
         LabelLevel:cc.Label,
         LabelScore:cc.Label,
-        LightUI:cc.Node,
     },
 
 
@@ -29,9 +28,9 @@ cc.Class({
     Show()
     {
         this._super();
-        var playInfo =  FactoryItem.Instance.UIMianCom._PlayInfo;
-        this.LabelLevel.string = "第"+playInfo._Level+"关";
-        this.LabelScore.string = playInfo._Score;
+        this.playInfo =  FactoryItem.Instance.UIMianCom._PlayInfo;
+        this.LabelLevel.string = "第"+this.playInfo._Level+"关";
+        this.LabelScore.string = this.playInfo._Score;
     },
 
     BtnNextLevel()
@@ -43,6 +42,16 @@ cc.Class({
         this.isStart = true;
         this.Close();
         FactoryItem.Instance.UIMianCom.NextLevel();
+        
+        if(this.playInfo._Level % 2 == 0)
+        {
+            ShareAndVideo.Instance.ShowOrHideAdervert(false);
+            ShareAndVideo.Instance.ShowOrHideAdervert(true);
+        }
+        
+        //刷新广告
+       
+        FactoryItem.Instance.UIMianCom.ShowUpAppItem();
     },
 
     BtnShare()
@@ -52,9 +61,5 @@ cc.Class({
             
         });
     },
-    update(dt)
-    {
-        this.LightUI.rotation += dt*10;
-    }
     
 });

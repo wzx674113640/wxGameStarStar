@@ -20,6 +20,7 @@ var  SoundManage = cc.Class({
         if(!this.IsPlay)
             return;
         cc.audioEngine.play(this.AduioClipList[4], false, this.volume);
+        
     },
 
     playPromptSound(index)
@@ -48,6 +49,7 @@ var  SoundManage = cc.Class({
     onLoad()
     {
         SoundManage.Instance = this;
+        this.NodeChildren = this.node.children;
         this.volume = 1;
         this.IsPlay = true;
         this.playMusic();
