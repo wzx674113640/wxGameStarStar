@@ -55,6 +55,8 @@ cc.Class({
         MoneyLabel:cc.Label,
         //_TouchState: "", //道具状态 ""：正常 "1"：锤子 "2":...
         Adver:cc.Node,
+
+        BtnPauseNode:cc.Node
     },
 
     onLoad()
@@ -64,6 +66,8 @@ cc.Class({
         this.UpLayout = this.node.getChildByName("UpLayout");
         this.AdpativeUI();
         this._PlayInfo = new PlayInfo();
+
+        this.isCoolReset = true;
     },
     
     setMoneyLabel()
@@ -159,7 +163,7 @@ cc.Class({
        
     },
 
-    closeGaming()
+    BtncloseGaming()
     {
         if(FactoryItem.Instance.IsGameStart&&FactoryItem.Instance._IsTouch)
         {
@@ -169,7 +173,27 @@ cc.Class({
             UIManage.Instance.ShowGameStart();
             this.UIProposChangePanel.active = false;
             this.PropsAniPanel.active = false;
+            this.BtnPauseNode.active = false;
         }
+    },
+
+    BtnPauseClick()
+    {
+        this.BtnPauseNode.active = true;
+    },
+
+    BtnAgianGClick()
+    {
+        this.BtnPauseNode.active = false;
+    },
+
+    BtnResurtClick()
+    {
+        this.GameInitCom.Init();
+        this._PlayInfo._Score = this._PlayInfo._LastScore;
+        this.BtnPauseNode.active = false;
+        this.LableScoreUI.string = this._PlayInfo._Score;
+        FactoryItem.Instance.StopPromptAnimation();
     },
 
     cache()
@@ -201,7 +225,7 @@ cc.Class({
         {
             return;
         }
-        if(this.ChildrenRankCom.playInfo._is_status == 1)
+        if(this.ChildrenRankCom.playInfo._is_status == 1 || this.ChildrenRankCom.playInfo._is_status == undefined)
         {
             this.PropsDes.active = true;
             var value = this.ChildrenRankCom._AppIDInfoList.length;
@@ -223,7 +247,7 @@ cc.Class({
 
     ShowUpAppItem()
     {
-        var cList =this.ChildrenRankCom._AppIDInfoList;
+        var cList = this.ChildrenRankCom._AppIDInfoList;
         var value = Math.floor(Math.random()*cList.length);
         this.Adver.getComponent("AppItem").setItem(cList[value],()=>
         {
@@ -268,7 +292,6 @@ cc.Class({
                         cc.sys.localStorage.setItem("VesionScore",this.ChildrenRankCom._version);
                     }
                 }
-               
             }
             this._PlayInfo._LastScore = cache._LastScore;
             this._PlayInfo._Level = cache._Level;
@@ -396,7 +419,7 @@ cc.Class({
                 else
                 {
                     //弹框需要充值或看视频得钻石
-                    self.ShowDiamonUI();
+                    self.ShowDiamonUI(2);
                 }
             }
         });
@@ -434,7 +457,7 @@ cc.Class({
                 {
                     //弹框需要充值或看视频得钻石
                     
-                    self.ShowDiamonUI();
+                    self.ShowDiamonUI(3);
                 }
             }
         });
@@ -449,8 +472,9 @@ cc.Class({
             var value = self.GameInitCom.PopsList.Reset;
             if(value>0)
             {  
-                if(FactoryItem.Instance._TouchState ==""&&FactoryItem.Instance._IsTouch&&FactoryItem.Instance.IsGameStart)
+                if(FactoryItem.Instance._TouchState ==""&&FactoryItem.Instance._IsTouch&&FactoryItem.Instance.IsGameStart&&self.isCoolReset)
                 {
+                    self.isCoolReset = false;
                     FactoryItem.Instance.PropsRest();
                     self.GameInitCom.PopsList.Reset-=1;
                     var PosUIBtnCom = self.PropsRest.getComponent("PopsUIBtn");
@@ -462,6 +486,10 @@ cc.Class({
                     {
                         PosUIBtnCom.NoHas();
                     }
+                    self.scheduleOnce(()=>
+                    {
+                        self.isCoolReset = true;
+                    },1);
                 }
             }
             else
@@ -478,7 +506,7 @@ cc.Class({
                 {
                     //弹框需要充值或看视频得钻石
                     
-                    self.ShowDiamonUI();
+                    self.ShowDiamonUI(1);
                 }
             }
         });
@@ -494,9 +522,13 @@ cc.Class({
         */
     },
 
-    ShowDiamonUI()
+    ShowDiamonUI(index)
     {
-        UIManage.Instance.ShowUIDiamon();
+        //UIManage.Instance.ShowUIDiamon();
+        ShareAndVideo.Instance.ShareAndVideo(()=>
+        {
+            FlyUI.Instance.PropsUIFly(index);
+        });
     },
 
     UserHammerProps(value =-1)
@@ -660,12 +692,26 @@ cc.Class({
 
     NextLevel(isMove = true )
     {
-        this.LableNeedScoreUI.string = this._PlayInfo._NeedScore;
-        this.LevelLabel.string = this._PlayInfo._Level;
-        if(isMove)
+        if(this.IsNextEvent())
         {
-            FactoryItem.Instance.Init();
-        }
+            this.LableNeedScoreUI.string = this._PlayInfo._NeedScore;
+            this.LevelLabel.string = this._PlayInfo._Level;
+            if(isMove)
+            {
+                FactoryItem.Instance.Init();
+            }
+            
+            if(this._PlayInfo._Level % 2 == 0)
+            {
+                ShareAndVideo.Instance.ShowOrHideAdervert(false);
+                ShareAndVideo.Instance.ShowOrHideAdervert(true);
+            }
+
+            if(CC_WECHATGAME)
+            {
+                this.ShowUpAppItem();
+            }
+        } 
     },
 
     RestLevel()
@@ -680,6 +726,30 @@ cc.Class({
         this.LableNeedScoreUI.string = this._PlayInfo._NeedScore;
         this.LevelLabel.string = this._PlayInfo._Level;
         FactoryItem.Instance.Init();
+    },
+
+    IsNextEvent()
+    {
+        this.ChildrenRankCom.SubmitScore(this._PlayInfo._Score,this._PlayInfo._Level);
+        
+        if(this._PlayInfo._Score>=this._PlayInfo._NeedScore)
+        {
+            this._PlayInfo.NextLevel();
+        
+            FactoryItem.Instance.Cache();
+            var IsSuccess = true;
+        }
+        else
+        {
+            this.ChildrenRankCom.ShowChildrenGameOver(this._PlayInfo._Score);
+            this.ShowFail();
+            var IsSuccess = false;
+        }
+        if(CC_WECHATGAME)
+        {
+            wx.triggerGC();
+        }
+        return IsSuccess;
     },
 
     IsSuccess()

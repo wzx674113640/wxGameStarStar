@@ -18,6 +18,7 @@ cc.Class({
         this.ID = -1;
         this.UIParent = this.node.parent;
         this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
+        this.IsVideoClick = false;
     },
 
     SetItem(level,score,IsNeedResurt,id)
@@ -51,10 +52,10 @@ cc.Class({
     {
         ShareAndVideo.Instance.SeeVedioClick(()=>
         {
+            this.UIParent.active = false;
             FileServe.Instance.ReadCache(this.ID);
             //UIManage.Instance.ShowGameing();
             this.GameInitCom.GameStart(true);
-            this.UIParent.active = false;
         });
         return;
         if(FileServe.Instance.GetAllVideoCount()==-1)

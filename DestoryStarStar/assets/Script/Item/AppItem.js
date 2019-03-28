@@ -8,18 +8,25 @@ cc.Class({
         Img:cc.Sprite,
         //Img1:cc.Sprite,
         IsImg1:true,
+
+        RedImg:cc.Node,
+
+        MoreGameSprite:cc.SpriteFrame,
     },
 
     start () {
        this.urlList = [];
        this.sFlist = [];
-        //this.Img = this.node.getChildByName('HeadImge').getComponent(cc.Sprite);
-        //this.Name = this.node.getChildByName("Name").getComponent(cc.Label);
         this.childrenRankCom = cc.find("wx").getComponent("ChildrenRank");
     },
     
     setItem(appInfo,action = null)
     {
+        if(appInfo.img == undefined)
+        {
+            console.error("服务器没有成功获取AppID的数据",appInfo);
+            return;
+        }
         this.node.active = true;
         if(!this.IsImg1)
         {
@@ -29,15 +36,10 @@ cc.Class({
         {
             Helper.Instance.createAppImage(appInfo.img1,this.Img)
         }
-
-        //this.Name.node.active = false;
-        //this.ImgYuan.node.active = true;
-        //this.Name.string = appInfo.title.length <= 4 ? appInfo.title : appInfo.title.substr(0, 4) ;
-       
         var self = this;
     
         this.Img.node.targetOff(this);
-        this.Img.node.on(cc.Node.EventType.TOUCH_START, function(event)
+        this.Img.node.on(cc.Node.EventType.TOUCH_END, function(event)
         {
             self.childrenRankCom.CG2_AppReqCount(appInfo.id);
             self.childrenRankCom.associatedProgram(appInfo.appid,appInfo.url,appInfo.id);
@@ -46,6 +48,32 @@ cc.Class({
                 action();
             }
         },this);
-    },   
-    
+        this.setRedImg();
+    },
+
+    //设置222
+    set222Touch()
+    {
+        if(this.MoreGameSprite!=null)
+        {
+            this.Img.spriteFrame = this.MoreGameSprite;
+        }   
+        this.Img.node.targetOff(this);
+        var self = this;
+        this.Img.node.on(cc.Node.EventType.TOUCH_END, function(event)
+        {
+            self.childrenRankCom.CG2_AppReqCount("10000");
+            self.childrenRankCom.associatedProgram("wx43728d5e0bec2447","pages/index/index?scene=199","10000");
+        },this);
+        this.setRedImg();
+    },
+
+    setRedImg()
+    {
+        if(this.RedImg != null)
+        {
+            var active = Math.floor(Math.random()*10) < 5 ? true:false;
+            this.RedImg.active = active;
+        }
+    }
 });

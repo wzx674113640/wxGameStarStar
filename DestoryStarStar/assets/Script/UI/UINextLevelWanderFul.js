@@ -37,7 +37,7 @@ cc.Class({
 
     BtnGetProps()
     {
-        if(this.childrenRankCom.playInfo._is_status == 1)
+        if(this.childrenRankCom.playInfo._is_status == 1 || this.childrenRankCom.playInfo._is_status == undefined)
         {
             ShareAndVideo.Instance.ShareAndVideo(()=>
             {

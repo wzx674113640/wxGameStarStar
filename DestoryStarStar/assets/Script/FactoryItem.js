@@ -105,7 +105,7 @@ var FactoryItem =  cc.Class({
             self._IsTouch = true;
             self._PromptCoolTime = self.constCoolTime;
             self._CheckItem.length = 0;
-            self.ChildrenRankCom.ShowOne();
+            //self.ChildrenRankCom.ShowOne();
         },1.5);
         this.isGameOver = false;
 
@@ -337,7 +337,7 @@ var FactoryItem =  cc.Class({
                 }
             }
            
-        },0.04,count,0);
+        },0.02,count,0);
        
     },
 
@@ -373,6 +373,9 @@ var FactoryItem =  cc.Class({
                 break;
             }
         }
+        
+        //if(this.UIMianCom._PlayInfo._Level == 1)
+        //   return;
         
         if(CC_WECHATGAME)
         {
@@ -605,7 +608,9 @@ var FactoryItem =  cc.Class({
                                 {
                                     self.UIMianCom.AddRemianScore(value,()=>
                                     {
-                                        self.UIMianCom.IsSuccess();
+                                        //self.UIMianCom.IsSuccess();
+                                        self.UIMianCom.NextLevel();
+                                        
                                         self.UIMianCom.HideRemian();
                                     });
                                    
@@ -617,14 +622,16 @@ var FactoryItem =  cc.Class({
             }
             else
             {
+                var self = this;
                 this.UIMianCom.ShowRemian(2000,count);
                 this.scheduleOnce(function()
                 {
                     //this.UIMianCom.setLableUI(2000);
-                    this.UIMianCom.AddRemianScore(2000,()=>
+                    self.UIMianCom.AddRemianScore(2000,()=>
                     {
-                        this.UIMianCom.IsSuccess();
-                        this.UIMianCom.HideRemian();
+                        //this.UIMianCom.IsSuccess();
+                        self.UIMianCom.NextLevel();
+                        self.UIMianCom.HideRemian();
                     });
                    
                 },1);
@@ -688,7 +695,6 @@ var FactoryItem =  cc.Class({
                 this.GetMaxItem();
                 this.isRunMax = false;
             }
-           
         }
     },
 
@@ -786,7 +792,7 @@ var FactoryItem =  cc.Class({
         this.isReset = true;
         this.IsDeath();
      },
- 
+     
      //消除同一个颜色道具
      DestorySameColorProps()
      {

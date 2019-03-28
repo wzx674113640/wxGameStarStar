@@ -1,5 +1,5 @@
 
-
+var stringName = ["紫色@2x","红色@2x", "绿色@2x","蓝色@2x","黄色@2x"];
 var Effect =  cc.Class({
     extends: cc.Component,
 
@@ -14,7 +14,8 @@ var Effect =  cc.Class({
         EffectStar:{
             type: cc.SpriteFrame,
             default:[],
-        }
+        },
+    Atlas:cc.SpriteAtlas
         
     },
 
@@ -49,7 +50,8 @@ var Effect =  cc.Class({
 
         var starEffectCom =  starEffectNode.getComponent(cc.ParticleSystem);
     
-        starEffectCom.spriteFrame = this.EffectStar[colorType];
+        starEffectCom.spriteFrame = this.EffectStar[colorType]; 
+        //starEffectCom.spriteFrame = this.Atlas.getSpriteFrame(stringName[colorType]);
 
         starEffectCom.resetSystem();
 

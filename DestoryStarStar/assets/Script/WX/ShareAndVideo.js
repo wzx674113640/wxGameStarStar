@@ -2,44 +2,25 @@
 var FileServe = require("FileServe");
 
 var SharePIC = [
-    "https://graph.baidu.com/resource/112d08be6b1a7de0d774601546858513.jpg",
-    "https://graph.baidu.com/resource/1bc836d39b531256d31dc01546858489.jpg",
-    "https://graph.baidu.com/resource/15572e698f3e043f7f9be01546858430.jpg",
-    "https://graph.baidu.com/resource/10e22ce69808d71d0525201546858474.jpg",
-    "https://graph.baidu.com/resource/148e46647ba650088f5e101547187219.jpg",
-    "https://graph.baidu.com/resource/1b4c6abe412ddff71f98401547187530.jpg",
-    "https://graph.baidu.com/resource/102d38f22f45ec3ac7dff01547633570.jpg",
-    "https://graph.baidu.com/resource/104c44ea433f7c00756ee01548379593.jpg",
-    "https://graph.baidu.com/resource/11ae28338d1dc3d6b119201547190683.jpg",
-    "https://graph.baidu.com/resource/1b60daac8cbaa661fbd5c01547187761.jpg",
-    "https://graph.baidu.com/resource/1e65565995b79ba143e3f01547187561.jpg",
-    "https://graph.baidu.com/resource/1021beff7970a5efa3d8c01548921588.jpg",
-    "https://graph.baidu.com/resource/102eb15c4e0df60de233d01548922417.jpg",
-    "https://graph.baidu.com/resource/1027cf4fbbc1d2f671ab801548922645.jpg",
-    "https://graph.baidu.com/resource/10260bcbb0ce3bb558ac401548923558.jpg",
-    "https://graph.baidu.com/resource/102ff4288db93bf5aa96601548923596.jpg",
-    "https://graph.baidu.com/resource/102845328159aa003a7db01548925239.jpg"
-    
+    "https://img.qkxz.com/xxx/1.jpg",
+    "https://img.qkxz.com/xxx/2.jpg",
+    "https://img.qkxz.com/xxx/3.jpg",
+    "https://img.qkxz.com/xxx/4.jpg",
+    "https://img.qkxz.com/xxx/5.jpg",
+    "https://img.qkxz.com/xxx/6.jpg",
+    "https://img.qkxz.com/xxx/7.jpg",
+    "https://img.qkxz.com/xxx/8.jpg",
 ]
 
 var ShareStr = [
-    "小学生又出“神造句”,语文老师笑了,家长被气哭!",
-    "据说这个游戏能玩到1个亿，你能达到这个小目标吗",
-    "2018春节请假攻略,最长可休16天！",
-    "2018年平均工资出炉,这次您又被平均了吗?",
-    "买充气娃娃漏气报警 警方回应:110救不了你女朋友",
-    "科学测试看到熊猫的视力都5.0",
-    "女生必看!最新化妆品抽检结果出炉，这80批次都不合格。",
-    "下个月开始独生子女具备5个条件就可以领钱",
-    "时隔多年，2019年春晚节目居然又有他？",
-    "2019年中国房租最贵十大城市排名一览",
-    "99%的人都不会知道为什么A会是第一个死",
-    "看图你能看到多少只动物？",
-    "2019年全年公休放假安排",
-    "12张色彩敏感测试图,只有1%的能人到第四关",
-    "让999个老师吐血的神童试卷",
-    "“神童”的考试卷火了,看到最后,网友:干的漂亮",
-    "十二星座测试：你会选择下面哪一位做你未来的情人？"
+    "不是谁都能在这个游戏达到巅峰！",
+    "消除对决，不服来战！",
+    "下初雪时，任何谎言都可以被原谅。",
+    "一亿人都在玩的消消乐游戏！",
+    "这款消除游戏，突然之间就火了！",
+    "消除游戏千千万，推荐它只因为：美  ！",
+    "站着完，躺着玩，坐车玩，吃饭玩，睡觉玩，上课玩，上课不能玩",
+    "就算给你这么多道具，你也达不到最高分。",
 ];
 
 var ShareAndVideo =  cc.Class({
@@ -52,23 +33,56 @@ var ShareAndVideo =  cc.Class({
 
     properties: {
         PanelMask:cc.Node,
-        FailUI:cc.Node
-        
+        FailUI:cc.Node,
+        FailVedioUI:cc.Node,
+        VideoErrorUI:cc.Node,
+        NotRward:cc.Node,
     },
     
+    GetNotRwardPos()
+    {
+        var pos = this.NotRward.getPosition();
+        
+        return pos;
+    },
+
     onLoad()
-    { 
+    {   
         ShareAndVideo.Instance = this;
         this.ShareEvent = null;//分享的事件
-       
+        this.childrenRankCom = cc.find("wx").getComponent("ChildrenRank");
+        if(CC_WECHATGAME)
+        {
+            var sysInfo = window.wx.getSystemInfoSync();
+            this.screenHeight = sysInfo.screenHeight;
+            this.screenWidth = sysInfo.screenWidth;
+            this.windowWidth = sysInfo.windowWidth;
+            this.ipx = 750/this.screenWidth;
+            this.bannerAdHeight = 117; // 广告高度
+        }
+        
         if (CC_WECHATGAME)
         {
             this.SharaHideShow();
             this.videoAd = wx.createRewardedVideoAd({
                 adUnitId: 'adunit-649c1f174c1ce79c'
             });
+            var self = this;
+           
+           
+            this.videoAd.onError(err => {
+                self.HidePanelMask(1.5);
+                self.showVideoFailUI();
+                if(self.action!= null)
+                {
+                    self.action();
+                    self.action == null;
+                }
+                self.isSeeVideo = false;
+            })
+            
 
-            var value = Math.floor(Math.random()*11);
+            var value = Math.floor(Math.random()*ShareStr.length);
             this.ShareImg = SharePIC[value];
             this.ShareString = ShareStr[value];
             var self = this;
@@ -91,15 +105,20 @@ var ShareAndVideo =  cc.Class({
             wx.showShareMenu({
                 withShareTicket: true
             });
-
-          
         }
-
+        this.Maskcallback = ()=>
+        {
+            if(!CC_WECHATGAME)
+                return
+            this.PanelMask.active = false;
+            wx.hideLoading();
+        }
+        
     },
 
     AddShareEvent(action)
     {
-        var value = Math.floor(Math.random()*11);
+        var value = Math.floor(Math.random() * ShareStr.length);
         this.ShareImg = SharePIC[value];
         this.ShareString = ShareStr[value];
         wx.shareAppMessage({
@@ -164,6 +183,26 @@ var ShareAndVideo =  cc.Class({
            this.FailUI.active = false;
         }, 1.2);
     },
+    //看视频失败
+    showSeeFailUI()
+    {
+        this.FailVedioUI.active = true;
+        this.scheduleOnce(function()
+        {
+           this.FailVedioUI.active = false;
+        }, 1.2);
+    },
+    //视频异常
+    showVideoFailUI()
+    {
+        this.VideoErrorUI.active = true;
+        this.scheduleOnce(function()
+        {
+           this.VideoErrorUI.active = false;
+        }, 1.2);
+    },
+    
+  
 //广告
     ShowOrHideAdervert(Active)
     {
@@ -171,24 +210,27 @@ var ShareAndVideo =  cc.Class({
             return;
         if(Active)
         {
-            var screenHeight = wx.getSystemInfoSync().screenHeight
-            var screenWidth = wx.getSystemInfoSync().screenWidth
+            var self = this;
             let bannerAd = wx.createBannerAd({
                 adUnitId: 'adunit-2fb4290138df6a7c',
                 style: {
                     left: 0,
-                    top: screenHeight-130,
-                    width: screenWidth,
+                    top: self.screenHeight-130,
+                    width: self.screenWidth,
                     height:200,
                 }
                 });
             bannerAd.onLoad(() => {
+               
+                bannerAd.style.top = self.screenHeight-bannerAd.style.realHeight;
                 
-                bannerAd.style.top = screenHeight-bannerAd.style.realHeight;
+                self.bannerAdHeight = bannerAd.style.realHeight;
 
+                self.NotRward.getComponent(cc.Widget).bottom = self.bannerAdHeight * self.ipx;
+                
                 bannerAd.show();
             });
-                
+            
             bannerAd.onError(err => {
                 //console.log(err)
             })
@@ -222,36 +264,42 @@ var ShareAndVideo =  cc.Class({
 
     ShareAndVideo(action)
     {
-        ShareAndVideo.Instance.SeeVedioClick(()=>
-        {
-            action();
-        });
-        return;
-
+        /*
         if(FileServe.Instance.GetAllVideoCount()<=0)
         {   
-            ShareAndVideo.Instance.AddShareEvent(()=>
+            this.AddShareEvent(()=>
             {
                 action();
             });
         }
         else
         {
-            var value = Math.floor(Math.random()*2);
-            if(value == 0)
-            {
-                ShareAndVideo.Instance.SeeVedioClick(()=>
+
+        }
+        */
+        if(this.childrenRankCom.playInfo.is_share == 1 || this.childrenRankCom.playInfo.is_share == undefined)
+        {
+            if(FileServe.Instance.GetAllVideoCount()<=0)
+            {   
+                this.AddShareEvent(()=>
                 {
                     action();
                 });
             }
             else
             {
-                ShareAndVideo.Instance.AddShareEvent(()=>
+                this.SeeVedioClick(()=>
                 {
                     action();
                 });
             }
+        }
+        else
+        {   
+            this.SeeVedioClick(()=>
+            {
+                action();
+            });
         }
     },
 
@@ -262,70 +310,69 @@ var ShareAndVideo =  cc.Class({
         if(!CC_WECHATGAME)
             return;
         var self = this;
-       
+        this.action = action;
+        this.failAction = failAction;
+        this.str = str;
         this.videoAd.load().then(() => 
         {
-            self.HidePanelMask(1);
+            self.HidePanelMask(1.5);
         });
         this.videoAd.show().catch((err)=>
         {
            //self.videoAd.load().then(()=>self.videoAd.show());
         })
-        this.videoAd.onError(err => {
-            self.HidePanelMask(1);
-            wx.showToast({
-                title: '视频异常',
-                icon: 'success',
-                duration: 800
-            })
-            action();
-        })
         this.videoAd.onClose(res => {
             self.videoAd.offClose();
             if (res && res.isEnded || res === undefined) {
-                if(str != null)
+                if(self.str != null)
                 {
                     wx.showToast({
-                        title: str,
+                        title: self.str,
                         icon: 'success',
                         duration: 800
                     })
                 }
-                action(); 
+                 if(self.action!= null)
+                {
+                    self.action();
+                    self.action == null;
+                }
                 //视频次数减一
                 var value = cc.sys.localStorage.getItem("VideoCount");
                 value--;
                 cc.sys.localStorage.setItem("VideoCount",value);
             } 
             else {
-                wx.showToast({
-                    title: '没有看完视频',
-                    icon: 'success',
-                    duration: 800
-                })
-                if(failAction!=null)
+                self.showSeeFailUI();
+                if(self.failAction!= null)
                 {
-                    failAction();
+                    self.failAction();
+                    self.action == null;
                 }
             }
-            self.HidePanelMask(1);
+            self.isSeeVideo = false;
+            //self.HidePanelMask(1.5);
         })
     },
 
+
     ShowPanelMask()
     {
+        if(!CC_WECHATGAME)
+            return
+        this.unschedule(this.Maskcallback);
         this.PanelMask.active = true;
+        
         wx.showLoading({
-            //title: "",
-          })
+            title: "加载中",
+        })
     },
-
+    
     HidePanelMask(time)
     {
-        this.scheduleOnce(function() {
-            this.PanelMask.active = false;
-            wx.hideLoading();
-        }, time);
+        if(!CC_WECHATGAME)
+            return
+        this.scheduleOnce(this.Maskcallback, time);
     },
 
 });

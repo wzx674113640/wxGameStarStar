@@ -242,24 +242,9 @@ cc.Class({
                 }
                 // 对用户托管数据进行写数据操作
                 window.wx.setUserCloudStorage({
-                    KVDataList: [{key: MAIN_MENU_NUM, value: "" + score}],
-                    success: function (res) {
-                        console.log('setUserCloudStorage', 'success')
-                    },
-                    fail: function (res) {
-                        console.log('setUserCloudStorage', 'fail')
-                    },
-                    complete: function (res) {
-                        console.log('setUserCloudStorage', 'ok')
-                    }
+                    KVDataList: [{key: MAIN_MENU_NUM, value: "" + score}]
                 });
             },
-            fail: function (res) {
-                console.log('getUserCloudStorage', 'fail')
-            },
-            complete: function (res) {
-                console.log('getUserCloudStorage', 'ok')
-            }
         });
       
     },
@@ -285,11 +270,10 @@ cc.Class({
         }
     },
     
-    fetchFriendData(MAIN_MENU_NUM) {
-        //this.removeFriendChild();
+    fetchFriendData(MAIN_MENU_NUM) 
+    {
         this.UIEndOne.active = false;
         this.UIEndTwo.active = false;
-        this.FriendRank.active = true;
         var self = this;
         wx.getUserInfo({
             openIdList: ['selfOpenId'],
@@ -312,62 +296,26 @@ cc.Class({
                             }
                             return b.KVDataList[0].value - a.KVDataList[0].value;
                         });
-                        var IsSetMySelf = false;
-                        var chidrens =this.scrollViewContent.children;
-                        for (let i = 0; i < data.length; i++) {
-                            var playerInfo = data[i];
-                            
-                            if(chidrens.length>i)
-                            {
-                                var item = chidrens[i];
-                            }
-                            else
-                            {
-                                var item = cc.instantiate(this.prefabRankItem);
-                                this.scrollViewContent.addChild(item);
-                            }
 
-                            item.getComponent('RankItem').init(i, playerInfo);
-                            if(playerInfo.avatarUrl == userData.avatarUrl)
+                        for(let i = 0; i < data.length; i++)
+                        {
+                            if(data[i].avatarUrl == userData.avatarUrl)
                             {
-                                this.myRankingItem.getComponent('MyItem').init(i, playerInfo,false);
-                                IsSetMySelf = true;
-                            }
-                            if(i==data.length-1&&IsSetMySelf == false)
-                            {
-                                //this.myRankingItem.getComponent('RankItem').init();
-                                playerInfo.nickname = userData.nickname;
-                                playerInfo.avatarUrl = playerInfo.avatarUrl;
-                                playerInfo.KVDataList.length = 0;
-                                this.myRankingItem.getComponent('MyItem').init(data.length-1,playerInfo,false);
-                                IsSetMySelf = true;
+                                this.myRankingItem.getComponent('MyItem').init(i, data[i]);
                             }
                         }
-                        if(IsSetMySelf)
-                        {
-                            this.myRankingItem.active = true;
-                        }
-                       
-                        // 设置排行榜滑动长度
-                        if(self.LayoutNode.children.length>=6)
-                        {
-                            var height = 677+(self.LayoutNode.children.length-5)*119;
-                            self.Content.setContentSize(682,height); 
-                        }
-                        else
-                        {
-                            self.Content.setContentSize(682,677);
-                        }
-                    },
-                    fail: res => {
-                        console.log("wx.getFriendCloudStorage fail");
-                        //this.loadingLabel.getComponent(cc.Label).string = "数据加载失败，请检测网络，谢谢。";
+                        self.worldData = data;
+                        self.FriendRank.active = true;
+                        this.myRankingItem.active = true
+                        var scorll = self.RankingScrollView.getComponent(cc.ScrollView);
+                        scorll.stopAutoScroll();
+                        scorll.scrollToTop(0);
+                        self.FriendRank.getComponent("UIRanking1").initialize();
+                        
                     },
                 });
             },
-            fail: (res) => {
-                //this.loadingLabel.getComponent(cc.Label).string = "数据加载失败，请检测网络，谢谢。";
-            }
+            
         });
     },
 

@@ -10,10 +10,12 @@ cc.Class({
 
     start () {
         this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
+        this.ChildrenRankCom = cc.find("wx").getComponent("ChildrenRank");
     },
     //获得奖励
     GetProps(isDouble = false)
     {
+        this.ChildrenRankCom.CG2_DailyWelfare();
         if(isDouble)
         {
             this.GameInitCom.PopsList.Diamond += 100;

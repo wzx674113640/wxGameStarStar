@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "ba0022ee-7710-416d-92c8-39d262d13456",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "钻石不足-金币框@2x": {
+      "ver": "1.0.3",
+      "uuid": "0d8dc20d-e1a5-45bf-a3ec-88ce27e6f0ff",
+      "rawTextureUuid": "ba0022ee-7710-416d-92c8-39d262d13456",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 160,
+      "height": 46,
+      "rawWidth": 160,
+      "rawHeight": 46,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

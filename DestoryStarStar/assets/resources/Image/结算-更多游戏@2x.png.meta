@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "8258820a-a36b-43bc-bff2-f8f5c10db95b",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "结算-更多游戏@2x": {
+      "ver": "1.0.3",
+      "uuid": "0db58eac-2868-40c7-a77a-4f3efc081766",
+      "rawTextureUuid": "8258820a-a36b-43bc-bff2-f8f5c10db95b",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": -0.5,
+      "offsetY": 0,
+      "trimX": 9,
+      "trimY": 0,
+      "width": 129,
+      "height": 134,
+      "rawWidth": 148,
+      "rawHeight": 134,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

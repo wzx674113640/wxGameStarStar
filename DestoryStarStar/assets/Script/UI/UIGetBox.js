@@ -44,35 +44,29 @@ cc.Class({
         this.PropsValue = Math.floor(Math.random()*this.PropsUISpriteFrame.length);
         if (!CC_WECHATGAME)
             return;
-        if(!this.IsShowShare)
+            
+        if(this.ChildrenRankCom.playInfo._is_status == 1 || this.ChildrenRankCom.playInfo._is_status == undefined)
         {
-            this.BtnVideo.active = true;
-            this.BtnShare.active = false;
-            return;
-        }
-        if(this.ChildrenRankCom.playInfo._is_status == 1)
-        {
-            if(FileServe.Instance.GetAllVideoCount()<=0)
+            if(this.ChildrenRankCom.playInfo.is_share == 1 || this.ChildrenRankCom.playInfo.is_share == undefined)
             {
-                this.BtnShare.active = true;
-                this.BtnEnter.active = false;
-                this.BtnVideo.active = false;
-            }
-            else
-            {
-                var value = Math.floor(Math.random()*2);
-                if(value == 0)
-                {
-                    this.BtnShare.active = false;
-                    this.BtnEnter.active = false;
-                    this.BtnVideo.active = true;
-                }
-                else
+                if(FileServe.Instance.GetAllVideoCount()<=0)
                 {
                     this.BtnShare.active = true;
                     this.BtnEnter.active = false;
                     this.BtnVideo.active = false;
                 }
+                else
+                {
+                    this.BtnShare.active = false;
+                    this.BtnEnter.active = false;
+                    this.BtnVideo.active = true;
+                }
+            }
+            else
+            {   
+                this.BtnShare.active = false;
+                this.BtnEnter.active = false;
+                this.BtnVideo.active = true;
             }
         }
         else
@@ -83,7 +77,7 @@ cc.Class({
         }
         
     },
-
+    
     Close()
     {
         this.node.active = false;

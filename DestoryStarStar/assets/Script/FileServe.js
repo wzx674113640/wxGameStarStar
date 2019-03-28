@@ -16,7 +16,6 @@ var FileServe =  cc.Class({
         cc.game.setFrameRate(50);
         FileServe.Instance = this;
         this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
-        //this.GameInitCom.firstInit();
     },
 
     start () {
@@ -68,6 +67,8 @@ var FileServe =  cc.Class({
 
                 ItemInfo.X = pos.x;
                 ItemInfo.Y = pos.y;
+                ItemInfo._X = ItemComm._X;
+                ItemInfo._Y = ItemComm._Y;
                 ItemInfo._isHasBox = ItemComm._isHasBox;
                 var isdestry = ItemComm._isDestory == true? 0:1; 
                 ItemInfo._isDestory = isdestry;
@@ -76,8 +77,8 @@ var FileServe =  cc.Class({
             this.SetCachePlayInfo(playList,ItemCacheList);
             var ItemPos = JSON.stringify(ItemCacheList);
             cc.sys.localStorage.setItem("ItemCacheList",ItemPos);
-        }   
-      
+        }       
+        
         var playvalue = JSON.stringify(playList);
         cc.sys.localStorage.setItem("PlayInfo",playvalue);
     },

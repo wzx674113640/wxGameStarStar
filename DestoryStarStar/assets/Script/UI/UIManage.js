@@ -36,11 +36,13 @@ var UIManage = cc.Class({
         UIGiftBag:cc.Prefab,
         UIBtnAppList:cc.Prefab,
         UITimeGift:cc.Prefab,
+        UIOtherGame:cc.Prefab,
         SceneState:"",
     },
 
     loderPrefabs(prefab,uiparent)
     {
+       
         if(this.UIList[prefab.name] == undefined||this.UIList[prefab.name] == null)
         {
             var UINode = cc.instantiate(prefab);
@@ -56,11 +58,12 @@ var UIManage = cc.Class({
 
     ShowGameing()
     {
+        if(this.SceneState == "Gaming")
+            return;
+        this.SceneState = "Gaming";
         this.Gameing = this.loderPrefabs(this.Gameing,this.UIMian);
         this.Gameing.active = true;
         this.Starting.active = false;
-        
-        this.SceneState = "Gaming";
     },
 
     ShowGameStart()
@@ -175,6 +178,12 @@ var UIManage = cc.Class({
     {
         var UINode = this.loderPrefabs(this.UITimeGift,this.UIPop);
         UINode.getComponent("UITimeGift").Show();
+    },
+
+    ShowOtherGamePanel()
+    {
+        var UINode = this.loderPrefabs(this.UIOtherGame,this.UIPop);
+        UINode.getComponent("UIOtherGame").Show();
     }
 });
 

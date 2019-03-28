@@ -8,20 +8,21 @@ cc.Class({
         topScoreLabel: cc.Label,
         MySprite:cc.Node,
         ImgRank:cc.Sprite,
+        itemID:0
     },
     start() {
 
     },
 
     init: function (rank, data) {
+        this.itemID = rank;
         let avatarUrl = data.avatarUrl;
         let nick = data.nickname.length <= 4 ? data.nickname : data.nickname.substr(0, 4) + "...";
         //let nick = data.nickname;
         let grade = data.KVDataList.length != 0 ? data.KVDataList[0].value : 0;
 
         var txtRanking = rank+1;
-
-       
+        
         if(txtRanking>3)
         {
             this.rankLabel.node.active = true;

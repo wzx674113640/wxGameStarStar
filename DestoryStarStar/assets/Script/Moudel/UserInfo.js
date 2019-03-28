@@ -17,8 +17,7 @@ var UserInfo =  cc.Class({
             },
             set(value)
             {
-                var realValue = this.toDecimal2(value)*200;
-                
+                var realValue = (value*200).toFixed(0);
                 this._getMoney = realValue;
             }            
         },//得到的钱
@@ -30,12 +29,13 @@ var UserInfo =  cc.Class({
             },
             set(value)
             {
-                var realValue = this.toDecimal2(value)*200;
+                var realValue = (value*200).toFixed(0);
                 this._money = realValue;
             }
         },//总金额
         count: 0,//红包请求次数
-        isRecive : true
+        isRecive : true,
+
     },
 
   

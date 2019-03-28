@@ -20,11 +20,20 @@ cc.Class({
         
         this.TxtScore = this.node.getChildByName("TxtScore").getComponent(cc.Label);
 
+        this.TxtString = this.node.getChildByName("TxtString").getComponent(cc.Label);
         //this.TxtLevel = this.node.getChildByName("TxtLevel").getComponent(cc.Label); 
     }, 
 
-    SetItem(txtRanking,imgHeadUrl,txtName,txtScore)
+    SetItem(txtRanking,imgHeadUrl,txtName,txtScore,islevel = false)
     {
+        if(islevel == false)
+        {
+            this.TxtString.string = "分数:";
+        }
+        else
+        {   
+            this.TxtString.string = "关卡:";
+        }
         this.TxtRank.string = txtRanking;
         this.TxtScore.string = txtScore;
     },

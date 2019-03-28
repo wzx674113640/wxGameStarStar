@@ -1,6 +1,7 @@
 var FactoryItem = require("FactoryItem");
 var FileServe = require("FileServe");
 var UIManage = require("UIManage");
+var ShareAndVideo = require("ShareAndVideo");
 
 var PopsInfo = require("PopsInfo");
 cc.Class({
@@ -8,14 +9,12 @@ cc.Class({
 
     properties: {
         ItemLayout: cc.Node,
-        MyBg:cc.Node
+        MyBg:cc.Node,
     },
-    firstInit()
-    {
-        this.realGamestart();
-    },
-
+    
+   
     start () {
+       
         this.Disx = 72;
         this.Disy = 73;
 
@@ -37,7 +36,7 @@ cc.Class({
        if(cList != null)
        {
            this.PopsList.Diamond = cList.Diamond;
-        
+
            /*
            this.PopsList.Hammer = cList.Hammer;
            this.PopsList.Reset = cList.Reset;
@@ -85,6 +84,7 @@ cc.Class({
     
     GameStart(iscache)
     {
+        ShareAndVideo.Instance.ShowPanelMask();
         UIManage.Instance.ShowGameing();
         if(iscache)
         {
@@ -102,6 +102,7 @@ cc.Class({
         {
             this.Init();
         }
+        ShareAndVideo.Instance.HidePanelMask(0);
     },
     
 
@@ -128,7 +129,7 @@ cc.Class({
                 var  numx = Number(worldPos1.x.toFixed(1));
                 var  numy = Number(worldPos1.y.toFixed(1));
                 var worldPos = cc.v2(numx,numy);
-
+                
                 var index = this.LevelDiffcultValue(WeightIndex,isEasy);
                 var Item =  FactoryItem.Instance.CreatItem(worldPos,i,index);
                 var ItemCom = Item.getComponent("Item");
@@ -211,12 +212,24 @@ cc.Class({
         {
             if(Number(cache1) == myVersion)
             {
+                
                 FactoryItem.Instance.IsGameStart = false;
+                var LayoutChildren = this.ItemLayout.children;
                 FactoryItem.Instance.UIMianCom.StartAnimation(()=>
                 {
                     for(var i = cache.length-1;i>=0;i--)
                     {
-                        var posx = cc.v2(cache[i].X,cache[i].Y);
+                        //var posx = cc.v2(cache[i].X,cache[i].Y);
+                        if(cache[i]._X == undefined)
+                        {
+                            var posx = cc.v2(cache[i].X,cache[i].Y);
+                        }
+                        else
+                        {
+                            var index = (9-cache[i]._X) + cache[i]._Y * 10;
+                            //var pos = LayoutChildren[index].getPosition();
+                            var posx = LayoutChildren[99-index].convertToWorldSpaceAR(cc.v2(0,0));
+                        }
                         var colorType = cache[i]._ColorType;
                         var _active = cache[i].active == 1? true:false;
                         var _isDestory = cache[i]._isDestory == 0? true:false;

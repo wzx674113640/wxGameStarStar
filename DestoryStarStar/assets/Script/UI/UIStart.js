@@ -13,19 +13,33 @@ cc.Class({
        _C2GAction:null,
        childNode:cc.Node,
 
-       AppNodeList:cc.Node,
-
+        AppNodeList:cc.Node,
+        Spri:cc.Node,
+        
+        ScrollView:cc.ScrollView,
+        
         Bg:cc.Node,
         DiamonNode:cc.Node,
         PromptNode:cc.Node,
         HasTimeGift:cc.Node,
         NoTimeGift:cc.Node,
-        GiftNode:cc.Animation
+        GiftNode:cc.Animation,
+        moveSpeed:10,
+        RankBtn:cc.Node,
+
+    },
+
+    onDisable()
+    {
+        this.childrenRankCom.IsShowButton(false);
     },
 
     onEnable()
     {
+        this.spacing = 60;
+        this.moveSpeed = 50;
         this.SetDiamond();
+        this.childrenRankCom.IsShowButton(true);
         if(this._C2GAction != null)
         {
             this._C2GAction();//新手礼包后返回首页授权
@@ -167,6 +181,9 @@ cc.Class({
     
     onLoad()
     {
+        var ww = this.Spri.getComponent(cc.Widget)
+        ww.target = this.node.parent.parent;
+        ww.bottom = 0;
         this.childrenRankCom = cc.find("wx").getComponent("ChildrenRank");
         this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
         this.GameInitCom.getPopsInfo();
@@ -180,42 +197,64 @@ cc.Class({
         this.Bg.width = width + (80*value);
         this.Bg.height = height + 80;
         this.SartAdpativeUI(height);
+
+        this.moveSate = "left";
+        
     },
     
-    start()
-    {
-       
-        //this.SetScore();
-    },
-
+  
     ShowSeverInfo()
     {
         this.childNode.active = true;
         this.SetScore();
         //设置底部
-        if(this.childrenRankCom.playInfo._is_status == 1)
+        if(this.childrenRankCom.playInfo._is_status == 1 || this.childrenRankCom.playInfo._is_status == undefined)
         {
+            
             var UIAppBtn =  UIManage.Instance.ShowAppBtn();
             this.SetAppItem();
             var AppIDInfoList = this.childrenRankCom._AppIDInfoList;
             var Applength = AppIDInfoList.length;
             UIAppBtn.getComponent("UIBtnApp").ShowItem(AppIDInfoList,Applength);
-            for(var i = 0;i < this.AppNodeList.children.length;i++)
+            var wid = (Applength + 1) * (this.AppNodeList.children[0].width + this.spacing);
+            this.AppNodeList.width = wid;
+            var AppNodeLength = this.AppNodeList.children.length;
+            for(var i = 0;i <= Applength;i++)
             {
-                if(Applength > i)
+                if(Applength == i)
                 {
+                    if(AppNodeLength > i)
+                    {
+                        var lastItem = this.AppNodeList.children[i];
+                    }
+                    else
+                    {
+                        var lastItem = cc.instantiate(this.AppNodeList.children[0]);
+                        lastItem.parent = this.AppNodeList;
+                    }
+                    lastItem.active = true;
+                    lastItem.getComponent("AppItem").set222Touch();
+                    break;
+                }
+                if(AppNodeLength>i)
+                {
+                    this.AppNodeList.children[i].active = true;
                     this.AppNodeList.children[i].getComponent("AppItem").setItem(AppIDInfoList[i]);
                 }
                 else
                 {
-                    this.AppNodeList.children[i].active = false;
+                    var newitem = cc.instantiate(this.AppNodeList.children[0]);
+                    newitem.parent = this.AppNodeList;
+                    newitem.active = true;
+                    newitem.getComponent("AppItem").setItem(AppIDInfoList[i]);
                 }
             }
-            
+            this.maxX = -375;
+            this.minX = -(wid-375);
         }
         else
         {
-            this.AppNodeList.active = false;
+            this.Spri.active = false;
         }
         
     },
@@ -239,8 +278,16 @@ cc.Class({
         {
             if(value.score!=null)
             {
-                this.LabelScore.string =  value.score;
-                this.LabelScore.node.active = true;
+                if(value.score == 0)
+                {
+                    this.LabelScore.string = "";
+                }
+                else
+                {
+                    this.LabelScore.string = "最高分数：" + value.score;
+                    this.LabelScore.node.active = true;
+                }
+               
             }
         }
         else
@@ -306,7 +353,6 @@ cc.Class({
     BtnShowTimeGift()
     {
         var isHasGift =  cc.sys.localStorage.getItem("TimeGift");
-        cc.log("ccs",isHasGift);
         if(isHasGift == "0") //不能领取
         {
             if(CC_WECHATGAME)
@@ -322,7 +368,45 @@ cc.Class({
         {
             UIManage.Instance.ShowUITimeGift();
         }
-        
-    }
+       
+    },
+   
+    update(dt)
+    {
+        if(this.AppNodeList.x >= this.maxX)
+        {
+            this.moveSate = "left";//-
+        } 
+        else if(this.AppNodeList.x <= this.minX)
+        {
+            this.moveSate = "right";//+
+        }
+        if(this.moveSate == "left")
+        {
+           this.AppNodeList.x -= dt*this.moveSpeed;
+        }
+        else if( this.moveSate == "right")
+        {
+            this.AppNodeList.x += dt*this.moveSpeed;
+        }
+        /*
+        if(this.AppNodeList.x<=-2375)
+        {
+            this.AppNodeList.x = this.AppNodeList1.x + 2043;
+        }
+        else
+        {
+            this.AppNodeList.x -= dt * this.moveSpeed;
+        }
 
+        if(this.AppNodeList1.x <= -2375)
+        {
+            this.AppNodeList1.x = this.AppNodeList.x + 2043;;
+        }
+        else
+        {
+            this.AppNodeList1.x -= dt * this.moveSpeed;
+        }
+        */
+    }
 });

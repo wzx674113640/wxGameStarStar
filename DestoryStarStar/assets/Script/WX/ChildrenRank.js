@@ -29,7 +29,6 @@ cc.Class({
    
 
     start () {
-        //ShareAndVideo.Instance.ShowPanelMask();
         UIManage.Instance.ShowGameStart();
         this._version = 105;
         this.isShow = false;
@@ -38,6 +37,7 @@ cc.Class({
         if(!CC_WECHATGAME)
             return;
         this.tex = new cc.Texture2D();
+        
         window.sharedCanvas.width = 750;
         window.sharedCanvas.height = 1334;
         
@@ -46,6 +46,7 @@ cc.Class({
         var Sence = obj.query.scene==undefined? null:obj.query.scene;
         this._Sence = decodeURIComponent(Sence);
         this.C2G_GetUserInfo();
+        
     },
 
     getScreen()
@@ -96,35 +97,53 @@ cc.Class({
                 let sysInfo = window.wx.getSystemInfoSync();
                 let width = sysInfo.screenWidth;
                 let height = sysInfo.screenHeight;
+               
+                var ipx = 750/width,
+                _top = (height*ipx/2 + 238.2 - 44.5)/ipx, //553 y，48 宽除以2
+                _left = (width*ipx/2 + 307 - 44.5)/ipx; //216.2 x
+                
                 let button = wx.createUserInfoButton({
                     type: 'text',
                     text: '',
                     style: {
-                        left: 10,
-                        top: 10,
-                        width: width - 20,
-                        height: height - 20,
-                        textAlign: 'center'
+                        left: _left,
+                        top: _top,
+                        width: 89/ipx,
+                        height: 89/ipx,
+                        textAlign: 'center', 
                     }
                 })
+                self.button = button;
                 button.onTap((res) => {
-                    var userInfo = res.userInfo
-                    cc.sys.localStorage.setItem("nickName", userInfo.nickName);
-                    cc.sys.localStorage.setItem("avatarUrl", userInfo.avatarUrl);
-                    cc.sys.localStorage.setItem("gender", userInfo.gender);
-                    getInfo.nickName = userInfo.nickName
-                    getInfo.avatarUrl = userInfo.avatarUrl
-                    getInfo.gender = userInfo.gender //Sex 0: unknown, 1: male, 2: female
-                    button.hide();
-                    //直接游戏
-                    //if(this.isbtnStart==undefined)
-                    //{
-                    //    UIManage.Instance.UIList["UIStart"].getComponent("UIStart").BtnGameStart();
-                    //    this.isbtnStart = true;
-                    //}
-                    self.Login(getInfo,self,false);
+                    if(res.userInfo)
+                    {
+                        var userInfo = res.userInfo
+                        cc.sys.localStorage.setItem("nickName", userInfo.nickName);
+                        cc.sys.localStorage.setItem("avatarUrl", userInfo.avatarUrl);
+                        cc.sys.localStorage.setItem("gender", userInfo.gender);
+                        getInfo.nickName = userInfo.nickName
+                        getInfo.avatarUrl = userInfo.avatarUrl
+                        getInfo.gender = userInfo.gender //Sex 0: unknown, 1: male, 2: female
+                        button.destroy();
+                        self.button = null;
+                        self.Login(getInfo,self,false);
+                    }
                 })
             }
+        }
+    },
+    
+    IsShowButton(active)
+    {
+        if(this.button == null||this.button == undefined)
+            return;
+        if(active)
+        {
+            this.button.show();
+        }
+        else
+        {   
+            this.button.hide();
         }
     },
 
@@ -201,7 +220,7 @@ cc.Class({
                 if(self.isLoadStart == undefined)
                 {   
                     self.isLoadStart = true;
-                    UIManage.Instance.OpenStartUI();
+                    UIManage.Instance.OpenStartUI(); //显示渠道
                 }
                
                 //ShareAndVideo.Instance.HidePanelMask(1);
@@ -264,17 +283,26 @@ cc.Class({
             {
                 openid:self.playInfo.openid,
                 uid:null,
-                version:self._version
+                version:self._version,
+                scene:self._Sence,
             },
             success (res) 
             {
                 var infodata =  res.data.data;
                 self.playInfo._is_status = infodata.is_status;
+                self.playInfo.is_share = infodata.is_share; 
                 self.playInfo.count = Number(infodata.count);
-                var n = infodata.money;
+                var n = Number(infodata.money);
                 self.playInfo.money = n;//总金额
                 self.HideMask();
                 self.C2G_AppID();
+                self.views = infodata.views;
+                if(self.views.id!= null)
+                {
+                    //打开跳转其他游戏弹窗
+                    UIManage.Instance.ShowOtherGamePanel();
+                }
+                
             },
             fail()
             {
@@ -287,6 +315,8 @@ cc.Class({
             }
         });
     },
+
+   
 
 //红包钱数
     C2G_Redlog(action)
@@ -306,9 +336,9 @@ cc.Class({
                 var infodata =  res.data.data;
                 if(infodata.length!=0)
                 {
-                    self.playInfo.money = infodata.total_money;
+                    self.playInfo.money = Number(infodata.total_money);
                     self.playInfo.count = Number(infodata.count);//红包总金额
-                    self.playInfo.getMoney = infodata.money;
+                    self.playInfo.getMoney =Number(infodata.money);
                     action();
                 }
                
@@ -508,5 +538,25 @@ cc.Class({
     {
         this.Mask.active = false;
         this.loadUI.active = false;
+    },
+
+    //福袋统计
+    CG2_DailyWelfare()
+    {       
+        if (!CC_WECHATGAME)
+            return;
+        var self = this;
+        wx.request({
+            url:'https://xxx.qkxz.com/index.php?act=fdcount',
+            data:
+            {
+                openid:self.playInfo.openid,
+                version:self._version,
+            },
+            success (res) 
+            {
+                
+            }
+        });
     }
 });

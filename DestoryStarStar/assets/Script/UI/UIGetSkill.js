@@ -19,41 +19,32 @@ cc.Class({
 
     Show()
     {
-        this.node.active = true;
-        this.Mask.active = true;
-        this.BtnClose.active = true;
-
-        this.BtnVideo.active = true;
-        this.BtnShare.active = false;
-        return;
-
         if (!CC_WECHATGAME)
             return;
-      
-        if(this.childrenRankCom.playInfo._is_status == 1)
+        if(this.childrenRankCom.playInfo._is_status == 1 || this.childrenRankCom.playInfo._is_status == undefined)
         {
-            if(FileServe.Instance.GetAllVideoCount()<=0)
+            if(this.childrenRankCom.playInfo.is_share == 1)
             {
-                this.BtnShare.active = true;
-                this.BtnEnter.active = false;
-                this.BtnVideo.active = false;
-            }
-            else
-            {
-                var value = Math.floor(Math.random()*2);
-                if(value == 0)
+                
+                if(FileServe.Instance.GetAllVideoCount()<=0)
                 {
-                    this.BtnVideo.active = false;
-                    this.BtnEnter.active = false;
                     this.BtnShare.active = true;
+                    this.BtnEnter.active = false;
+                    this.BtnVideo.active = false;
                 }
                 else
-                {   
+                {
                     this.BtnVideo.active = true;
                     this.BtnShare.active = false;
                     this.BtnEnter.active = false;
                 }
             }
+            else
+            {   
+                this.BtnVideo.active = true;
+                this.BtnShare.active = false;
+                this.BtnEnter.active = false;
+            }   
         }
         else
         {

@@ -11,55 +11,52 @@ cc.Class({
     properties: {
         BtnSeeVideo:cc.Node,
         BtnShare:cc.Node,
-        _action : null
+        _action : null,
+        DiamondLabel: cc.Label
     },
     
     onLoad()
     {
         this._super();
         this.childrenRankCom = cc.find("wx").getComponent("ChildrenRank");
+        this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
     },
 
     start()
     {
-        this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
+       
     },
 
     onEnable()
     {
-        if(!this.IsShowShare)
-        {
-            this.BtnSeeVideo.active = true;
-            this.BtnShare.active = false;
-            return;
-        }
         if(!CC_WECHATGAME)
             return;
-        if(this.childrenRankCom.playInfo._is_status == 1)
+        this.DiamondLabel.string = this.GameInitCom.PopsList.Diamond;
+        if(this.childrenRankCom.playInfo._is_status == 1 || this.childrenRankCom.playInfo._is_status == undefined)
         {
-            if(FileServe.Instance.GetAllVideoCount()<=0)
+            if(this.childrenRankCom.playInfo.is_share == 1 || this.childrenRankCom.playInfo.is_share == undefined)
             {
-                this.BtnSeeVideo.active = false;
-                this.BtnShare.active = true;
-            }
-            else
-            {
-                var value = Math.floor(Math.random()*2);
-                if(value == 0)
+                if(FileServe.Instance.GetAllVideoCount()<=0)
                 {
                     this.BtnSeeVideo.active = false;
                     this.BtnShare.active = true;
                 }
                 else
-                {   
+                {
                     this.BtnSeeVideo.active = true;
                     this.BtnShare.active = false;
                 }
             }
+            else
+            {   
+                this.BtnSeeVideo.active = true;
+                this.BtnShare.active = false;
+            }
+            
         }
         else
         {
-            this.BtnSeeVideo.active = false;
+            this.BtnSeeVideo.active = true;
             this.BtnShare.active = false;
         }
     },
@@ -101,7 +98,7 @@ cc.Class({
             ShareAndVideo.Instance.SeeVedioClick(()=>
             {
                 self.getDimond(Count);
-            },"获得钻石x30");
+            },"获得星星x30");
         }
         
     },
@@ -119,9 +116,11 @@ cc.Class({
             
             UIManage.Instance.UIList[UIManage.Instance.Starting.name].getComponent("UIStart").SetDiamond();
         }
+        this.DiamondLabel.string = this.GameInitCom.PopsList.Diamond;
         this.Close();
         count--;
         cc.sys.localStorage.setItem("DimondCount",count);
+        
     },
 
     BtnShareClick()

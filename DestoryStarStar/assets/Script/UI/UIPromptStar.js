@@ -34,7 +34,7 @@ cc.Class({
         var NodeUI = this.NodeList[index];
         NodeUI.stopAllActions();
         this.HideUI();
-        NodeUI.setScale(5);
+        NodeUI.setScale(2);
         NodeUI.active = true;
         var s = cc.scaleTo(0.2,1);
         var m = cc.blink(0.8,4);

@@ -18,12 +18,20 @@ cc.Class({
         LabelMoneyOther:cc.Label
     },
 
+    onLoad()
+    {
+        //var targetNode = FactoryItem.Instance.UIMianCom.MoneyLabel.node;
+        //this.targetPos = targetNode.convertToWorldSpaceAR(cc.v2(0,0));
+    },
 
     Show()
     {
         if(this.TargetPos == undefined)
         {
-            this.TargetPos = FactoryItem.Instance.UIMianCom.PropsDes.convertToWorldSpaceAR(cc.v2(0, 0));
+            var UIMianCom = FactoryItem.Instance.UIMianCom;
+            var  targetPos = UIMianCom.PropsDes;
+            var py = targetPos.parent.y;
+            this.TargetPos = cc.v2(targetPos.x,targetPos.y+py);
         }
         //数据请求
         //this.ChildrenRankCom.C2G_GameInfo();
@@ -43,9 +51,10 @@ cc.Class({
                 this.ShowUIAni();
                 this.RedUIAni.setScale(1);
                 this.RedUIAni.setPosition(cc.v2(0,0));
+                var self = this;
                 this.scheduleOnce(function(){
                     var s =  cc.scaleTo(0.5,0.1);
-                    var m = cc.moveTo(0.5,cc.v2(322,430));
+                    var m = cc.moveTo(0.5,self.TargetPos);
                     var c = cc.callFunc(function(){
                         this.RedUIAni.active = false;
                     }.bind(this));
@@ -100,7 +109,7 @@ cc.Class({
         this.NotReceive.active = false;
         this.Receive.active = false;
         this.RedUIAni.active = false;
-        this.LabelMoneyOther.string = this.ChildrenRankCom.playInfo.money;
+        this.LabelMoneyOther.string =  this.ChildrenRankCom.playInfo.money;
     },
 
     ShowLook()

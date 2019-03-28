@@ -42,7 +42,7 @@ cc.Class({
         this.isStart = true;
         this.Close();
         FactoryItem.Instance.UIMianCom.NextLevel();
-        
+        /*
         if(this.playInfo._Level % 2 == 0)
         {
             ShareAndVideo.Instance.ShowOrHideAdervert(false);
@@ -52,6 +52,7 @@ cc.Class({
         //刷新广告
        
         FactoryItem.Instance.UIMianCom.ShowUpAppItem();
+        */
     },
 
     BtnShare()

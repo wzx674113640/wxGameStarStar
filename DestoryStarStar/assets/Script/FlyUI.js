@@ -42,7 +42,7 @@ var FlyUI =  cc.Class({
         
         FlyScore.setPosition(m_pos);
 
-        FlyScore.setScale(1);
+        FlyScore.setScale(0);
 
         FlyScore.parent = this.node;
 
@@ -50,9 +50,13 @@ var FlyUI =  cc.Class({
 
         FlyScore.active = true;
         
-        var s = cc.scaleTo(0.5,1.2);
+        var s = cc.scaleTo(0.3,1.5);
         
-        var m = cc.moveTo(0.8,newVec2);
+        var s1 = cc.scaleTo(0.1,1)
+
+        var wait = cc.scaleTo(0.2,1.2);
+
+        var m = cc.moveTo(1,newVec2);
 
         var call = cc.callFunc(function()
         {
@@ -64,7 +68,7 @@ var FlyUI =  cc.Class({
             
         }.bind(this));
 
-        FlyScore.runAction(cc.sequence(s,m,call));
+        FlyScore.runAction(cc.sequence(s,s1,wait,m,call));
 
     },
     

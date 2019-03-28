@@ -4,6 +4,7 @@ cc.Class({
 
     properties: {
        RankingImgList:[cc.SpriteFrame],
+       itemID:0
     },
 
   
@@ -15,12 +16,14 @@ cc.Class({
         this.TxtScore = this.node.getChildByName("TxtScore").getComponent(cc.Label);
     }, 
 
-    SetItem(txtRanking,imgHeadUrl,txtName,txtScore)
+    SetItem(txtRanking,imgHeadUrl,txtName,txtScore,itemID = 0)
     {
+        this.itemID = itemID;
         if(txtRanking<4)
         {
             var value = txtRanking-1;
             this.ImgRank.node.active = true;
+            this.TxtRank.node.active = false;
             this.ImgRank.spriteFrame = this.RankingImgList[value];
         }
         else if(txtRanking>=4)

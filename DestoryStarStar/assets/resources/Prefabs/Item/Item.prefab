@@ -155,7 +155,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "47af1f84-d707-4b67-82f7-dd35f04d37d0"
+      "__uuid__": "64713be7-2d5c-44f2-ab5d-dcd393e6fb6d"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -169,7 +169,9 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_state": 0,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "77a5fe81-8eff-4686-b70f-30f8f93771d8"
+    },
     "_id": ""
   },
   {
@@ -178,9 +180,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "2330b739-b861-4273-8f6d-d06d695bf25f"
+      "__uuid__": "f196be13-a6cf-4903-9de1-91e41368859d"
     },
-    "fileId": "81/iZJSARFuKg53g7hTq57",
+    "fileId": "c6vA0SXspFBIvsMlodPSI9",
     "sync": false
   },
   {
@@ -211,8 +213,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 63,
-      "height": 66
+      "width": 64,
+      "height": 67
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -257,7 +259,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "ebb3e2d7-e3ba-433a-aac0-1c05ecf3155a"
+      "__uuid__": "05c80f14-8dd7-4e68-a0d0-0160c76ccd8a"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -271,7 +273,9 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_state": 0,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "77a5fe81-8eff-4686-b70f-30f8f93771d8"
+    },
     "_id": ""
   },
   {
@@ -280,9 +284,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "2330b739-b861-4273-8f6d-d06d695bf25f"
+      "__uuid__": "f196be13-a6cf-4903-9de1-91e41368859d"
     },
-    "fileId": "22zXoQjxJMwpzpPeTQS0Mj",
+    "fileId": "7aSlP1s8lLXI3mU0K05hvW",
     "sync": false
   },
   {
@@ -296,7 +300,7 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_spriteFrame": {
-      "__uuid__": "287a1c58-0a8a-43e5-b39a-58b323cf6921"
+      "__uuid__": "b6a94913-c78f-40b2-a621-9e77142b5fcd"
     },
     "_type": 0,
     "_sizeMode": 1,
@@ -310,7 +314,9 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_state": 0,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "77a5fe81-8eff-4686-b70f-30f8f93771d8"
+    },
     "_id": ""
   },
   {
@@ -343,9 +349,9 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "2330b739-b861-4273-8f6d-d06d695bf25f"
+      "__uuid__": "f196be13-a6cf-4903-9de1-91e41368859d"
     },
-    "fileId": "0fu+cMa35LdL/a8iXvyOqW",
+    "fileId": "63kOOtgPJHkI+GvAPl+3HJ",
     "sync": false
   }
 ]
