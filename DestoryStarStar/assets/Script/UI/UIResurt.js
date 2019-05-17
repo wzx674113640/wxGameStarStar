@@ -14,13 +14,32 @@ cc.Class({
         LableResurtCount:cc.Label,
         _timeOne:1,
         _timeSecond:9,
+        AppLayout:cc.Node
+    },
+
+    onLoad()
+    {
+        this.ChildrenRankCom = cc.find("wx").getComponent("ChildrenRank");
     },
 
     start () {
          this.GameInitCom = cc.find("Canvas").getComponent("GameInit");
+         
          this.isPause = false;
     },
 
+    OpenApp()
+    {
+        var Info = this.ChildrenRankCom.SetAppItem();
+        for(var i = 0; i<this.AppLayout.children.length;i++)
+        {
+            if(Info.length>i)
+            {
+                this.AppLayout.children[i].getComponent("AppItem").setItem(Info[i]);
+            }
+        }   
+    },
+    
     Show()
     {
         this._timeSecond = 9;
@@ -37,7 +56,7 @@ cc.Class({
         {
             this.ShowReurtDiamon();
         }
-        
+        this.OpenApp();
     },
 
     ShowReurt()

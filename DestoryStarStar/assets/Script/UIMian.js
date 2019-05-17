@@ -227,7 +227,7 @@ cc.Class({
         }
         if(this.ChildrenRankCom.playInfo._is_status == 1 || this.ChildrenRankCom.playInfo._is_status == undefined)
         {
-            this.PropsDes.active = true;
+            //this.PropsDes.active = true;
             var value = this.ChildrenRankCom._AppIDInfoList.length;
             if(value > 0)
             {
@@ -240,7 +240,7 @@ cc.Class({
         }
         else
         {
-            this.PropsDes.active = false;
+            //this.PropsDes.active = false;
             this.Adver.active = false;
         }
     },
@@ -419,7 +419,8 @@ cc.Class({
                 else
                 {
                     //弹框需要充值或看视频得钻石
-                    self.ShowDiamonUI(2);
+                    //self.ShowDiamonUI(2);
+                    self.OpenPanelDiamon();
                 }
             }
         });
@@ -457,7 +458,8 @@ cc.Class({
                 {
                     //弹框需要充值或看视频得钻石
                     
-                    self.ShowDiamonUI(3);
+                    //self.ShowDiamonUI(3);
+                    self.OpenPanelDiamon();
                 }
             }
         });
@@ -474,22 +476,7 @@ cc.Class({
             {  
                 if(FactoryItem.Instance._TouchState ==""&&FactoryItem.Instance._IsTouch&&FactoryItem.Instance.IsGameStart&&self.isCoolReset)
                 {
-                    self.isCoolReset = false;
-                    FactoryItem.Instance.PropsRest();
-                    self.GameInitCom.PopsList.Reset-=1;
-                    var PosUIBtnCom = self.PropsRest.getComponent("PopsUIBtn");
-                    if(self.GameInitCom.PopsList.Reset>0)
-                    {
-                        PosUIBtnCom.Has(self.GameInitCom.PopsList.Reset);
-                    }
-                    else
-                    {
-                        PosUIBtnCom.NoHas();
-                    }
-                    self.scheduleOnce(()=>
-                    {
-                        self.isCoolReset = true;
-                    },1);
+                   self.UserResetControl();
                 }
             }
             else
@@ -506,7 +493,8 @@ cc.Class({
                 {
                     //弹框需要充值或看视频得钻石
                     
-                    self.ShowDiamonUI(1);
+                    //self.ShowDiamonUI(1);
+                    self.OpenPanelDiamon();
                 }
             }
         });
@@ -522,6 +510,28 @@ cc.Class({
         */
     },
 
+    
+    UserResetControl()
+    {
+        var self = this;
+        self.isCoolReset = false;
+        FactoryItem.Instance.PropsRest();
+        self.GameInitCom.PopsList.Reset-=1;
+        var PosUIBtnCom = self.PropsRest.getComponent("PopsUIBtn");
+        if(self.GameInitCom.PopsList.Reset>0)
+        {
+            PosUIBtnCom.Has(self.GameInitCom.PopsList.Reset);
+        }
+        else
+        {
+            PosUIBtnCom.NoHas();
+        }
+        self.scheduleOnce(()=>
+        {
+            self.isCoolReset = true;
+        },1);
+    },
+
     ShowDiamonUI(index)
     {
         //UIManage.Instance.ShowUIDiamon();
@@ -529,6 +539,11 @@ cc.Class({
         {
             FlyUI.Instance.PropsUIFly(index);
         });
+    },
+
+    OpenPanelDiamon()
+    {
+        UIManage.Instance.ShowUIDiamon();
     },
 
     UserHammerProps(value =-1)

@@ -4,11 +4,11 @@ var Effect =  cc.Class({
     extends: cc.Component,
 
     properties: {
-        StarEffectPrefabs : cc.Prefab,
+        StarEffectPrefabs : cc.Node,
         _StarEffectList : [],
 
-        ShotBoomPrefabs: cc.Prefab,
-        _ShotBoomEffectList : [],
+        //ShotBoomPrefabs: cc.Prefab,
+        //_ShotBoomEffectList : [],
 
 
         EffectStar:{

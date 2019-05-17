@@ -181,6 +181,7 @@ cc.Class({
     GetMoneyEvent()
     {   
         var self = this;
+        this.ChildrenRankCom.CG2_FDcount();
         this.ChildrenRankCom.C2G_Redlog(()=>
         {
             self.setRecive(true);

@@ -26,6 +26,7 @@ cc.Class({
         GiftNode:cc.Animation,
         moveSpeed:10,
         RankBtn:cc.Node,
+        BtnShareGift:cc.Node
 
     },
 
@@ -210,12 +211,10 @@ cc.Class({
         //设置底部
         if(this.childrenRankCom.playInfo._is_status == 1 || this.childrenRankCom.playInfo._is_status == undefined)
         {
-            
-            var UIAppBtn =  UIManage.Instance.ShowAppBtn();
-            this.SetAppItem();
-            var AppIDInfoList = this.childrenRankCom._AppIDInfoList;
+            //this.SetAppItem();
+            var AppIDInfoList = this.childrenRankCom.SetAppItem();
             var Applength = AppIDInfoList.length;
-            UIAppBtn.getComponent("UIBtnApp").ShowItem(AppIDInfoList,Applength);
+            UIManage.Instance.ShowAppBtn(AppIDInfoList,Applength)
             var wid = (Applength + 1) * (this.AppNodeList.children[0].width + this.spacing);
             this.AppNodeList.width = wid;
             var AppNodeLength = this.AppNodeList.children.length;
@@ -250,11 +249,13 @@ cc.Class({
                 }
             }
             this.maxX = -375;
-            this.minX = -(wid-375);
+            this.minX = -(wid-375); 
+            this.BtnShareGift.active = true;
         }
         else
         {
             this.Spri.active = false;
+            this.BtnShareGift.active = false;
         }
         
     },
@@ -322,6 +323,11 @@ cc.Class({
         {
             
         });
+    },
+
+    BtnShareFriend()
+    {
+        UIManage.Instance.ShowUIShareFriend();
     },
 
     BtnGameStart()

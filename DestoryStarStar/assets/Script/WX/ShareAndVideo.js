@@ -42,8 +42,8 @@ var ShareAndVideo =  cc.Class({
     GetNotRwardPos()
     {
         var pos = this.NotRward.getPosition();
-        
-        return pos;
+        var pos1 = cc.v2(pos.x,pos.y + 40);
+        return pos1;
     },
 
     onLoad()
@@ -116,14 +116,17 @@ var ShareAndVideo =  cc.Class({
         
     },
 
-    AddShareEvent(action)
+    AddShareEvent(action,isOpenid = false)
     {
+        var query = isOpenid? "UID=" + this.childrenRankCom.playInfo.id:null;
+
         var value = Math.floor(Math.random() * ShareStr.length);
         this.ShareImg = SharePIC[value];
         this.ShareString = ShareStr[value];
         wx.shareAppMessage({
             title: this.ShareString,
             imageUrl: this.ShareImg,
+            query: query,
             success(res){
             },
             fail(res){
@@ -216,14 +219,15 @@ var ShareAndVideo =  cc.Class({
                 style: {
                     left: 0,
                     top: self.screenHeight-130,
-                    width: self.screenWidth,
-                    height:200,
+                    width: 340,
                 }
                 });
             bannerAd.onLoad(() => {
                
                 bannerAd.style.top = self.screenHeight-bannerAd.style.realHeight;
                 
+                bannerAd.style.left = (self.screenWidth - bannerAd.style.realWidth)/2;
+
                 self.bannerAdHeight = bannerAd.style.realHeight;
 
                 self.NotRward.getComponent(cc.Widget).bottom = self.bannerAdHeight * self.ipx;

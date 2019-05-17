@@ -379,6 +379,7 @@ var FactoryItem =  cc.Class({
         
         if(CC_WECHATGAME)
         {
+            /*
             if(ColorEggState == ""&&this._CheckItem.length >=5&& this.ChildrenRankCom.playInfo._is_status == 1&&this.ChildrenRankCom.playInfo.count<9)
             {
                 var value1 = Math.floor(Math.random()*100);
@@ -388,6 +389,7 @@ var FactoryItem =  cc.Class({
                     ColorEggState = "Money";  
                 }
             }
+            */
         }
 
         if(ColorEggState == ""&& this.UIMianCom._PlayInfo._IsShowSkill == false)
@@ -550,95 +552,119 @@ var FactoryItem =  cc.Class({
         }
         if(isdeath != false)
         {
-            this.IsGameStart = false;
-            this.isReset = false;
-            var surplusList = [];
-            var itemchildren = this.ItemParent.children
-            for(var i = 0; i<itemchildren.length;i++)
+            var surplusList = this.GetNotDestoryItem();
+            if(surplusList.length >=10 &&this.UIMianCom._PlayInfo._Score < this.UIMianCom._PlayInfo._NeedScore&&this.GameInitCom.PopsList.Reset > 0)
             {
-                if(itemchildren[i].getComponent("Item")._isDestory == false)
+                UIManage.Instance.ShowUIHintProp(()=>
                 {
-                    surplusList.push(itemchildren[i]);
-                }   
-            }
-            var count = surplusList.length ;
-           
-            if(count>0)
-            {
-               
-                this.scheduleOnce(function()
-                {
-                    for(var i = 0;i<count;i++)
-                    {
-                        var action = cc.blink(0.8, 2);
-                        surplusList[i].getComponent("Item").ShowLight();
-                        surplusList[i].runAction(action);
-                    }
-                    var index = -1;
-                    var self = this;
-                    //显示剩余方块 最高奖励分
-                    this.UIMianCom.ShowRemian(2000,count);
-                    this.schedule(function()
-                    {
-                        index++;
-                        var scoreValue = 2000-(index+1)*(index+1)*20;
-                        if(scoreValue<0)
-                        {
-                            scoreValue = 0;
-                        }
-                        self.UIMianCom.ShowRemian(scoreValue,count);
-                        surplusList[index].getComponent("Item").PlayDestoryAnimation();
-                        surplusList[index].getComponent("Item")._isDestory = true;
-                        
-                        if(index == count-1)
-                        {
-                            if(count<10)
-                            {
-                                var value = 2000-count*count*20;
-                                
-                                //self.UIMianCom.setLableUI(value);
-                                //UI动画 todo
-                            }
-                            else
-                            {
-                                var value = 0;
-                            }
-                            self.scheduleOnce(
-                                function()
-                                {
-                                    self.UIMianCom.AddRemianScore(value,()=>
-                                    {
-                                        //self.UIMianCom.IsSuccess();
-                                        self.UIMianCom.NextLevel();
-                                        
-                                        self.UIMianCom.HideRemian();
-                                    });
-                                   
-                                },1.2
-                            );
-                        }
-                    },0.04,count-1,1);
-                },0.5);
+                    this.GameOverAni(surplusList);
+                });
             }
             else
             {
-                var self = this;
-                this.UIMianCom.ShowRemian(2000,count);
-                this.scheduleOnce(function()
-                {
-                    //this.UIMianCom.setLableUI(2000);
-                    self.UIMianCom.AddRemianScore(2000,()=>
-                    {
-                        //this.UIMianCom.IsSuccess();
-                        self.UIMianCom.NextLevel();
-                        self.UIMianCom.HideRemian();
-                    });
-                   
-                },1);
-            }
+                this.GameOverAni(surplusList);
+            }   
+            
         }
        
     },
+
+    GetNotDestoryItem()
+    {
+        var surplusList = [];
+        var itemchildren = this.ItemParent.children
+        for(var i = 0; i<itemchildren.length;i++)
+        {
+            if(itemchildren[i].getComponent("Item")._isDestory == false)
+            {
+                surplusList.push(itemchildren[i]);
+            }   
+        }
+        return surplusList;
+    },
+
+    GameOverAni(surplusList)
+    {
+        this.IsGameStart = false;
+        this.isReset = false;
+        
+        var count = surplusList.length ;
+
+        if(count>0)
+        {
+            
+            this.scheduleOnce(function()
+            {
+                for(var i = 0;i<count;i++)
+                {
+                    var action = cc.blink(0.8, 2);
+                    surplusList[i].getComponent("Item").ShowLight();
+                    surplusList[i].runAction(action);
+                }
+                var index = -1;
+                var self = this;
+                //显示剩余方块 最高奖励分
+                this.UIMianCom.ShowRemian(2000,count);
+                this.schedule(function()
+                {
+                    index++;
+                    var scoreValue = 2000-(index+1)*(index+1)*20;
+                    if(scoreValue<0)
+                    {
+                        scoreValue = 0;
+                    }
+                    self.UIMianCom.ShowRemian(scoreValue,count);
+                    surplusList[index].getComponent("Item").PlayDestoryAnimation();
+                    surplusList[index].getComponent("Item")._isDestory = true;
+                    
+                    if(index == count-1)
+                    {
+                        if(count<10)
+                        {
+                            var value = 2000-count*count*20;
+                            
+                            //self.UIMianCom.setLableUI(value);
+                            //UI动画 todo
+                        }
+                        else
+                        {
+                            var value = 0;
+                        }
+                        self.scheduleOnce(
+                            function()
+                            {
+                                self.UIMianCom.AddRemianScore(value,()=>
+                                {
+                                    //self.UIMianCom.IsSuccess();
+                                    self.UIMianCom.NextLevel();
+                                    
+                                    self.UIMianCom.HideRemian();
+                                });
+                                
+                            },1.2
+                        );
+                    }
+                },0.04,count-1,1);
+            },0.5);
+        }
+        else
+        {
+            var self = this;
+            this.UIMianCom.ShowRemian(2000,count);
+            this.scheduleOnce(function()
+            {
+                //this.UIMianCom.setLableUI(2000);
+                self.UIMianCom.AddRemianScore(2000,()=>
+                {
+                    //this.UIMianCom.IsSuccess();
+                    self.UIMianCom.NextLevel();
+                    self.UIMianCom.HideRemian();
+                });
+                
+            },1);
+        }
+    },
+
 //提示场景中最大的数组
     GetMaxItem()
     {

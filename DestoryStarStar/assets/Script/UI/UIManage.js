@@ -11,6 +11,7 @@ var UIManage = cc.Class({
     onLoad()
     {
         UIManage.Instance = this;
+        this.NeedStartEnvent = false;
         this.ChildrenRankCom = cc.find("wx").getComponent("ChildrenRank");
     },
 
@@ -19,7 +20,8 @@ var UIManage = cc.Class({
         UIMian:cc.Node,
         UIApp:cc.Node,
         UIList:[],
-
+        Starting:cc.Node,
+/*
         Gameing:cc.Prefab,
         UIReadCache:cc.Prefab,
         UINextLevel:cc.Prefab,
@@ -37,12 +39,12 @@ var UIManage = cc.Class({
         UIBtnAppList:cc.Prefab,
         UITimeGift:cc.Prefab,
         UIOtherGame:cc.Prefab,
+        */
         SceneState:"",
     },
-
+    /*
     loderPrefabs(prefab,uiparent)
     {
-       
         if(this.UIList[prefab.name] == undefined||this.UIList[prefab.name] == null)
         {
             var UINode = cc.instantiate(prefab);
@@ -55,135 +57,241 @@ var UIManage = cc.Class({
         }
         return UINode;
     },
+    */
+    loderPrefabs(uiname,parentNode)
+    {
+        return new Promise((resolve, reject) => {
+            var UINode = null;
+            if (this.UIList[uiname] == undefined || this.UIList[uiname] == null) {
+                var path = "Prefabs/UIPrefab/Pop/" + uiname;
+                cc.loader.loadRes(path, cc.Prefab, (err, prefab) => {
+                    UINode = cc.instantiate(prefab);
+                    UINode.parent = parentNode;
+                    this.UIList[uiname] = UINode;
+                    resolve(UINode)
+                });
+            }
+            else {
+                UINode = this.UIList[uiname];
+                resolve(UINode)
+            }
+        })
+    },
 
-    ShowGameing()
+    ShowGameing(action)
     {
         if(this.SceneState == "Gaming")
             return;
         this.SceneState = "Gaming";
-        this.Gameing = this.loderPrefabs(this.Gameing,this.UIMian);
-        this.Gameing.active = true;
-        this.Starting.active = false;
+        var self = this;
+        this.loderPrefabs("Gaming",this.UIMian).then((Node)=>
+        {
+            self.Gameing = Node;
+            self.Gameing.active = true;
+            self.Starting.active = false;
+            action();
+        });
+        
     },
 
     ShowGameStart()
     {
-        this.Starting = this.loderPrefabs(this.Starting,this.UIMian);
-        this.Starting.active  = true;
-        this.Gameing.active = false;
-        this.SceneState = "Start";
-        this.ChildrenRankCom.HideChild();
-        this.ChildrenRankCom.ResetChildMaxScore();
+        var self = this;
+        self.Starting.active  = true;
+        if(self.Gameing)
+        {
+            self.Gameing.active = false;
+        }
+        self.SceneState = "Start";
+        self.ChildrenRankCom.HideChild();
+        self.ChildrenRankCom.ResetChildMaxScore();
+        if(self.NeedStartEnvent)
+        {   
+            this.Starting.getComponent("UIStart").ShowSeverInfo();
+            self.NeedStartEnvent = false;
+        }
+        
+        /*
+        this.loderPrefabs("UIStart",this.UIMian).then((Node)=>
+        {
+            self.Starting = Node;
+            self.Starting.active  = true;
+            if(self.Gameing)
+            {
+                self.Gameing.active = false;
+            }
+            self.SceneState = "Start";
+            self.ChildrenRankCom.HideChild();
+            self.ChildrenRankCom.ResetChildMaxScore();
+            if(self.NeedStartEnvent)
+            {   
+                this.Starting.getComponent("UIStart").ShowSeverInfo();
+                self.NeedStartEnvent = false;
+            }
+        });
+        */
     },
 
     OpenStartUI()
     {
-        this.Starting.getComponent("UIStart").ShowSeverInfo();
+        if(this.Starting)
+        {
+            this.Starting.getComponent("UIStart").ShowSeverInfo();
+        }
+        else
+        {
+            this.NeedStartEnvent = true;
+        }
     },
 
     ShowUIReadCache()
     {
-        var UINode = this.loderPrefabs(this.UIReadCache,this.UIPop);
-        UINode.getComponent("BasePopUI").Show();
+        this.loderPrefabs("UIReadCache",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("BasePopUI").Show();
+        });
+      
     },
 
     ShowNextUI()
     {
-        var UINode = this.loderPrefabs(this.UINextLevel,this.UIPop);
-        UINode.getComponent("BasePopUI").Show();
+        this.loderPrefabs("UINextLevel",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("BasePopUI").Show();
+        });
     },
 
     ShowNextUIWonderful()
     {
-        var UINode = this.loderPrefabs(this.UINextLevelWonderful,this.UIPop);
-        UINode.getComponent("BasePopUI").Show();
+        this.loderPrefabs("UIPropNextLevel",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("BasePopUI").Show();
+        });
     },
 
     ShowGameoverUI()
     {
-        var UINode = this.loderPrefabs(this.UIGameOver,this.UIPop);
-        UINode.getComponent("BasePopUI").Show();
+        this.loderPrefabs("UIGameOver",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("BasePopUI").Show();
+        });
     },
     
     ShowUIDiamon(action = null)
     {
-        var UINode = this.loderPrefabs(this.UIDiamon,this.UIPop);
-        UINode.getComponent("BasePopUI").Show(action);
-        UINode.setSiblingIndex(UINode.parent.children.length-1);
-        UINode.getComponent("BasePopUI").action = action;
+        this.loderPrefabs("UIDiamon",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("BasePopUI").Show(action);
+            UINode.setSiblingIndex(UINode.parent.children.length-1);
+            UINode.getComponent("BasePopUI").action = action;
+        });
     },
 
     ShowGetBoxUI()
     {
-        var UINode = this.loderPrefabs(this.UIGetBox,this.UIPop);
-        UINode.getComponent("BasePopUI").Show();
+        this.loderPrefabs("UIGetBox",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("BasePopUI").Show();
+        });
     },
     ShowGetMoney()
     {
-        var UINode = this.loderPrefabs(this.UIRedMoney,this.UIPop);
-        UINode.setSiblingIndex(UINode.parent.children.length-1);
-        UINode.getComponent("UIRedBag").Show();
+        this.loderPrefabs("UIRedBag",this.UIPop).then((UINode)=>
+        {
+            UINode.setSiblingIndex(UINode.parent.children.length-1);
+            UINode.getComponent("UIRedBag").Show();
+        });
+       
     },
 
     ShowOpenMoney()
     {
-        var UINode = this.loderPrefabs(this.UIRedMoney,this.UIPop);
-        UINode.setSiblingIndex(UINode.parent.children.length-1);
-        UINode.getComponent("UIRedBag").ShowLook();
+        this.loderPrefabs("UIRedBag",this.UIPop).then((UINode)=>
+        {
+            UINode.setSiblingIndex(UINode.parent.children.length-1);
+            UINode.getComponent("UIRedBag").ShowLook();
+        });
     },
 
     ShowGetSkill()
     {
-        this.ShowNode(this.UIGetSkill);
+        this.loderPrefabs("UIGetSkill",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("BasePopUI").Show();
+        });
     },
 
     ShowUIRanking()
     {
-        var UINode = this.loderPrefabs(this.UIRanking,this.UIPop);
-        UINode.getComponent("UIRanking").Open();
+        this.loderPrefabs("UIRanking1",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("UIRanking").Open();
+        });
     },
 
     ShowUICache()
     {
-        var UINode = this.loderPrefabs(this.UICache,this.UIPop);
-        UINode.getComponent("UICache").Show();
+        this.loderPrefabs("UICache",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("UICache").Show();
+        });
     },
     
     ShowUIResurt()
     {
-        var UINode = this.loderPrefabs(this.UIResurt,this.UIPop);
-        UINode.getComponent("UIResurt").Show();
+        this.loderPrefabs("UIResurtUI",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("UIResurt").Show();
+        });
     },
 
     ShowGiftBag()
     {
-        var UINode = this.loderPrefabs(this.UIGiftBag,this.UIPop);
-        UINode.getComponent("UIGiftBag").Show();
-    },
-
-    ShowNode(prefab)
-    {
-        var UINode = this.loderPrefabs(prefab,this.UIPop);
-        UINode.getComponent("BasePopUI").Show();
+        this.loderPrefabs("UIGiftBag",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("UIGiftBag").Show();
+        });
     },
     
-    ShowAppBtn()
+
+    ShowUIHintProp(action)
     {
-        var UINode =  this.loderPrefabs(this.UIBtnAppList,this.UIApp);
-        //UINode.getComponent("UIBtnApp").Show();
-        return UINode;
+        this.loderPrefabs("UIHintProp",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("UIHintProp").Show(action);
+        });
+    },
+    
+    ShowAppBtn(AppIDInfoList,Applength)
+    {
+        this.loderPrefabs("BtnAppList",this.UIApp).then((UINode)=>
+        {
+            UINode.getComponent("UIBtnApp").ShowItem(AppIDInfoList,Applength)
+        });
     },
 
     ShowUITimeGift()
     {
-        var UINode = this.loderPrefabs(this.UITimeGift,this.UIPop);
-        UINode.getComponent("UITimeGift").Show();
+        this.loderPrefabs("UITimeGift",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("UITimeGift").Show();
+        });
     },
 
     ShowOtherGamePanel()
     {
-        var UINode = this.loderPrefabs(this.UIOtherGame,this.UIPop);
-        UINode.getComponent("UIOtherGame").Show();
+        this.loderPrefabs("UIOtherGame",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("UIOtherGame").Show();
+        });
+    },
+
+    ShowUIShareFriend()
+    {
+        this.loderPrefabs("UIShareFriend",this.UIPop).then((UINode)=>
+        {
+            UINode.getComponent("UIShareFriend").Show();
+        });
     }
 });
 

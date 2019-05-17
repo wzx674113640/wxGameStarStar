@@ -8,18 +8,20 @@ cc.Class({
     properties: {
         UIScore:cc.Label,
         AppLayout:cc.Node,
+        MoreGame:cc.Node,
     },
 
     onLoad()
     {
         this._super();
         this.ChildrenRankCom = cc.find("wx").getComponent("ChildrenRank");
+       
     },
 
     Show () {
         this._super();
         this.ChildrenRankCom.HideChild();
-        var playInfo =  FactoryItem.Instance.UIMianCom._PlayInfo;
+        var playInfo = FactoryItem.Instance.UIMianCom._PlayInfo;
         this.UIScore.string = playInfo._Score;
         //this.ChildrenRankCom.ShowTwo();
         this.OpenApp();
@@ -27,15 +29,21 @@ cc.Class({
 
     OpenApp()
     {
-        var Info = this.ChildrenRankCom._AppIDInfoList;
+        var Info = this.ChildrenRankCom.SetAppItem();
         for(var i = 0; i<this.AppLayout.children.length;i++)
         {
             if(Info.length>i)
             {
                 this.AppLayout.children[i].getComponent("AppItem").setItem(Info[i]);
             }
-        }   
-        
+        }
+        var index = Math.floor(Math.random()*Info.length);
+        this.MoreGame.targetOff(this);
+        this.MoreGame.on(cc.Node.EventType.TOUCH_END, function(event)
+        {
+            this.ChildrenRankCom.CG2_AppReqCount(Info[index].id);
+            this.ChildrenRankCom.associatedProgram(Info[index].appid,Info[index].url,Info[index].id);
+        },this);   
     },
 
     Close()

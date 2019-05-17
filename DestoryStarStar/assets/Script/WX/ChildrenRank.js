@@ -43,8 +43,10 @@ cc.Class({
         
         this.playInfo = new UserInfo();
         var obj = wx.getLaunchOptionsSync();
-        var Sence = obj.query.scene==undefined? null:obj.query.scene;
+        
+        var Sence = obj.query.scene == undefined? null:obj.query.scene;
         this._Sence = decodeURIComponent(Sence);
+        this.OtherUID = obj.query.UID == undefined? null:obj.query.UID;
         this.C2G_GetUserInfo();
         
     },
@@ -80,7 +82,7 @@ cc.Class({
             self.Login(getInfo,self);
         }
         else{
-            if(cc.sys.localStorage.getItem("IsFirst")=="")
+            if(cc.sys.localStorage.getItem("IsFirst") == "")
             {
                 //打开新手礼包
                 this.Login(getInfo,this);
@@ -163,7 +165,7 @@ cc.Class({
                     gender:getInfo.gender,
                     scene:self._Sence,
                     //uid: self.key
-                    uid:0,
+                    uid: self.OtherUID,
                     },
                     success (res) {
                     self.isAlreadyLogin = true;//是否登录过
@@ -176,7 +178,7 @@ cc.Class({
                     self.playInfo.score = severuserinfo.score;
                     self.IsGetUserInfo = true;
                     if(isReqGameInfo)
-                    {
+                    { 
                         self.C2G_GameInfo();
                     }  
                     //self.C2G_Redlog();
@@ -226,6 +228,20 @@ cc.Class({
                 //ShareAndVideo.Instance.HidePanelMask(1);
             }
           })
+    },
+
+    randomsort(a, b) {
+        return Math.random()>.5 ? -1 : 1;
+        //用Math.random()函数生成0~1之间的随机数与0.5比较，返回-1或1
+    },
+
+    SetAppItem()
+    {
+        var AppIDInfoList = this._AppIDInfoList;
+        
+        AppIDInfoList.sort(this.randomsort);
+        
+        return AppIDInfoList;
     },
 
     C2G_GameStart()
@@ -540,7 +556,7 @@ cc.Class({
         this.loadUI.active = false;
     },
 
-    //福袋统计
+    //福利统计
     CG2_DailyWelfare()
     {       
         if (!CC_WECHATGAME)
@@ -558,5 +574,64 @@ cc.Class({
                 
             }
         });
-    }
+    },
+
+    CG2_ShareFriendList(action)
+    {       
+        if (!CC_WECHATGAME)
+            return;
+        var self = this;
+        wx.request({
+            url:'https://xxx.qkxz.com/index.php?act=friendlist',
+            data:
+            {
+                openid:self.playInfo.openid,
+                version:self._version,
+            },
+            success (res) 
+            {
+                action(res.data.data);
+            }
+        });
+    },
+
+    CG2_ShareFriendreg(action,id)
+    {       
+        if (!CC_WECHATGAME)
+            return;
+        var self = this;
+        wx.request({
+            url:'https://xxx.qkxz.com/index.php?act=friendreg',
+            data:
+            {
+                openid:self.playInfo.openid,
+                version:self._version,
+                id:id
+            },
+            success (res) 
+            {
+                action();
+            }
+        });
+    },
+
+    CG2_FDcount()
+    {       
+        if (!CC_WECHATGAME)
+            return;
+        var self = this;
+        wx.request({
+            url:'https://xxx.qkxz.com/index.php?act=fdcount',
+            data:
+            {
+                openid:self.playInfo.openid,
+                version:self._version,
+            },
+            success (res) 
+            {
+                
+            }
+        });
+    },
+
 });

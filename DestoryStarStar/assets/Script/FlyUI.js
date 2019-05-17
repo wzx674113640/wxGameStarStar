@@ -9,13 +9,13 @@ var FlyUI =  cc.Class({
     },
 
     properties: {
-        FlyScoreUIPrefabs : cc.Prefab,
+        FlyScoreUIPrefabs : cc.Node,
         _FlyScoreUIList:[],
 
-        RemianFlyUIPrefab: cc.Prefab,
+        RemianFlyUIPrefab: cc.Node,
         _RemianFlyUIList:[],
 
-        FlyPropsUIPrefabs: cc.Prefab,
+        FlyPropsUIPrefabs: cc.Node,
         _FlyPropsUIList:[],
 
         PropsUISpriteFrame: {

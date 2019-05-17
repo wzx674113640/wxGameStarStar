@@ -114,7 +114,7 @@ cc.Class({
         {
             this.GameInitCom.PopsList.Diamond+=30;
             
-            UIManage.Instance.UIList[UIManage.Instance.Starting.name].getComponent("UIStart").SetDiamond();
+            UIManage.Instance.Starting.getComponent("UIStart").SetDiamond();
         }
         this.DiamondLabel.string = this.GameInitCom.PopsList.Diamond;
         this.Close();

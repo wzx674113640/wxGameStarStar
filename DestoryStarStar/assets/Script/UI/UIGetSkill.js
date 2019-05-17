@@ -8,7 +8,8 @@ cc.Class({
         BtnClose: cc.Node,
         BtnEnter:cc.Node,
         BtnShare:cc.Node,
-        BtnVideo:cc.Node
+        BtnVideo:cc.Node,
+        AppLayout:cc.Node,
     },
 
     onLoad()
@@ -52,6 +53,19 @@ cc.Class({
             this.BtnShare.active= false;
             this.BtnVideo.active = false;
         }
+        this.OpenApp();
+    },
+
+    OpenApp()
+    {
+        var Info = this.childrenRankCom.SetAppItem();
+        for(var i = 0; i<this.AppLayout.children.length;i++)
+        {
+            if(Info.length>i)
+            {
+                this.AppLayout.children[i].getComponent("AppItem").setItem(Info[i]);
+            }
+        }   
     },
 
     Close()

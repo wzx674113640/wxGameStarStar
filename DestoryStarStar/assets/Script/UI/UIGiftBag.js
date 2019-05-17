@@ -27,7 +27,7 @@ cc.Class({
         this.Close();
         this.GameInitCom.realGamestart();
         this.childrenRankCom.C2G_GameStart();
-        UIManage.Instance.UIList["UIStart"].getComponent("UIStart")._C2GAction = ()=>
+        UIManage.Instance.Starting.getComponent("UIStart")._C2GAction = ()=>
         {
             this.childrenRankCom.C2G_GetUserInfo();
         }

@@ -17,6 +17,7 @@ cc.Class({
         BtnEnter:cc.Node,
 
         BtnVideo:cc.Node,
+        AppLayout:cc.Node,
 
         PropsUISpriteFrame: {
             type:cc.SpriteFrame,
@@ -75,9 +76,21 @@ cc.Class({
             this.BtnEnter.active = false;
             this.BtnVideo.active = true;
         }
-        
+        this.OpenApp();
     },
-    
+
+    OpenApp()
+    {
+        var Info = this.ChildrenRankCom.SetAppItem();
+        for(var i = 0; i<this.AppLayout.children.length;i++)
+        {
+            if(Info.length>i)
+            {
+                this.AppLayout.children[i].getComponent("AppItem").setItem(Info[i]);
+            }
+        }   
+    },
+
     Close()
     {
         this.node.active = false;

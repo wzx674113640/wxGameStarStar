@@ -54,6 +54,7 @@ cc.Class({
            {
                 this.PopsList.Hammer = cList.Hammer;
                 this.PopsList.Reset = cList.Reset;
+                //this.PopsList.Reset = 2;
                 this.PopsList.Change = cList.Change;
            }
        }
@@ -77,32 +78,39 @@ cc.Class({
         }
         else
         {
-            UIManage.Instance.ShowGameing();
-            this.Init();
+            UIManage.Instance.ShowGameing(()=>
+            {
+                this.Init();
+            });
+           
         }
     },
     
     GameStart(iscache)
     {
         ShareAndVideo.Instance.ShowPanelMask();
-        UIManage.Instance.ShowGameing();
-        if(iscache)
-        {
-            var value =  FileServe.Instance.GetItemCache();
-            if(value == false||value ==null)
+        UIManage.Instance.ShowGameing(
+            ()=>
             {
-                this.Init();
+                if(iscache)
+                {
+                    var value =  FileServe.Instance.GetItemCache();
+                    if(value == false||value ==null)
+                    {
+                        this.Init();
+                    }
+                    else
+                    {   
+                        this.CacheInit(value);
+                    }
+                }
+                else
+                {
+                    this.Init();
+                }
+                ShareAndVideo.Instance.HidePanelMask(0);
             }
-            else
-            {   
-                this.CacheInit(value);
-            }
-        }
-        else
-        {
-            this.Init();
-        }
-        ShareAndVideo.Instance.HidePanelMask(0);
+        );
     },
     
 
@@ -213,6 +221,7 @@ cc.Class({
             if(Number(cache1) == myVersion)
             {
                 
+               
                 FactoryItem.Instance.IsGameStart = false;
                 var LayoutChildren = this.ItemLayout.children;
                 FactoryItem.Instance.UIMianCom.StartAnimation(()=>

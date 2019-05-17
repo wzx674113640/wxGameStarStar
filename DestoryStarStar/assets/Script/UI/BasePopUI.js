@@ -14,36 +14,33 @@ cc.Class({
         //this.Mask = this.node.parent.getChildByName("Mask");
         this.Mask = this.node.getChildByName("Mask");
         this.BG = this.node.getChildByName("Bg");
+        /*
         if(this.NotNeedReward!= null)
         {
             this.RewardPos = this.NotNeedReward.getPosition();
         }
+        */
     },
 
     onEnable()
     {
+        /*
         if(this.NotNeedReward != null)
         {
+            
             this.NotNeedReward.setPosition(this.RewardPos);
             this.NotNeedReward.stopAllActions();
             
             var targetPos = ShareAndVideo.Instance.GetNotRwardPos();
-            if(targetPos!= cc.v2(0,0))
+            if(targetPos != cc.v2(0,0))
             {
                 var m = cc.moveTo(0.8,targetPos);
                 this.NotNeedReward.runAction(m);
             }
             
-            /*
-            this.NotNeedReward.y-=200;
-            ShareAndVideo.Instance.AdervertActive(false);
-            this.scheduleOnce(function()
-            {
-                ShareAndVideo.Instance.AdervertActive(true);
-                this.NotNeedReward.y += 200;
-            }, 1);
-            */
+            
         }
+        */
     },
     
 

@@ -292,6 +292,7 @@ cc.Class({
         SoundManage.Instance.playDestoryStar();
         if(isplayEffect)
         {
+            
             Effect.Instance.PlayStarEffect(this.node.getPosition(),this._ColorType); 
         }
         this.node.active = false;
