@@ -1,0 +1,133 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "ChangeAni",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 4.183333333333334,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": "2",
+  "curveData": {
+    "paths": {
+      "New Sprite(Splash)": {
+        "props": {
+          "position": [
+            {
+              "frame": 0.48333333333333334,
+              "value": [
+                123,
+                -46
+              ]
+            },
+            {
+              "frame": 1.2166666666666666,
+              "value": [
+                -149,
+                -52
+              ]
+            },
+            {
+              "frame": 1.35,
+              "value": [
+                -149,
+                -52
+              ]
+            },
+            {
+              "frame": 1.7333333333333334,
+              "value": [
+                -104,
+                27
+              ]
+            },
+            {
+              "frame": 1.85,
+              "value": [
+                -104,
+                27
+              ]
+            },
+            {
+              "frame": 2.283333333333333,
+              "value": [
+                -148.9,
+                -53.4
+              ]
+            }
+          ],
+          "opacity": [
+            {
+              "frame": 3.0166666666666666,
+              "value": 255
+            },
+            {
+              "frame": 3.1,
+              "value": 0
+            },
+            {
+              "frame": 4.183333333333334,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "ProposChangePanel": {
+        "props": {
+          "opacity": [
+            {
+              "frame": 0,
+              "value": 0
+            },
+            {
+              "frame": 1.2166666666666666,
+              "value": 0
+            },
+            {
+              "frame": 1.25,
+              "value": 255
+            },
+            {
+              "frame": 1.5833333333333333,
+              "value": 255
+            },
+            {
+              "frame": 3,
+              "value": 255
+            },
+            {
+              "frame": 3.0833333333333335,
+              "value": 0
+            }
+          ]
+        }
+      },
+      "New Sprite": {
+        "comps": {
+          "cc.Sprite": {
+            "spriteFrame": [
+              {
+                "frame": 0,
+                "value": {
+                  "__uuid__": "b23016f2-ac44-4538-ace4-4d382befa835"
+                }
+              },
+              {
+                "frame": 2.283333333333333,
+                "value": {
+                  "__uuid__": "b23016f2-ac44-4538-ace4-4d382befa835"
+                }
+              },
+              {
+                "frame": 2.3,
+                "value": {
+                  "__uuid__": "b6a94913-c78f-40b2-a621-9e77142b5fcd"
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "events": []
+}

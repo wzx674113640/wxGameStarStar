@@ -1,0 +1,12 @@
+"navigateToMiniProgramAppIdList": [
+      "wxc8cae7cfbe9ac7fb",
+      "wx44385adf4ffe28a8",
+      "wx4cd087f19f4cb7c3",
+      "wx5f78f33bf42aedb0",
+      "wx34b348b28b933474",
+      "wxa8afaad1af0e9fa8",
+      "wxccd2b48ae7d4af41",
+      "wx6ce5304114b8a254",
+      "wxe46bd15fcbb4f829",
+      "wxde0b1598ed7bca73"
+    ],

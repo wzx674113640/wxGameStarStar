@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "60e9dbaa-eed9-4850-bdeb-6ef7da778012",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "福券数量背景@2x": {
+      "ver": "1.0.3",
+      "uuid": "d1adbdda-f4a9-4703-8b33-3f57d7adea64",
+      "rawTextureUuid": "60e9dbaa-eed9-4850-bdeb-6ef7da778012",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 144,
+      "height": 36,
+      "rawWidth": 144,
+      "rawHeight": 36,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

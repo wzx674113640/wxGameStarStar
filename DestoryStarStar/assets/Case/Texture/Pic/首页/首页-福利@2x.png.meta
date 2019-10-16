@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "ea39f9f0-c261-422c-b376-60f8a2d22179",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "首页-福利@2x": {
+      "ver": "1.0.3",
+      "uuid": "380f2afd-fb26-4e3b-a862-096a1bce38a9",
+      "rawTextureUuid": "ea39f9f0-c261-422c-b376-60f8a2d22179",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0.5,
+      "offsetY": 0,
+      "trimX": 1,
+      "trimY": 0,
+      "width": 81,
+      "height": 99,
+      "rawWidth": 82,
+      "rawHeight": 99,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

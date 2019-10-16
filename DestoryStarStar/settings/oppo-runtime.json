@@ -1,0 +1,17 @@
+{
+  "certificatePath": "C:\\Users\\Administrator\\Desktop\\certificate.pem",
+  "deviceOrientation": "portrait",
+  "disabledMode": "",
+  "icon": "D:\\star208\\wxGameStarStar-master\\DestoryStarStar\\template-banner.png",
+  "logLevel": "log",
+  "minPlatformVersion": "1040",
+  "name": "消灭星星消除",
+  "npmPath": "D:\\Program Files (x86)\\nodejs",
+  "package": "com.duyouxiaoxingxing.nearme.gamecenter",
+  "privatePath": "C:\\Users\\Administrator\\Desktop\\private.pem",
+  "tinyPackageMode": false,
+  "tinyPackageServer": "",
+  "useDebugKey": false,
+  "versionCode": "1",
+  "versionName": "1.0.0"
+}

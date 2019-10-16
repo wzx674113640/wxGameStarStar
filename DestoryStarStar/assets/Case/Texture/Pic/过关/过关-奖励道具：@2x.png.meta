@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "59332461-a0c6-4da1-b9dc-dcf4e601a40a",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "过关-奖励道具：@2x": {
+      "ver": "1.0.3",
+      "uuid": "651558ad-7615-40c1-8a00-2bc84b68f5a3",
+      "rawTextureUuid": "59332461-a0c6-4da1-b9dc-dcf4e601a40a",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 138,
+      "height": 31,
+      "rawWidth": 138,
+      "rawHeight": 31,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "3cd70bf1-ff24-4e4a-933e-8440510a0c51",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "每日礼包-标签@x": {
+      "ver": "1.0.3",
+      "uuid": "9f864de1-c446-45e5-acf0-36012c359511",
+      "rawTextureUuid": "3cd70bf1-ff24-4e4a-933e-8440510a0c51",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0.5,
+      "trimX": 1,
+      "trimY": 0,
+      "width": 603,
+      "height": 170,
+      "rawWidth": 605,
+      "rawHeight": 171,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

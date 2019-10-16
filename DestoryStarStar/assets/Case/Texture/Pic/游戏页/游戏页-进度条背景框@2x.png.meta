@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "9d48c238-d9c5-4a7d-a936-14de3e415f7a",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "游戏页-进度条背景框@2x": {
+      "ver": "1.0.3",
+      "uuid": "cbadb582-2e52-4752-a390-34cfa0fe8c64",
+      "rawTextureUuid": "9d48c238-d9c5-4a7d-a936-14de3e415f7a",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 536,
+      "height": 100,
+      "rawWidth": 536,
+      "rawHeight": 100,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

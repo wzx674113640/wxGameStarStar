@@ -1,0 +1,5 @@
+  var loadingScene = require('src/loading-scene');
+  cc.director.runSceneImmediate(loadingScene);
+
+
+loadingScene.loadinglaunchScene(settings.launchScene);
